@@ -1,0 +1,261 @@
+/* style.css */
+/* for crud.php */
+/* Developed by Bruce Elgort */
+/* February 2014 */
+
+html, body {
+	margin: 0;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+	font-family: Arial, Helvetica;
+	padding: 0;
+	background: #FDFDFD;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -75px; /* the bottom margin is the negative value of the footer's height */
+}
+
+header {
+	margin-top: 0;
+	margin-bottom: 0;
+	width: 100%;
+	background: #4E87A0;
+	font-size:1.5em;
+}
+
+.header-title {
+	color: #FFF; 
+	margin-top: 0;
+	margin-left: 20px;
+	display: block;
+	float: left;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.header-caps {
+	font-size: 2.5em;
+}
+.header-small-caps {
+	font-size: 1.5em;
+}
+
+.header-user-name {
+	margin-top:37px;
+	margin-right: 10px;
+	display: block;
+	float: right;
+	color:#FFF; 
+}
+#header-bottom {
+	clear: both;
+}
+
+#breadcrumb {
+	background: #FF6C24;
+	color:#fff;
+	padding:5px 0 5px 15px;
+	/*margin-bottom: 20px;*/
+	/*border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;*/
+	font-size:1.25em;
+	font-weight: bold;
+}
+
+main {
+	padding: 0 20px 0 20px;
+}
+
+.clarkbook {
+	color:#FFF; 
+	margin-right:30px;
+	font-size:1.5em;
+	font-weight: bold;
+}
+
+.logo {float:right;}
+
+/*footer, .wrapper:after {
+	height: 50px;
+	background: #4E87A0;
+	color:#fff;
+	width: 100%;
+	padding:15px;
+	margin-top: 20px;
+}*/
+
+footer {
+	color:#fff;
+	background: #4E87A0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    overflow:hidden;
+}
+
+footer a {
+	color:#fff;
+}
+
+span.footer-back {
+	float: left;
+	display: block;
+	padding: 20px;
+	font-size:1.5em;
+}
+
+span.footer-log-out {
+	float: right;
+	display: block;
+	padding: 20px;
+	font-size:1.5em;
+}
+
+span.footer-copyright {
+	display: block;
+	margin-top: 50px;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+table {
+	border: 3px solid #666;
+	border-collapse: collapse;	
+}
+th {background:#77A140;
+	color:#FFf;
+	padding:10px;
+	border:1px solid #666;
+}
+
+td {padding:4px;
+	border:1px solid #666;
+	text-align:center;
+}
+td.leftalign {
+	text-align:left;
+}
+
+#div-error-msg {
+	background: #FF0000;
+	color: white;
+	padding-left: 5px;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+/*************************************************
+ * CSS for register.php
+ *************************************************/
+ 
+.reg-label {
+	display: block;
+	float: left;
+	width: 130px;
+	margin-left: 10px;
+	text-align: right;
+	margin-right: 10px;
+	font-size: 1.2em;
+}
+
+.reg-chk {
+	
+}
+
+.reg-field {
+	font-size: 1.2em;
+}
+.reg-button {
+	
+}
+
+span.fake-anchor {
+	text-decoration: underline;
+}
+
+.lbl-create-team {
+	display: block;
+	float: left;
+	width: 130px;
+	margin-left: 10px;
+	text-align: right;
+	margin-right: 10px;
+	font-size: 1.2em;
+}
+
+.input-create-team {
+	font-size: 1.2em;
+}
+
+#tbl-edit-team {
+	margin-left: 150px;
+	margin-top: 20px;
+	border: 3px solid #666;
+	border-collapse: collapse;
+}
+
+button {
+	font-size: 1.2em;
+}
+
+#btn-create-team {
+	margin-left: 150px;
+	margin-top: 20px;
+}
+
+#btn-add-team {
+	display: block;
+	float: left;
+	width: 130px;
+	margin-left: 10px;
+	text-align: center;
+	margin-right: 10px;
+}
+
+input {
+	padding-left: .2em;
+}
+
+textarea.ta-response {
+	width: 100%;
+}
+
+button.btn-analyze {
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+table.tbl-analyze {
+	float: left;
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+p.resp-grade {
+	clear: left;
+	margin-top: 20px;
+}
+
+div.div-analyze {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.lbl-post-survey {
+	display: block;
+	float: left;
+	width: 120px;
+	font-size: 1.2em
+}
+
+.inp-post-survey {
+	font-size: 1.2em;
+}

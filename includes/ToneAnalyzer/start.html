@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<!--
+   Author Name: Amy Jaeger
+   Assignment : START TONE AJAX TO CURL & PHP
+   Date   : 04/25/2017
+   Version: 1.01
+
+   Uses GET
+-->
+
+<head>
+<meta charset="utf-8" />
+	<title>Watson Tone Analyzer (API TEST)</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+   <div id="pagewrapper">
+      <header></header>  <!-- end of header -->
+      <div id="content">
+      <h1>Watson Tone Analyzer (API Test)</h1>
+
+		<div> <!-- AREA TEXT-->
+	    <textarea rows="4" cols="50" name="comment" id="comment" placeholder="Enter text here..."></textarea>
+  		<button class="button" onclick="myAreaTxt()">Review</button>
+		</div> <!-- AREA TEXT-->
+
+	<!-- REPLACE TEXT IN DIV BELOW -->
+		<div id="container"><!--PLACEHOLDER--></div>
+
+		<div id="apitest"><!--PLACEHOLDER--></div>
+		</div><!-- Content-->
+
+	</div>  <!-- end of pagewrapper -->
+
+	<script>
+
+	function myAjax(myText) {
+
+		$.ajax({
+	    	type: "GET",
+	        url: 'inc/test.inc.php', //inc/ajax.php .link to php that requests json
+	        data: { feedback : myText}, 
+	        success:function(html) { 
+
+	       		// select id apitest div and put data into html
+	        	var apitest = $('#apitest');
+	        	apitest.html(html);	            
+	      	} //end sucess
+	    });
+	}
+
+	function myAreaTxt() {
+		var myText = document.getElementById('comment').value;
+		myAjax(myText);
+	}
+
+	//AFTER PAGE LOADED
+	$(document).ready(function(){
+	/////
+		console.log("document ready");
+    }); // end doc ready
+
+	</script>
+</body>
+</html>

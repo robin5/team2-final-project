@@ -1,0 +1,59 @@
+<?php
+require_once('Database.php');
+require_once('TeamUserFactory.php');
+
+class TeamUserFactory
+{
+	static $class = 'TeamUser';
+	
+	static $lastError = null;
+	
+	/**************************************************************
+	 * Function: insert 
+	 * Description: Insert a new entry into the tbl_team_user table
+	 **************************************************************/
+	 
+    public static function insert($team_id, $user_id) {
+        
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$team_id = $db->escape_string($team_id);
+		$user_id = $db->escape_string($user_id);
+		
+        $query = "INSERT INTO tbl_team_user (team_id, user_id) VALUES ('{$team_id}','{$user_id}')";
+
+		if (false == ($result = $db->query($query))) {
+			$lastError = $db->error;
+		}
+		
+        return $result;
+    }
+	
+	public static function getTeamMembersByTeamId($teamId) {
+		
+		$userIds = false;
+		
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$teamId = $db->escape_string($teamId);
+
+		// SELECT users.user_name, first_name, last_name FROM tbl_team_user JOIN users ON tbl_team_user.user_id = users.user_id WHERE team_id = 33
+		
+        $query  = "SELECT users.user_id, users.user_name, first_name, last_name ";
+		$query .= "FROM tbl_team_user JOIN users ";
+		$query .= "ON tbl_team_user.user_id = users.user_id ";
+		$query .= "WHERE team_id=\"{$teamId}\"";
+
+		if (false != ($result = $db->query( $query ))) {
+			$userIds = [];
+			while ($userId = $result->fetch_assoc()) {
+				$userIds[] = $userId;
+			}
+			$result->close();
+		} else {
+			$lastError = $db->error;
+		}
+
+		return $userIds;
+	}
+}

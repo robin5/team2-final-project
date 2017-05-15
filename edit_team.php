@@ -1,0 +1,170 @@
+<?php // Session control
+session_start();
+require_once('includes/session_in.inc.php');
+try {
+	require_once('includes/header.php');
+	require_once('includes/nav.php');
+	require_once('includes/footer.php');
+	require_once('includes/functions.inc.php');
+	
+} catch(Exception $e) {
+	$error = $e->getMessage();
+}
+?>
+<?php // Parsing posts
+	$errorMsg = "";
+	$teamId = false;
+	$teamName="";
+	$backText = "Back";
+	
+	if (isset($_GET['action']) && $_GET['action'] == "edit-team"){
+		$teamName = $_GET['team-name'];
+		$teamId = $_GET['team-id'];
+	} else {
+		$teamName = "";
+		$teamId = false;
+	}
+?>
+<?php // Function: injectUsersSelect()
+function injectUsersSelect() {
+
+	if (false != ($users = getAllUsers())) {
+		foreach($users as $user) {
+			
+			$firstLast = "{$user['first_name']} {$user['last_name']}";
+			$optionText = $firstLast . "&nbsp;&nbsp;({$user['user_name']}";
+			
+			echo "<option data-username=\"{$user['user_name']}\" data-firstlast=\"{$firstLast}\"  value=\"{$user['user_id']}\">{$optionText})</option>";
+		}
+	}
+}
+?>
+<?php // Function: injectTeamTable()
+	function injectTeamTable($teamName, $teamId) {
+
+		echo "<table id=\"tbl-edit-team\">";
+		echo "<tr><td id=\"table-team-name\" colspan=\"4\">{$teamName}</td></tr>";
+		echo "<tr><th class=\"td-user-id\" style=\"display:none;\"></th><th>User</th><th>Name</th><th>Action</th></tr>";
+
+		if (false != ($members = getTeamMembers($teamId))) {
+			foreach($members as $user) {
+				echo "<tr>";
+				echo "<td class=\"td-user-id\" style=\"display:none;\">{$user['user_id']}</td>";
+				echo "<td>{$user['user_name']}</td>";
+				echo "<td>{$user['first_name']}" . " " . "{$user['last_name']}</td>";
+				echo "<td><a onclick = \"return confirm('Are you sure?');\" href=\"#\">delete</a></td>";
+				echo "</tr>";
+			}
+		}
+		echo "</table>";
+	}
+?>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Create Team</title>
+	<link href="css/style.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+	<?php injectHeader(); ?>
+	<?php 
+		if ($teamId === false) { 
+			injectNav("Dashboard > Create Team");
+			$action = "create-team";
+		} else {
+			injectNav("Dashboard > Edit Team");
+			$action = "update-team";
+		}
+	?>
+	<main>
+		<?php
+			if (!empty($errorMsg)) {
+				injectDivError($errorMsg);
+			}
+		?>
+		
+		<label class="lbl-create-team" for="input-team-name">Team Name:</label>
+		<input 
+			id="input-team-name" 
+			class="input-create-team" 
+			name="team-name" 
+			type="text" 
+			oninput="updateTeamName();"
+			value=<?php echo "\"{$teamName}\""; ?> required />
+		<br><br>
+		
+		<!-- Add User Button -->
+		<button type="button" id="btn-add-team" name="action" value="add-user" onclick="addBlankRow();">
+			Add User
+		</button>
+		<select class="input-create-team" id="sel-user-id" name="user-id">
+			<?php injectUsersSelect(); ?>
+		</select>
+
+		<?php injectTeamTable($teamName, $teamId); ?>
+
+		<form action="dashboard.php" method="post" onsubmit="collectTeamMembers();">
+			<div id="div-entries">
+			
+				<input id="team-id" type="hidden" name="team-id" value=<?php echo "\"{$teamId}\""; ?> />
+				<input id="team-name" type="hidden" name="team-name" value=<?php echo "\"{$teamName}\""; ?> />
+				<input id="team-user-ids" type="hidden" name="team-user-ids" value="" />
+				
+				<!-- Save & Exit Button -->
+				<button id="btn-create-team" name="action" type="submit"
+					value=<?php echo "\"{$action}\"";?> >Save & Exit
+				</button>
+				
+				&nbsp;|&nbsp;
+				
+				<!-- Cancel Button -->
+				<button type="submit" id="btn-cancel" name="action" value="cancelled">
+					Cancel
+				</button>
+			</div>
+		</form>
+	</main>
+	<?php injectFooter(true, $backText); ?>
+	<script>
+		function collectTeamMembers() {
+
+			// Get user IDs from <td> elements in table
+			var userIds = [];
+			$('.td-user-id').each(function(){
+				// Add userId values to an array
+				userIds.push($(this).text());
+			});
+			
+			// Copy user IDs to hidden controls value attribute
+			$('#team-user-ids').val(userIds.toString());
+			
+			// Copy the team's name to hidden controls value attribute
+			$('#team-name').val($('#input-team-name').val());
+		}
+		
+		function updateTeamName() {
+			$('#table-team-name').text($('#input-team-name').val());
+		}
+		
+		function addBlankRow() {
+			var userName = $( "#sel-user-id option:selected" ).attr('data-username');
+			var firstLast = $( "#sel-user-id option:selected" ).attr('data-firstlast');
+			var userId = $( "#sel-user-id").val();
+			var table = $('table');
+			table.append(getNextRow(userId, userName, firstLast));
+		}
+		
+		function getNextRow(userId, userName, firstLast) {
+			var row = '<tr id="row' + userId + '">';
+			row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
+			row += '<td>' + userName + '</td>';
+			row += '<td>' + firstLast + '</td>';
+			row += '<td><span id="delete-row' + userId + '" class="fake-anchor">delete</span></td></tr>'
+			console.log(row);
+			return row;
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?php
+require_once('Database.php');
+require_once('SurveyQuestionFactory.php');
+
+class surveyFactory extends DatabaseFactory {
+
+	/*********************************************************
+	 * Function: insert 
+	 * Description: Insert a new survey into the tbl_survey table
+	 *********************************************************/
+	 
+    public static function insert($surveyName, $ownerId) {
+        
+		$surveyId = false;
+		
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$surveyName = $db->escape_string($surveyName);
+		$ownerId = $db->escape_string($ownerId);
+		
+        $query = "INSERT INTO tbl_survey (name, owner_id) VALUES ('{$surveyName}','{$ownerId}')";
+
+		// Insert user into database
+        if ($db->query($query) === true) {
+			$surveyId = $db->insert_id;
+		} else {
+			$lastError = $db->error;
+			echo $lastError;
+		}
+		
+        return $surveyId;
+    }
+
