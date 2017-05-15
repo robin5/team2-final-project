@@ -1,4 +1,4 @@
-
+/**/
 
 	function analyzeTone(textArea, respDiv) {
 		$.ajax({
