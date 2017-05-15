@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<!--
+ Author Name: Amy Jaeger
+   Assignment : Mockup of Survery Tone Instructor & Reviewer
+   Due Date   : 05/12/2017
+
+   Revision:
+   1.1 Robin simplified JS event to per-load buttion, question & div ID in function call
+   Save JS function to seperate file
+
+   1.2 Amy-   Added summary div to test page 
+   Combined summary and single textarea function
+   changed consolidted var names
+   changed myAreaTxt function name to getAreaTxt
+
+   1.3 Amy- seperated js and linked files. Placed them in folder sturcture (includes & js)
+
+-->
+
+<head>
+   <meta charset="utf-8" />
+   <title>HTML Template</title>
+   <!-- <link href="template.css" rel="stylesheet" /> -->
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+   <script src="js/analyzetone.js"></script>
+</head>
+
+<body>
+	<div id="pagewrapper">
+
+		<div id="header">
+			<div id="username">Reviewer's Name Here</div>  <!-- end of login -->
+			<h1>Clark Student Survey</h1>
+		</div>  <!-- end of header -->
+
+		<div id="review_who"> John Doe (person under review)</div> <!-- end sidebar -->
+
+		<div id="content">
+
+			<div class="question" id="q1">Text for Question 1 goes here</div><!-- end of question -->
+			<textarea rows="4" cols="80" name="feedback" id='txt-q1' placeholder="Enter text here...">One for the Money</textarea>
+			<button id="btn-q1" class="button" onclick="getAreaTxt('btn-q1','txt-q1','tone-q1')">Review</button>
+			<div class="apitest" id="tone-q1"><p>TONE FEEDBACK GOES HERE</p></div>
+
+			<!-- <q2> -->
+			<div class="question" id="q2">Text for Question 2 goes here</div><!-- end of question -->
+			<textarea rows="4" cols="80" name="feedback" id='txt-q2' placeholder="Enter text here...">Two for the Show</textarea>
+			<button id="btn-q2" class="button" onclick="getAreaTxt('btn-q2','txt-q2','tone-q2')">Review</button>
+			<div class="apitest" id="tone-q2"><p>TONE FEEDBACK GOES HERE</p></div>
+
+			<!-- <q3> -->
+			<div class="question" id="q3">Text for Question 3 goes here</div>
+			<textarea rows="4" cols="80" name="feedback" id='txt-q3' placeholder="Enter text here...">Three to get ready</textarea>
+			<button id='btn-q3' class="button" onclick="getAreaTxt('btn-q3','txt-q3','tone-q3')">Review</button>
+			<div class="apitest" id="tone-q3"><p>TONE FEEDBACK GOES HERE</p></div>
+
+
+			<!-- <Summmary> -->
+			<br>
+			<div class="txt-summary"><p>SUMMARY<br>
+				Click to see the overall tone of the feedback for this survey.
+				<button id='btn-summary' class="button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">Review</button></p>
+			<div class="apitest" id="tone-summary"><p>OVERALL TONE FEEDBACK GOES HERE</p></div>
+		
+		</div><!-- content-->
+	</div>  <!-- end of pagewrapper -->
+
+</body>
+</html>
