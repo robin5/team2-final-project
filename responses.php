@@ -64,7 +64,7 @@ margin-left:60px;}
 
 		<!-- <SUMMARY> -->
 		<div id="txt-summary">	
-			<div><button id='btn-summary' class="button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">Tone Summary</button></div>
+			<div><button id='btn-summary' class="button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">Click to See Tone Summary</button></div>
 			<div id="tone-summary"></div>
 		</div>
 		
