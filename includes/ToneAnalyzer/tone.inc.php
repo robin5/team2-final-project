@@ -1,3 +1,5 @@
+
+
 <?php
 /// CONTACT WATSON GET TONE SCORES ///
   function callAPI ($method, $url, $credentials, $data=false){
@@ -23,7 +25,9 @@
     //API
   	$data= $feedback;
     //Watson username and password
-  	$credentials = '751ee35e-bd33-4c65-85a0-ae6baad1d03f : j8bVuMIj46JA';
+  	//$credentials = '751ee35e-bd33-4c65-85a0-ae6baad1d03f : j8bVuMIj46JA';
+
+    $credentials = '95adcd29-4b80-4fa3-8ee7-1604ba4da748 : E3N7oVOwp4eG';
   	//review all text for tone, not by sentence
   	$reviewAll ='&sentences=false';
 

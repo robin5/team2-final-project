@@ -3,7 +3,7 @@
 	function analyzeTone(textArea, respDiv) {
 		$.ajax({
 			type: "GET",  
-			url: './includes/tone.inc.php', 
+			url: './includes/ToneAnalyzer/tone.inc.php', 
 			data: { feedback : textArea},
 
 			success:function(html) {
