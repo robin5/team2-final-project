@@ -97,7 +97,7 @@ class DashBoard {
 		echo '</table>';
 	}
 
-	public static function injectPendingSurveysTable() {
+	public static function xxxxxinjectPendingSurveysTable() {
 
 		$div = <<<"EOD"
 			<h3>My Pending Surveys</h3>
@@ -130,6 +130,44 @@ class DashBoard {
 EOD;
 		echo $div;
 	}
+
+	public static function injectPendingSurveysTable() {
+		
+		echo "<h3>My Pending Surveys</h3>";
+		echo "<table><tr><th>Review</th><th>Team</th><th>Student</th><th>Action</th></tr>";
+		if (false === ($surveyInstances = SurveyInstanceFactory::getPendingSurveys($_SESSION['userId']))) {
+			$errMsg = surveyInstanceFactory::getLastError();
+			echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+		} else {
+			foreach($surveyInstances as $survey)  {
+				
+				if (false === ($teamMembers = TeamUserFactory::getTeamMembersByTeamId($survey['team_id']))) {
+					$errMsg = surveyInstanceFactory::getLastError();
+					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+				}
+				else {
+					$rowSpan = count($teamMembers);
+					$row = 0;
+					while ($row < $rowSpan) {
+						if ($row == 0) {
+							echo "<tr>";
+							echo "<td rowspan=\"{$rowSpan}\">{$survey['survey_name']}</td>";
+							echo "<td rowspan=\"{$rowSpan}\">{$survey['team_name']}</td>";
+						}
+						$student = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'] .
+						"  (" . $teamMembers[$row]['user_name'] . ")";
+						echo "<td>{$student}</td>";
+						echo "<td><a href=\"take_survey.php?user-name=Andrey%20Demchenko\">Start</a></td>";
+						echo "</tr>";
+						$row++;
+					}
+				}
+			}
+		}
+		echo "</table>";
+	}
+
+
 	
 	public static function injectSurveysOnMeTable() {
 
