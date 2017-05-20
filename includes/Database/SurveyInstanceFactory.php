@@ -44,8 +44,8 @@ class surveyInstanceFactory extends DatabaseFactory {
 		
 		$query = "SELECT tbl_survey_instance.instance_id, name, start_date, end_date ";
 		$query .= "FROM tbl_survey_instance JOIN tbl_survey ";
-		$query .= "ON tbl_survey_instance.survey_id = tbl_survey.survey_id ";
-		$query .= "WHERE tbl_survey_instance.owner_id = {$ownerId} ORDER BY {$order}";
+		$query .= "ON tbl_survey_instance.instance_id = tbl_survey.instance_id ";
+		$query .= "WHERE tbl_survey.owner_id = {$ownerId} ORDER BY {$order}";
 
 		if (false != ($result = $db->query($query))) {
 			$surveyInstances = [];
@@ -98,6 +98,48 @@ class surveyInstanceFactory extends DatabaseFactory {
 		} else {
 			self::$lastError = $db->error;
 		}
+		return $surveyInstances;
+	}
+	/**********************************************************
+	 * Function: getSurveyResponses
+	 * Description: Returns survey for a given user
+	 **********************************************************/
+	 
+	public static function getSurveyResponses($userId) {
+		
+		$result;
+		$surveyInstances = false;
+		
+		// Get the database connection
+		$db = DatabaseConnectionFactory::getConnection();
+
+		// Define the query
+		$query = "";
+		$query .= "SELECT tbl_survey.name AS survey_name,tbl_survey.survey_id,tbl_team.name AS team_name,tbl_team.team_id,tbl_survey_instance.released ";
+		$query .= "	FROM users ";
+		$query .= "	JOIN tbl_team_user ";
+		$query .= "		ON users.user_id = tbl_team_user.user_id ";
+		$query .= "	JOIN tbl_team ";
+		$query .= "		ON tbl_team.team_id = tbl_team_user.team_id ";
+		$query .= "	JOIN tbl_team_instance ";
+		$query .= "		ON tbl_team_instance.team_id = tbl_team.team_id ";
+		$query .= "	JOIN tbl_survey_instance ";
+		$query .= "		ON tbl_survey_instance.instance_id=tbl_team_instance.instance_id ";
+		$query .= "	JOIN tbl_survey ";
+		$query .= "		ON tbl_survey.instance_id = tbl_survey_instance.instance_id ";
+		$query .= "WHERE users.user_id={$userId}";
+
+		// Execute the query
+		if (false != ($result = $db->query($query))) {
+			$surveyInstances = [];
+			while ($surveyInstance = $result->fetch_assoc()){
+				$surveyInstances[] = $surveyInstance;
+			}
+			$result->close();
+		} else {
+			self::$lastError = $db->error;
+		}
+		
 		return $surveyInstances;
 	}
 }

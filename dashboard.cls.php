@@ -2,6 +2,7 @@
 require_once('includes/Database/SurveyInstanceFactory.php');
 require_once('includes/Database/TeamFactory.php');
 require_once('includes/Database/SurveyFactory.php');
+require_once('includes/Database/QuestionResponseFactory.php');
 
 class DashBoard {
 
@@ -97,47 +98,13 @@ class DashBoard {
 		echo '</table>';
 	}
 
-	public static function xxxxxinjectPendingSurveysTable() {
-
-		$div = <<<"EOD"
-			<h3>My Pending Surveys</h3>
-			<table>		
-				<tr>
-					<th>Review</th>
-					<th>Team</th>
-					<th>Student</th>
-					<th>Action</th>
-				</tr>
-				<tr>
-					<td rowspan="3">CTEC-227 Spring 2017</td>
-					<td rowspan="3">Team-1</td>
-					<td>Richard Lint</td>
-					<td><a href="take_survey.php?user-name=Richard%20Lint">Start</a></td>
-				</tr>
-				<tr>
-
-				
-					<td>Patrick McCulley</td>
-					<td><a href="take_survey.php?user-name=Patrick%20McCulley">Start</a></td>
-				</tr>
-				<tr>
-
-				
-					<td>Andrey Demchenko</td>
-					<td><a href="take_survey.php?user-name=Andrey%20Demchenko">Start</a></td>
-				</tr>
-			</table>
-EOD;
-		echo $div;
-	}
-
 	public static function injectPendingSurveysTable() {
 		
-		echo "<h3>My Pending Surveys</h3>";
-		echo "<table><tr><th>Review</th><th>Team</th><th>Student</th><th>Action</th></tr>";
+		echo "<h3>Surveys To Do</h3>";
+		echo "<table><tr><th>Survey</th><th>Team</th><th>Student</th><th>User Name</th><th>Action</th></tr>";
 		if (false === ($surveyInstances = SurveyInstanceFactory::getPendingSurveys($_SESSION['userId']))) {
 			$errMsg = surveyInstanceFactory::getLastError();
-			echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+			echo "<tr><td colspan=6>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
 		} else {
 			foreach($surveyInstances as $survey)  {
 				
@@ -154,10 +121,17 @@ EOD;
 							echo "<td rowspan=\"{$rowSpan}\">{$survey['survey_name']}</td>";
 							echo "<td rowspan=\"{$rowSpan}\">{$survey['team_name']}</td>";
 						}
-						$student = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'] .
-						"  (" . $teamMembers[$row]['user_name'] . ")";
-						echo "<td>{$student}</td>";
-						echo "<td><a href=\"take_survey.php?user-name=Andrey%20Demchenko\">Start</a></td>";
+						$revieweeName = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'];
+						echo "<td>{$revieweeName}</td>";
+						echo "<td>{$teamMembers[$row]['user_name']}</td>";
+						echo "<td><a href=\"take_survey.php?";
+						echo "    survey-id={$survey['survey_id']}&";
+						echo "    survey-name={$survey['survey_name']}&";
+						echo "    team-name={$survey['team_name']}&";
+						echo "    reviewee-name={$revieweeName}&";
+						echo "    reviewer-id={$_SESSION['userId']}&";
+						echo "    reviewee-id={$teamMembers[$row]['user_id']}\">";
+						echo "Start</a></td>";
 						echo "</tr>";
 						$row++;
 					}
@@ -171,20 +145,27 @@ EOD;
 	
 	public static function injectSurveysOnMeTable() {
 
-		$div = <<<"EOD"
-			<h3>Surveys Done on Me</h3>
-			<table>
-				<tr>
-					<th>Review</th>
-					<th>Action</th>
-				</tr>
-				<tr>
-					<td>CTEC-127 Spring 2016</td>
-					<td><a href="survey_on_me.php">Results</a></td>
-				</tr>
-			</table>
-EOD;
-		echo $div;
+		echo "<h3>Surveys Results on Me</h3>";
+		echo "<table><tr><th>Survey</th><th>Action</th></tr>";
+		if (false === ($surveyResponses = SurveyInstanceFactory::getSurveyResponses($_SESSION['userId']))) {
+			$errMsg = surveyInstanceFactory::getLastError();
+			echo "<tr><td colspan=2>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+		} else {
+		
+			foreach($surveyResponses as $surveyResponse)  {
+				
+				if ($surveyResponse['released']) {
+					$action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">{$action}</a>";
+				} else {
+					$action = "Pending...";
+				}
+				
+				echo "<td>{$surveyResponse['survey_name']}</td>";
+				echo "<td>{$action}</td>";
+				echo "</tr>";
+			}
+		}
+		echo "</table>";
 	}
 	
 	public static function createTeam($teamName, $ownerId, $userIds, &$errMsg) {
@@ -264,4 +245,12 @@ EOD;
 		return $status;
 	}
 	
+	public static function saveSubmitSurvey($reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag, &$errMsg) {
+		
+		if (false === QuestionResponseFactory::updateResponses($reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag)) {
+			$errMsg = QuestionResponseFactory::getLastError();
+			return false;
+		}
+		return true;
+	}
 }
