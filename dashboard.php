@@ -30,7 +30,7 @@ try {
 	<?php
 		$errMsg = "";
 		
-		//echo "<pre>"; print_r($_POST); echo "</pre>";
+		// echo "<pre>"; print_r($_POST); echo "</pre>";
 		
 		if (($_SERVER['REQUEST_METHOD'] === "POST") && (isset($_POST['action']))) {
 
@@ -146,15 +146,19 @@ try {
 			else if (($_POST['action'] === "submit-survey") || 
 					 ($_POST['action'] === "save-survey")){
 
+					
+					 
 				// Verify having all parameters
 				if (!empty($_POST['reviewee']) &&
 					!empty($_POST['question-id']) && 
 					!empty($_POST['grade-id']) &&
-					!empty($_POST['responses'])) {
-					
+					!empty($_POST['responses']) &&
+					!empty($_POST['survey-id'])) {
+
 					$submitFlag = ($_POST['action'] === "submit-survey");
 					
 					DashBoard::saveSubmitSurvey(
+						$_POST['survey-id'],
 						$_POST['reviewee'], 
 						$_SESSION['userId'], 
 						$_POST['question-id'], 

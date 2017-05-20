@@ -41,9 +41,9 @@ try {
 
 			if (false === ($questions = QuestionResponseFactory::getQuestions($surveyId))) {
 				$errMsg = QuestionResponseFactory::getLastError();
-			} else if (false === ($responses = QuestionResponseFactory::getResponses($surveyId, $revieweeId, $_SESSION['userId']))) {
+			} else if (false === ($responses = QuestionResponseFactory::getResponses($revieweeId, $_SESSION['userId']))) {
 				$errMsg = QuestionResponseFactory::getLastError();
-			}
+			} 
 		}
 	}
 ?>
@@ -61,7 +61,7 @@ try {
 	<?php injectDivError($errMsg); ?>
 	<h1><strong><?php echo "{$teamName}: {$revieweeName}"; ?></strong></h1><hr>
 	<main>
-		<?php TakeSurvey::injectSurveyQuestions($revieweeId, $questions, $responses); ?>
+		<?php TakeSurvey::injectSurveyQuestions($surveyId, $revieweeId, $questions, $responses); ?>
 	</main>
 	<?php injectFooter(); ?>
 	<script>

@@ -60,7 +60,7 @@ class TakeSurvey {
 EOT;
 	}
 	
-	public static function injectSurveyQuestions($reviewee, $questions, $responses) {
+	public static function injectSurveyQuestions($surveyId, $reviewee, $questions, $responses) {
 		
 		if (false === ($grades = GradeFactory::getGrades())) {
 			return;
@@ -69,8 +69,11 @@ EOT;
 		
 		// Get survey questions
 		if (false !== $questions) {
+			
 			echo "<form action=\"dashboard.php\" method=\"post\" onsubmit=\"return isValidForm(evt)\"><div>";
+			echo "<input type=\"hidden\" name=\"survey-id\" value=\"{$surveyId}\">";
 			echo "<input type=\"hidden\" name=\"reviewee\" value=\"{$reviewee}\" >";
+			
 			foreach($questions as $question) {
 				
 				$index = $question['qs_index'];

@@ -111,6 +111,9 @@ class DashBoard {
 				if (false === ($teamMembers = TeamUserFactory::getTeamMembersByTeamId($survey['team_id']))) {
 					$errMsg = surveyInstanceFactory::getLastError();
 					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+				} else if (false === ($submittedReviewees = SurveyCompleteFactory::getSubmittedReviewees($survey['survey_id'], $_SESSION['userId']))) {
+					$errMsg = SurveyCompleteFactory::getLastError();
+					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
 				}
 				else {
 					$rowSpan = count($teamMembers);
@@ -122,16 +125,23 @@ class DashBoard {
 							echo "<td rowspan=\"{$rowSpan}\">{$survey['team_name']}</td>";
 						}
 						$revieweeName = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'];
+						//echo "[{$teamMembers[$row]['user_id']},{$submittedReviewees[0]}]";
+						if (false === array_search($teamMembers[$row]['user_id'], $submittedReviewees, false)) {
+							$anchor = "<a href=\"take_survey.php?" .
+								"survey-id={$survey['survey_id']}&" .
+								"survey-name={$survey['survey_name']}&" .
+								"team-name={$survey['team_name']}&" .
+								"reviewee-name={$revieweeName}&" .
+								"reviewer-id={$_SESSION['userId']}&" .
+								"reviewee-id={$teamMembers[$row]['user_id']}\">" .
+								"Start</a>";
+						} else {
+							$anchor = 'submitted';
+						}
+						
 						echo "<td>{$revieweeName}</td>";
 						echo "<td>{$teamMembers[$row]['user_name']}</td>";
-						echo "<td><a href=\"take_survey.php?";
-						echo "    survey-id={$survey['survey_id']}&";
-						echo "    survey-name={$survey['survey_name']}&";
-						echo "    team-name={$survey['team_name']}&";
-						echo "    reviewee-name={$revieweeName}&";
-						echo "    reviewer-id={$_SESSION['userId']}&";
-						echo "    reviewee-id={$teamMembers[$row]['user_id']}\">";
-						echo "Start</a></td>";
+						echo "<td>{$anchor}</td>";
 						echo "</tr>";
 						$row++;
 					}
@@ -245,9 +255,9 @@ class DashBoard {
 		return $status;
 	}
 	
-	public static function saveSubmitSurvey($reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag, &$errMsg) {
+	public static function saveSubmitSurvey($surveyId, $reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag, &$errMsg) {
 		
-		if (false === QuestionResponseFactory::updateResponses($reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag)) {
+		if (false === QuestionResponseFactory::updateResponses($surveyId, $reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag)) {
 			$errMsg = QuestionResponseFactory::getLastError();
 			return false;
 		}

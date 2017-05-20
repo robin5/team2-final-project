@@ -1,5 +1,6 @@
 <?php
 require_once('Database.php');
+require_once('SurveyCompleteFactory.php');
 
 class QuestionResponseFactory extends DatabaseFactory {
 
@@ -95,7 +96,7 @@ class QuestionResponseFactory extends DatabaseFactory {
 	 *     responses to survey questions
 	 *********************************************************/
 	 
-	public static function getResponses($questionId, $reviewee, $reviewer) {
+	public static function getResponses($reviewee, $reviewer) {
 		
 		$responses = false;
 		
@@ -129,15 +130,14 @@ class QuestionResponseFactory extends DatabaseFactory {
 	 *     responses to survey questions
 	 *********************************************************/
 	 
-	public static function updateResponses($reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag) {
+	public static function updateResponses($surveyId, $reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag) {
 		
 		$numEntries = count($questionIds);
 		$db = DatabaseConnectionFactory::getConnection();
 		
-		
 		if (empty($responseIds[0])) {
 
-			// Do an Insert query
+			// Construct an Insert query for inserting data into tbl_survey_response
 			$query = "INSERT INTO tbl_survey_response ";
 			$query .= "(question_id, reviewee, reviewer, grade_id, text) ";
 			$query .= "VALUES ";
@@ -152,17 +152,13 @@ class QuestionResponseFactory extends DatabaseFactory {
 			}
 			
 			// Execute query
-			if ($db->query($query) === true) {
-				return true;
-			} else {
+			if ($db->query($query) === false) {
 				self::$lastError = $db->error;
 				return false;
 			}
 		} else {
-			// Do an update query on each question
+			// Construct an update query on each question into tbl_survey_response
 			
-			// UPDATE `tbl_survey_response` SET `response_id` = '26', `question_id` = '999', `reviewee` = '989', `reviewer` = '979', `text` = 'google plus', `grade_id` = '2' WHERE `tbl_survey_response`.`response_id` = 25;
-
 			for ($i = 0; $i < $numEntries; $i++) {
 				
 				$text = $db->escape_string($responses[$i]);
@@ -174,13 +170,18 @@ class QuestionResponseFactory extends DatabaseFactory {
 				$query .= "text='{$text}', ";
 				$query .= "grade_id={$gradeIds[$i]} ";
 				$query .= "WHERE response_id={$responseIds[$i]};";
+				
 				// Execute query
 				if ($db->query($query) === false) {
 					self::$lastError = $db->error;
 					return false;
 				}
 			}
-			return true;
 		}
+
+		if ($submitFlag) {
+			return SurveyCompleteFactory::insert($surveyId, $reviewee, $reviewer, 1 /*submitted */);
+		}
+		return true;
 	}
 }
