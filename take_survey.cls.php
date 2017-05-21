@@ -8,63 +8,12 @@ require_once('includes/functions.inc.php');
 
 class TakeSurvey {
 	
-	public static function xxxinjectSurveyQuestions() {
-	
-	echo <<<EOT
-			<p><label for="select-grade-1">Grade:</label>
-			<select id="select-grade-1">
-				<option>A</option>
-				<option>B</option>
-				<option>C</option>
-				<option>D</option>
-				<option>F</option>
-			</select>&nbsp;
-			Work cooperatively as part of a team and contribute in both leadership and supportive roles.</p>
-			<textarea id="input-q1" cols="80" rows="5"></textarea><br>
-			<br>		
-			<p><label for="select-grade-1">Grade:</label>
-			<select id="select-grade-1">
-				<option>A</option>
-				<option>B</option>
-				<option>C</option>
-				<option>D</option>
-				<option>F</option>
-			</select>&nbsp;
-			Build relationships of trust, mutual respect and productive interactions.</p>
-			<textarea id="input-q2" cols="80" rows="5"></textarea>
-			<br>
-
-			<p><label for="select-grade-1">Grade:</label>
-			<select id="select-grade-1">
-				<option>A</option>
-				<option>B</option>
-				<option>C</option>
-				<option>D</option>
-				<option>F</option>
-			</select>&nbsp;
-			Be flexible, adapt to unanticipated situations and resolve conflicts</p>
-			<textarea id="input-q3" cols="80" rows="5"></textarea>
-			<br>
-
-			<p><label for="select-grade-1">Grade:</label>
-			<select id="select-grade-1">
-				<option>A</option>
-				<option>B</option>
-				<option>C</option>
-				<option>D</option>
-				<option>F</option>
-			</select>&nbsp;
-			Communicate and clarify ideas through well-written business correspondence, proposals, instructions, design summaries and client briefs. (Note: This includes all correspondence through email, Slack, and other communication methodologies adopted by your team.)</p>
-			<textarea id="input-q4" cols="80" rows="5"></textarea>
-			<br><br>
-EOT;
-	}
-	
 	public static function injectSurveyQuestions($surveyId, $reviewee, $questions, $responses) {
 		
 		if (false === ($grades = GradeFactory::getGrades())) {
 			return;
 		}
+
 		$numGrades = count($grades);
 		
 		// Get survey questions
@@ -87,7 +36,7 @@ EOT;
 				echo "<select id=\"select-grade-{$index}\" name=\"grade-id[{$index}]\">";
 				echo "<option value=\"0\">---</option>";
 				for ($i = 0; $i < $numGrades; $i++) {
-					$selected = TakeSurvey::getSelected($responses[$index]['grade_id'], $grades[$i]['grade_id']);
+					$selected = TakeSurvey::getSelected($response['grade_id'], $grades[$i]['grade_id']);
 					echo "<option value=\"{$grades[$i]['grade_id']}\" {$selected}>{$grades[$i]['text']}</option>";
 				}
 				
@@ -110,9 +59,6 @@ EOT;
 	}
 	
 	private static function getSelected($grade1, $grade2) {
-		
-		echo "{$grade1}{$grade2}";
-		
 		return $grade1 == $grade2 ? "selected" : "";
 	}
 	
