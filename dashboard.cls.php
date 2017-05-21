@@ -3,6 +3,7 @@ require_once('includes/Database/SurveyInstanceFactory.php');
 require_once('includes/Database/TeamFactory.php');
 require_once('includes/Database/SurveyFactory.php');
 require_once('includes/Database/QuestionResponseFactory.php');
+require_once('includes/Database/SurveyInstanceFactory.php');
 
 class DashBoard {
 
@@ -26,13 +27,20 @@ class DashBoard {
 				$endDate = new DateTime($surveyInstance['end_date']);
 
 				// Determine survey status
-				if ($currentTime < $startDate) {
-					$status = "Queued";
-				} else if (($currentTime >= $startDate) && ($currentTime <= $endDate)) {
-					$status = 'In Progress..';
-				} else {
-					$status = 'Completed';
+				
+				if ($surveyInstance['released']) {
+					$status = 'Released';
 				}
+				else {
+					if ($currentTime < $startDate) {
+						$status = "Queued";
+					} else if (($currentTime >= $startDate) && ($currentTime <= $endDate)) {
+						$status = 'In Progress..';
+					} else {
+						$status = 'Completed';
+					}
+				}
+				
 
 				// Create table row
 				echo "<tr>";
@@ -40,7 +48,11 @@ class DashBoard {
 				echo "<td>{$surveyInstance['start_date']}</td>";
 				echo "<td>{$surveyInstance['end_date']}</td>";
 				echo "<td>{$status}</td>";
-				echo "<td><a href=\"survey_results.php\">Results</a></td>";
+				echo "<td><a href=\"survey_results.php\">View Results</a>";
+				if ($status == 'Completed') {
+					echo "<br><a onclick=\"return areYouSure();\" href=\"dashboard.php?action=release-survey&instance-id={$surveyInstance['instance_id']}\">Release Results</a>";
+				}
+				echo "</td>";
 				echo "</tr>";
 			}
 		}
@@ -61,7 +73,7 @@ class DashBoard {
 				echo "<td>---</td>";
 				echo "<td>"; 
 				echo "<a href=\"edit_survey.php?action=edit&survey-name={$surveyName}&survey-id={$survey['survey_id']}\">Edit</a>&nbsp;";
-				echo "<a onclick=\"return confirm('Are you sure?');\" ";
+				echo "<a onclick=\"return areYouSure();\" ";
 				echo "href=\"{$_SERVER['PHP_SELF']}?action=delete-survey&survey-id={$survey['survey_id']}\">Delete</a></td>";
 				echo "</tr>";
 			}
@@ -91,7 +103,7 @@ class DashBoard {
 				echo "<tr><td>{$team['name']}</td><td>";
 				echo "<a href=\"edit_team.php?action=edit-team&team-id={$team['team_id']}&team-name={$team['name']}\">Edit</a>";
 				echo '&nbsp;&nbsp;';
-				echo "<a onclick=\"return confirm('Are you sure?');\" href=\"{$_SERVER['PHP_SELF']}?action=delete-team&team-id={$team['team_id']}&team-name={$team['name']}\">Delete</a>";
+				echo "<a onclick=\"return areYouSure();\" href=\"{$_SERVER['PHP_SELF']}?action=delete-team&team-id={$team['team_id']}&team-name={$team['name']}\">Delete</a>";
 				echo '</td></tr>';
 			}
 		}
@@ -263,4 +275,16 @@ class DashBoard {
 		}
 		return true;
 	}
+
+	public static function releaseSurvey($instanceId, $ownerId, &$errMsg) {
+		
+		$status = SurveyInstanceFactory::releaseSurvey($instanceId, $ownerId);
+		if (false === $status) {
+			$errMsg = SurveyInstanceFactory::getLastError();
+		} else {
+			$errMsg = "";
+		}
+		return $status;
+	}
+
 }

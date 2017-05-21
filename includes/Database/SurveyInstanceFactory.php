@@ -42,7 +42,7 @@ class surveyInstanceFactory extends DatabaseFactory {
 		
 		$db = DatabaseConnectionFactory::getConnection();
 		
-		$query = "SELECT tbl_survey_instance.instance_id, name, start_date, end_date ";
+		$query = "SELECT tbl_survey_instance.instance_id, name, start_date, end_date, released ";
 		$query .= "FROM tbl_survey_instance JOIN tbl_survey ";
 		$query .= "ON tbl_survey_instance.instance_id = tbl_survey.instance_id ";
 		$query .= "WHERE tbl_survey.owner_id = {$ownerId} ORDER BY {$order}";
@@ -141,5 +141,35 @@ class surveyInstanceFactory extends DatabaseFactory {
 		}
 		
 		return $surveyInstances;
+	}
+	/**********************************************************
+	 * Function: releaseSurvey
+	 * Description: Sets the released column in 
+	 *     tbl_survey_instance to true;
+	 **********************************************************/
+	 
+	public static function releaseSurvey($instanceId, $ownerId) {
+		
+		$result;
+		$surveyInstances = false;
+		
+		// Get the database connection
+
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$query = "UPDATE tbl_survey_instance a ";
+		$query .= "JOIN tbl_survey b ";
+		$query .= "   ON a.instance_id =  b.instance_id ";
+		$query .= "SET ";
+		$query .= "   a.released=1 ";
+		$query .= "WHERE ";
+		$query .= "   a.instance_id = {$instanceId} AND b.owner_id={$ownerId};";
+		
+		// Execute query
+		if ($db->query($query) === false) {
+			self::$lastError = $db->error;
+			return false;
+		}
+		return true;
 	}
 }

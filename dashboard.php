@@ -208,6 +208,22 @@ try {
 						$errMsg);
 				}
 			}
+			
+			// ---------------------------------------
+			// release a survey
+			// ---------------------------------------
+			
+			if ($_GET['action'] === "release-survey") {
+
+				if (!empty($_GET['instance-id'])) {
+					
+					// Delete the survey
+					DashBoard::releaseSurvey(
+						$_GET['instance-id'], 
+						$_SESSION['userId'],
+						$errMsg);
+				}
+			}
 		}
 	?>
 	<?php
@@ -241,5 +257,10 @@ try {
 	<?php injectFooter(false); ?>
 	<div class="push"></div>
 	</div>
+	<script>
+		function areYouSure() {
+			return confirm('Are you sure?');
+		}
+	</script>
 </body>
 </html>
