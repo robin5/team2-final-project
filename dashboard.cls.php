@@ -177,7 +177,7 @@ class DashBoard {
 			foreach($surveyResponses as $surveyResponse)  {
 				
 				if ($surveyResponse['released']) {
-					$action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">{$action}</a>";
+					$action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">Review</a>";
 				} else {
 					$action = "Pending...";
 				}
