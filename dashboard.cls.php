@@ -2,6 +2,8 @@
 require_once('includes/Database/SurveyInstanceFactory.php');
 require_once('includes/Database/TeamFactory.php');
 require_once('includes/Database/SurveyFactory.php');
+require_once('includes/Database/QuestionResponseFactory.php');
+require_once('includes/Database/SurveyInstanceFactory.php');
 
 class DashBoard {
 
@@ -25,13 +27,20 @@ class DashBoard {
 				$endDate = new DateTime($surveyInstance['end_date']);
 
 				// Determine survey status
-				if ($currentTime < $startDate) {
-					$status = "Queued";
-				} else if (($currentTime >= $startDate) && ($currentTime <= $endDate)) {
-					$status = 'In Progress..';
-				} else {
-					$status = 'Completed';
+				
+				if ($surveyInstance['released']) {
+					$status = 'Released';
 				}
+				else {
+					if ($currentTime < $startDate) {
+						$status = "Queued";
+					} else if (($currentTime >= $startDate) && ($currentTime <= $endDate)) {
+						$status = 'In Progress..';
+					} else {
+						$status = 'Completed';
+					}
+				}
+				
 
 				// Create table row
 				echo "<tr>";
@@ -39,7 +48,11 @@ class DashBoard {
 				echo "<td>{$surveyInstance['start_date']}</td>";
 				echo "<td>{$surveyInstance['end_date']}</td>";
 				echo "<td>{$status}</td>";
-				echo "<td><a href=\"survey_results.php\">Results</a></td>";
+				echo "<td><a href=\"survey_results.php?instance-id={$surveyInstance['instance_id']}&survey-name={$surveyInstance['name']}\">View Results</a>";
+				if ($status == 'Completed') {
+					echo "<br><a onclick=\"return areYouSure();\" href=\"dashboard.php?action=release-survey&instance-id={$surveyInstance['instance_id']}\">Release Results</a>";
+				}
+				echo "</td>";
 				echo "</tr>";
 			}
 		}
@@ -60,7 +73,7 @@ class DashBoard {
 				echo "<td>---</td>";
 				echo "<td>"; 
 				echo "<a href=\"edit_survey.php?action=edit&survey-name={$surveyName}&survey-id={$survey['survey_id']}\">Edit</a>&nbsp;";
-				echo "<a onclick=\"return confirm('Are you sure?');\" ";
+				echo "<a onclick=\"return areYouSure();\" ";
 				echo "href=\"{$_SERVER['PHP_SELF']}?action=delete-survey&survey-id={$survey['survey_id']}\">Delete</a></td>";
 				echo "</tr>";
 			}
@@ -90,7 +103,7 @@ class DashBoard {
 				echo "<tr><td>{$team['name']}</td><td>";
 				echo "<a href=\"edit_team.php?action=edit-team&team-id={$team['team_id']}&team-name={$team['name']}\">Edit</a>";
 				echo '&nbsp;&nbsp;';
-				echo "<a onclick=\"return confirm('Are you sure?');\" href=\"{$_SERVER['PHP_SELF']}?action=delete-team&team-id={$team['team_id']}&team-name={$team['name']}\">Delete</a>";
+				echo "<a onclick=\"return areYouSure();\" href=\"{$_SERVER['PHP_SELF']}?action=delete-team&team-id={$team['team_id']}&team-name={$team['name']}\">Delete</a>";
 				echo '</td></tr>';
 			}
 		}
@@ -98,55 +111,83 @@ class DashBoard {
 	}
 
 	public static function injectPendingSurveysTable() {
-
-		$div = <<<"EOD"
-			<h3>My Pending Surveys</h3>
-			<table>		
-				<tr>
-					<th>Review</th>
-					<th>Team</th>
-					<th>Student</th>
-					<th>Action</th>
-				</tr>
-				<tr>
-					<td rowspan="3">CTEC-227 Spring 2017</td>
-					<td rowspan="3">Team-1</td>
-					<td>Richard Lint</td>
-					<td><a href="take_survey.php?user-name=Richard%20Lint">Start</a></td>
-				</tr>
-				<tr>
-
+		
+		echo "<h3>Surveys To Do</h3>";
+		echo "<table><tr><th>Survey</th><th>Team</th><th>Student</th><th>User Name</th><th>Action</th></tr>";
+		if (false === ($surveyInstances = SurveyInstanceFactory::getPendingSurveys($_SESSION['userId']))) {
+			$errMsg = surveyInstanceFactory::getLastError();
+			echo "<tr><td colspan=6>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+		} else {
+			foreach($surveyInstances as $survey)  {
 				
-					<td>Patrick McCulley</td>
-					<td><a href="take_survey.php?user-name=Patrick%20McCulley">Start</a></td>
-				</tr>
-				<tr>
-
-				
-					<td>Andrey Demchenko</td>
-					<td><a href="take_survey.php?user-name=Andrey%20Demchenko">Start</a></td>
-				</tr>
-			</table>
-EOD;
-		echo $div;
+				if (false === ($teamMembers = TeamUserFactory::getTeamMembersByTeamId($survey['team_id']))) {
+					$errMsg = surveyInstanceFactory::getLastError();
+					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+				} else if (false === ($submittedReviewees = SurveyCompleteFactory::getSubmittedReviewees($survey['survey_id'], $_SESSION['userId']))) {
+					$errMsg = SurveyCompleteFactory::getLastError();
+					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+				}
+				else {
+					$rowSpan = count($teamMembers);
+					$row = 0;
+					while ($row < $rowSpan) {
+						if ($row == 0) {
+							echo "<tr>";
+							echo "<td rowspan=\"{$rowSpan}\">{$survey['survey_name']}</td>";
+							echo "<td rowspan=\"{$rowSpan}\">{$survey['team_name']}</td>";
+						}
+						$revieweeName = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'];
+						//echo "[{$teamMembers[$row]['user_id']},{$submittedReviewees[0]}]";
+						if (false === array_search($teamMembers[$row]['user_id'], $submittedReviewees, false)) {
+							$anchor = "<a href=\"take_survey.php?" .
+								"survey-id={$survey['survey_id']}&" .
+								"survey-name={$survey['survey_name']}&" .
+								"team-name={$survey['team_name']}&" .
+								"reviewee-name={$revieweeName}&" .
+								"reviewer-id={$_SESSION['userId']}&" .
+								"reviewee-id={$teamMembers[$row]['user_id']}\">" .
+								"Start</a>";
+						} else {
+							$anchor = 'submitted';
+						}
+						
+						echo "<td>{$revieweeName}</td>";
+						echo "<td>{$teamMembers[$row]['user_name']}</td>";
+						echo "<td>{$anchor}</td>";
+						echo "</tr>";
+						$row++;
+					}
+				}
+			}
+		}
+		echo "</table>";
 	}
+
+
 	
 	public static function injectSurveysOnMeTable() {
 
-		$div = <<<"EOD"
-			<h3>Surveys Done on Me</h3>
-			<table>
-				<tr>
-					<th>Review</th>
-					<th>Action</th>
-				</tr>
-				<tr>
-					<td>CTEC-127 Spring 2016</td>
-					<td><a href="survey_on_me.php">Results</a></td>
-				</tr>
-			</table>
-EOD;
-		echo $div;
+		echo "<h3>Surveys Results on Me</h3>";
+		echo "<table><tr><th>Survey</th><th>Action</th></tr>";
+		if (false === ($surveyResponses = SurveyInstanceFactory::getSurveyResponses($_SESSION['userId']))) {
+			$errMsg = surveyInstanceFactory::getLastError();
+			echo "<tr><td colspan=2>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+		} else {
+		
+			foreach($surveyResponses as $surveyResponse)  {
+				
+				if ($surveyResponse['released']) {
+					$action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">Review</a>";
+				} else {
+					$action = "Pending...";
+				}
+				
+				echo "<td>{$surveyResponse['survey_name']}</td>";
+				echo "<td>{$action}</td>";
+				echo "</tr>";
+			}
+		}
+		echo "</table>";
 	}
 	
 	public static function createTeam($teamName, $ownerId, $userIds, &$errMsg) {
@@ -226,4 +267,24 @@ EOD;
 		return $status;
 	}
 	
+	public static function saveSubmitSurvey($surveyId, $reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag, &$errMsg) {
+		
+		if (false === QuestionResponseFactory::updateResponses($surveyId, $reviewee, $reviewer, $questionIds, $gradeIds, $responses, $responseIds, $submitFlag)) {
+			$errMsg = QuestionResponseFactory::getLastError();
+			return false;
+		}
+		return true;
+	}
+
+	public static function releaseSurvey($instanceId, $ownerId, &$errMsg) {
+		
+		$status = SurveyInstanceFactory::releaseSurvey($instanceId, $ownerId);
+		if (false === $status) {
+			$errMsg = SurveyInstanceFactory::getLastError();
+		} else {
+			$errMsg = "";
+		}
+		return $status;
+	}
+
 }

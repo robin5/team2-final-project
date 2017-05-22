@@ -29,6 +29,9 @@ try {
 	</div>
 	<?php
 		$errMsg = "";
+		
+		// echo "<pre>"; print_r($_POST); echo "</pre>";
+		
 		if (($_SERVER['REQUEST_METHOD'] === "POST") && (isset($_POST['action']))) {
 
 			// ---------------------------------------
@@ -136,8 +139,40 @@ try {
 				}
 			}
 			
+			// ---------------------------------------
+			// Submit a survey
+			// ---------------------------------------
 			
-			
+			else if (($_POST['action'] === "submit-survey") || 
+					 ($_POST['action'] === "save-survey")){
+
+					
+					 
+				// Verify having all parameters
+				if (!empty($_POST['reviewee']) &&
+					!empty($_POST['question-id']) && 
+					!empty($_POST['grade-id']) &&
+					!empty($_POST['responses']) &&
+					!empty($_POST['survey-id'])) {
+
+					$submitFlag = ($_POST['action'] === "submit-survey");
+					
+					DashBoard::saveSubmitSurvey(
+						$_POST['survey-id'],
+						$_POST['reviewee'], 
+						$_SESSION['userId'], 
+						$_POST['question-id'], 
+						$_POST['grade-id'], 
+						$_POST['responses'],
+						$_POST['response-id'],
+						$submitFlag,
+						$errMsg);
+				}
+			}
+
+			// -----------------------------
+			// Cancelled - Don't do anything
+			// -----------------------------
 			
 			else if ($_POST['action'] === "cancelled") {
 			}
@@ -169,6 +204,22 @@ try {
 					// Delete the survey
 					DashBoard::deleteSurvey(
 						$_GET['survey-id'], 
+						$_SESSION['userId'],
+						$errMsg);
+				}
+			}
+			
+			// ---------------------------------------
+			// release a survey
+			// ---------------------------------------
+			
+			if ($_GET['action'] === "release-survey") {
+
+				if (!empty($_GET['instance-id'])) {
+					
+					// Delete the survey
+					DashBoard::releaseSurvey(
+						$_GET['instance-id'], 
 						$_SESSION['userId'],
 						$errMsg);
 				}
@@ -206,5 +257,10 @@ try {
 	<?php injectFooter(false); ?>
 	<div class="push"></div>
 	</div>
+	<script>
+		function areYouSure() {
+			return confirm('Are you sure?');
+		}
+	</script>
 </body>
 </html>

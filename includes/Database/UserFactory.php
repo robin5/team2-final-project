@@ -50,10 +50,7 @@ class UserFactory extends DatabaseFactory {
 		$row;
 		$userId = false;
 		
-		//$db = new mysqli('localhost','root','','ctec227_final_project');
 		$db = DatabaseConnectionFactory::getConnection();
-		
-		//var_dump($db);
 		
 		if ($password == null) {
 			$query = "SELECT user_id FROM users ";

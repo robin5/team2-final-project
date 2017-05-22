@@ -15,7 +15,6 @@ class QuestionFactory extends DatabaseFactory
 		
 		$db = DatabaseConnectionFactory::getConnection();
 		
-		var_dump($questionText);
 		$questionText = $db->escape_string($questionText);
 		
         $query = "INSERT INTO tbl_question (text) VALUES ('{$questionText}')";
