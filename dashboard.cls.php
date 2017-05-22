@@ -48,7 +48,7 @@ class DashBoard {
 				echo "<td>{$surveyInstance['start_date']}</td>";
 				echo "<td>{$surveyInstance['end_date']}</td>";
 				echo "<td>{$status}</td>";
-				echo "<td><a href=\"survey_results.php\">View Results</a>";
+				echo "<td><a href=\"survey_results.php?instance-id={$surveyInstance['instance_id']}&survey-name={$surveyInstance['name']}\">View Results</a>";
 				if ($status == 'Completed') {
 					echo "<br><a onclick=\"return areYouSure();\" href=\"dashboard.php?action=release-survey&instance-id={$surveyInstance['instance_id']}\">Release Results</a>";
 				}
