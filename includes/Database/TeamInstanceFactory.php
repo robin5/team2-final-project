@@ -58,5 +58,29 @@ class TeamInstanceFactory extends DatabaseFactory {
 		}
 		return $instanceTeams;
 	}
-}
 
+	public static function getInstanceTeamUserIds($instanceId, $teamId)	 {
+		
+		$userIds= false;
+	
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$query = "
+				SELECT tbl_team_user.user_id 
+				FROM tbl_team_user JOIN tbl_team_instance
+					ON tbl_team_user.team_id = tbl_team_instance.team_id
+				WHERE
+					tbl_team_instance.instance_id = {$instanceId} AND tbl_team_user.team_id = {$teamId}";
+		
+		if (false != ($result = $db->query($query))) {
+			$userIds = [];
+			while ($userId = $result->fetch_assoc()){
+				$userIds[] = $userId['user_id'];
+			}
+			$result->close();
+		} else {
+			self::$lastError = $db->error;
+		}
+		return $userIds;
+	}
+}

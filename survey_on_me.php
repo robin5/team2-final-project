@@ -9,6 +9,9 @@ try {
 	require_once('includes/header.php');
 	require_once('includes/nav.php');
 	require_once('includes/footer.php');
+	require_once('survey_on_me.cls.php');
+	require_once('includes/Database/TeamUserFactory.php');
+	require_once('includes/Database/SurveyInstanceFactory.php');
 	
 } catch(Exception $e) {
 	$error = $e->getMessage();
@@ -23,48 +26,50 @@ try {
 </head>
 <body>
 	<?php injectHeader(); ?>
-	<?php injectNav("Dashboard > Survey"); ?>
-	<h3><strong>CTEC-227 Spring 2017 (Team-1)</strong></h3><hr>
+	<?php
+		$errMsg = "";
+		$instanceId = false;
+		$teamId = false;
+		$reviewee = false;
+		$userIds = false;
+		$questions = false;
+		$surveyName = false;
+		$fullName = false;
+		
+		if ($_SERVER['REQUEST_METHOD'] === "GET") {
+			if (!empty($_GET['instance-id']) &&
+				!empty($_GET['team-id']) &&
+				!empty($_GET['reviewee']) &&
+				!empty($_GET['survey-name']) &&
+				!empty($_GET['full-name'])) {
+
+				$instanceId = $_GET['instance-id'];
+				$teamId = $_GET['team-id'];
+				$reviewee = $_GET['reviewee'];
+				$surveyName = $_GET['survey-name'];
+				$fullName = $_GET['full-name'];
+				
+				if (false === ($users = TeamUserFactory::getTeamMembersByTeamId($teamId))) {
+					$errMsg =  TeamInstanceFactory::getLastError();
+				} else if (false === ($questions = SurveyInstanceFactory::getSurveyInstanceQuestionIds($instanceId))) {
+					$errMsg =  TeamInstanceFactory::getLastError();
+				}
+			}
+		}
+	?>
+	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
 	<main>
-		<div>
-		<p>
-		1. Work cooperatively as part of a team and contribute in both leadership and supportive roles.</p>
-		Grade: <span style="background: white;">&nbsp;A&nbsp;</span><br>
-		<textarea id="input-q1" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;B&nbsp;</span><br>
-		<textarea id="input-q2" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;C&nbsp;</span><br>
-		<textarea id="input-q3" cols="80" rows="5"></textarea><br>
-		<br>		
-		<p>
-		2. Build relationships of trust, mutual respect and productive interactions.</p>
-		Grade: <span style="background: white;">&nbsp;A&nbsp;</span><br>
-		<textarea id="input-q4" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;B&nbsp;</span><br>
-		<textarea id="input-q5" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;C&nbsp;</span><br>
-		<textarea id="input-q6" cols="80" rows="5"></textarea><br>
-		<br>
-
-		<p>3. Be flexible, adapt to unanticipated situations and resolve conflicts</p>
-		Grade: <span style="background: white;">&nbsp;A&nbsp;</span><br>
-		<textarea id="input-q7" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;B&nbsp;</span><br>
-		<textarea id="input-q8" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;C&nbsp;</span><br>
-		<textarea id="input-q9" cols="80" rows="5"></textarea><br>
-		<br>
-
-		<p>4. Communicate and clarify ideas through well-written business correspondence, proposals, instructions, design summaries and client briefs. (Note: This includes all correspondence through email, Slack, and other communication methodologies adopted by your team.)</p>
-		Grade: <span style="background: white;">&nbsp;A&nbsp;</span><br>
-		<textarea id="input-q10" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;B&nbsp;</span><br>
-		<textarea id="input-q11" cols="80" rows="5"></textarea><br>
-		Grade: <span style="background: white;">&nbsp;C&nbsp;</span><br>
-		<textarea id="input-q12" cols="80" rows="5"></textarea><br>
-
-
-		</div>
+		<?php
+			if (!empty($errMsg)) {
+				injectDivError($errMsg);
+			}
+		?>
+		<h3><strong>About <?php  echo "{$fullName}"; ?></strong></h3><hr>
+		<?php 
+			if ($questions && $users) {
+				SurveyOnMe::injectQuestionAnswers($reviewee, $questions, $users);
+			}
+		?>
 	</main>
 	<?php injectFooter(); ?>
 </body>

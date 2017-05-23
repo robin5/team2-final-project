@@ -41,7 +41,7 @@ try {
 			}
 		?>
 		<br>
-		<?php SurveyResults::injectTeamTables($instanceId); ?>
+		<?php SurveyResults::injectTeamTables($instanceId, $surveyName); ?>
 	</main>
 	<?php injectFooter(); ?>
 </body>
