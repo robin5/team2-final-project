@@ -124,6 +124,38 @@ class QuestionResponseFactory extends DatabaseFactory {
 	}
 
 	/*********************************************************
+	 * Function: getResponse
+	 * Description: queries the database for responses
+	 * Return: an associative array containing
+	 *     responses to survey questions
+	 *********************************************************/
+	 
+	public static function getResponse($questionId, $reviewee, $reviewer) {
+		
+		$response = false;
+		
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$query = 
+		   "SELECT tbl_survey_response.text AS text, tbl_grade.text AS grade
+		   FROM tbl_survey_response JOIN tbl_grade
+				ON tbl_survey_response.grade_id = tbl_grade.grade_id
+			WHERE 
+				question_id = {$questionId} AND
+				reviewee = {$reviewee} AND 
+				reviewer = {$reviewer};";
+
+		if (false != ($result = $db->query($query))) {
+			$response = $result->fetch_assoc();
+			$result->close();
+		} else {
+			self::$lastError = $db->error;
+		}
+		
+		return $response;
+	}
+
+	/*********************************************************
 	 * Function: updateResponses 
 	 * Description: queries the database for responses
 	 * Return: an associative array containing

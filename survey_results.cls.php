@@ -3,14 +3,14 @@ require_once('includes/Database/TeamInstanceFactory.php');
 
 class SurveyResults {
 
-	public static function injectTeamTables($instanceId) {
+	public static function injectTeamTables($instanceId, $surveyName) {
 		
 		$lastTeamId = "";
 		$isFirst = true;
 		echo "<div id=\"div-entries\">";
 		echo "<table>";
 		if (false !== ($instanceTeams = TeamInstanceFactory::getInstanceTeams($instanceId))) {
-			//print_r($instanceTeams);
+
 			foreach($instanceTeams as $instanceTeam) {
 				
 				$teamId = $instanceTeam['team_id'];
@@ -30,7 +30,13 @@ class SurveyResults {
 				echo "<td>{$fullName}</td>";
 				echo "<td>{$instanceTeam['user_name']}</td>";
 				echo "<td><a href=\"responses.php?instance-id={$instanceId}&reviewer={$instanceTeam['user_id']}\">surveys</a></td>";
-				echo "<td><a href=\"survey_on_me.php?instance-id={$instanceId}&reviewee={$instanceTeam['user_id']}\">About&nbsp;{$instanceTeam['first_name']}</a></td>";
+				echo "<td><a href=\"survey_on_me.php" . 
+						"?instance-id={$instanceId}" .
+						"&survey-name={$surveyName}" .
+						"&full-name={$fullName}" .
+						"&team-id={$instanceTeam['team_id']}" . 
+						"&reviewee={$instanceTeam['user_id']}\">" . 
+						"About&nbsp;{$instanceTeam['first_name']}</a></td>";
 				echo "</tr>";
 			}
 		}

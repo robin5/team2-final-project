@@ -172,4 +172,40 @@ class surveyInstanceFactory extends DatabaseFactory {
 		}
 		return true;
 	}
+
+	
+	public static function getSurveyInstanceQuestionIds($instanceId) {
+		
+		$result;
+		$questionIds= false;
+		
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$query = 
+		
+			"SELECT 
+				tbl_question.text,
+				tbl_question.question_id
+			FROM tbl_question
+				JOIN tbl_survey_question
+					ON tbl_question.question_id = tbl_survey_question.question_id
+				JOIN tbl_survey
+					ON tbl_survey_question.survey_id = tbl_survey.survey_id
+			WHERE
+				tbl_survey.instance_id = {$instanceId}
+			ORDER BY
+				tbl_survey_question.qs_index";
+
+		if (false != ($result = $db->query($query))) {
+			$questionIds = [];
+			while ($questionId = $result->fetch_assoc()){
+				$questionIds[] = $questionId;
+			}
+			$result->close();
+		} else {
+			self::$lastError = $db->error;
+		}
+		return $questionIds;
+	}
+	
 }
