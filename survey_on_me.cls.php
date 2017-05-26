@@ -8,9 +8,13 @@ class SurveyOnMe {
 	
 		echo "<div>";
 		
+		$showReviewer = ($reviewee != $_SESSION['userId']);
+		
 		foreach($questions as $question) {
-			
+			echo "<div class=\"question\">";
+			echo "<div class=\"resp-grade\">";
 			echo "<p>{$question['text']}</p>";
+			echo "</div>";
 			foreach($users as $user) {
 				
 				$text = "";
@@ -19,10 +23,15 @@ class SurveyOnMe {
 					$text = $response['text'];
 					$grade = $response['grade'];
 				}
-				echo "<br>{$user['first_name']} {$user['last_name']}&nbsp;&nbsp;-&nbsp;&nbsp;";
+				if ($showReviewer) {
+					echo "<br>{$user['first_name']} {$user['last_name']}&nbsp;&nbsp;-&nbsp;&nbsp;";
+				}
+				echo "<div class=\"resp-grade\">";
 				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span><br>";
-				echo "<textarea cols=\"80\" rows=\"5\">{$text}</textarea><br>";
+				echo "</div>";
+				echo "<textarea class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea><br>";
 			}
+			echo "</div>";
 		}
 		echo "</div>";
 	}

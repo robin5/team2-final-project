@@ -30,7 +30,7 @@ class surveyInstanceFactory extends DatabaseFactory {
     }
 
 	/**********************************************************
-	 * Function: getSurveyInstances
+	 * Function: getSurveyInstancesByOwner
 	 * Description: Returns all survey instances from 
 	 *     tbl_survey_instance given the owner_id
 	 **********************************************************/
@@ -114,20 +114,20 @@ class surveyInstanceFactory extends DatabaseFactory {
 		$db = DatabaseConnectionFactory::getConnection();
 
 		// Define the query
-		$query = "";
-		$query .= "SELECT tbl_survey.name AS survey_name,tbl_survey.survey_id,tbl_team.name AS team_name,tbl_team.team_id,tbl_survey_instance.released ";
-		$query .= "	FROM users ";
-		$query .= "	JOIN tbl_team_user ";
-		$query .= "		ON users.user_id = tbl_team_user.user_id ";
-		$query .= "	JOIN tbl_team ";
-		$query .= "		ON tbl_team.team_id = tbl_team_user.team_id ";
-		$query .= "	JOIN tbl_team_instance ";
-		$query .= "		ON tbl_team_instance.team_id = tbl_team.team_id ";
-		$query .= "	JOIN tbl_survey_instance ";
-		$query .= "		ON tbl_survey_instance.instance_id=tbl_team_instance.instance_id ";
-		$query .= "	JOIN tbl_survey ";
-		$query .= "		ON tbl_survey.instance_id = tbl_survey_instance.instance_id ";
-		$query .= "WHERE users.user_id={$userId}";
+		$query = 
+		   "SELECT users.first_name,users.last_name,tbl_survey.name AS survey_name,tbl_survey.survey_id,tbl_survey.instance_id,tbl_team.name AS team_name,tbl_team.team_id,tbl_survey_instance.released 
+			FROM users 
+				JOIN tbl_team_user
+					ON users.user_id = tbl_team_user.user_id
+				JOIN tbl_team
+					ON tbl_team.team_id = tbl_team_user.team_id
+				JOIN tbl_team_instance
+					ON tbl_team_instance.team_id = tbl_team.team_id
+				JOIN tbl_survey_instance
+					ON tbl_survey_instance.instance_id=tbl_team_instance.instance_id
+				JOIN tbl_survey
+					ON tbl_survey.instance_id = tbl_survey_instance.instance_id
+			WHERE users.user_id={$userId}";
 
 		// Execute the query
 		if (false != ($result = $db->query($query))) {
