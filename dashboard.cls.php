@@ -168,21 +168,32 @@ class DashBoard {
 	public static function injectSurveysOnMeTable() {
 
 		echo "<h3>Surveys Results on Me</h3>";
-		echo "<table><tr><th>Survey</th><th>Action</th></tr>";
+		echo "<table><tr><th>Survey</th><th>Team</th><th>Action</th></tr>";
 		if (false === ($surveyResponses = SurveyInstanceFactory::getSurveyResponses($_SESSION['userId']))) {
 			$errMsg = surveyInstanceFactory::getLastError();
-			echo "<tr><td colspan=2>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+			echo "<tr><td colspan=3>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
 		} else {
 		
 			foreach($surveyResponses as $surveyResponse)  {
 				
+				$fullName = $surveyResponse['first_name'] . " " . $surveyResponse['last_name'];
+				
 				if ($surveyResponse['released']) {
-					$action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">Review</a>";
+					// $action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">Review</a>";
+					$action =
+						"<a href=\"survey_on_me.php" . 
+						"?instance-id={$surveyResponse['instance_id']}" .
+						"&survey-name={$surveyResponse['survey_name']}" .
+						"&full-name={$fullName}" .
+						"&team-id={$surveyResponse['team_id']}" . 
+						"&reviewee={$_SESSION['userId']}\">" . 
+						"Review</a>";
 				} else {
 					$action = "Pending...";
 				}
 				
 				echo "<td>{$surveyResponse['survey_name']}</td>";
+				echo "<td>{$surveyResponse['team_name']}</td>";
 				echo "<td>{$action}</td>";
 				echo "</tr>";
 			}
