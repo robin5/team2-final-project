@@ -47,19 +47,19 @@ try {
 	<?php injectNav("Register"); ?>
 	<main>
 	<?php injectDivError($registrationError); ?>
-		<div id="div-user">
+		<div id="div-register-user">
 		<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 			<div id="div-entries">
 			<label class="reg-label" for="username">User Name: </label>
-			<input class="reg-field" id="username" name="username" type="text" required value="robin"/><br><br>
+			<input class="reg-field" id="username" name="username" type="text" required /><br><br>
 			<label class="reg-label" for="password">Password: </label>
-			<input class="reg-field" id="password" name="password" type="text"  required value="1234"/><br><br>
+			<input class="reg-field" id="password" name="password" type="text"  required /><br><br>
 			<label class="reg-label" for="first-name">First Name: </label>
-			<input class="reg-field" id="first-name" name="first-name" type="text"  required value="Robin"/><br><br>
+			<input class="reg-field" id="first-name" name="first-name" type="text"  required /><br><br>
 			<label class="reg-label" for="last-name">Last Name: </label>
-			<input class="reg-field" id="last-name" name="last-name" type="text"  required value="Murray"/><br><br>
+			<input class="reg-field" id="last-name" name="last-name" type="text"  required /><br><br>
 			<label class="reg-label" for="email">E-Mail: </label>
-			<input class="reg-field" id="email" name="email" type="text" size="30" required value="first.last@students.clark.edu" /><br><br>
+			<input class="reg-field" id="email" name="email" type="text" size="30" required /><br><br>
 			
 			<label class="reg-label" for="chk-instructor">Instructor:<label>
 			<input id="chk-instructor" type="checkbox" name="instructor" value="2"><br><br>
