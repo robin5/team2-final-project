@@ -226,10 +226,6 @@ input {
 	padding-left: .2em;
 }
 
-textarea.ta-response {
-	width: 100%;
-}
-
 button.btn-analyze {
 	display: block;
 	float: left;
@@ -265,25 +261,64 @@ div.div-analyze {
 }
 
 /*************************************************
- * CSS for survey_on_me.php
+ * CSS for survey_on_me.php and responses.php
  *************************************************/
  
 .question {
 	background-color:#DBE5EB;
-	padding:4px;
-	margin:10px;
+	padding: 4px 10px 10px 10px;
+	margin: 10px 0 10px 0;
 }
 
-textarea.ta-response { 
+textarea.ta-response {
+     width: 100%;
+     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+     box-sizing: border-box;         /* Opera/IE 8+ */
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;
 	border-color: gray;
-	width: 80%;
-	margin:10px;
-	padding: 10px;	
 }
 
 .resp-grade {
-	margin-left: 10px;
+	clear: left;
+	margin: 12px 0 5px 4px;
 	font-weight:bold;
+}
+
+.resp-tone {
+	margin-top: -12px;
+}
+
+#txt-summary {
+}
+
+/*************************************************
+ * CSS for survey_on_me.php and responses.php
+ *************************************************/
+ 
+.resp-button {
+	display: inline-block;
+	float: left;
+	margin-bottom: 20px;
+	margin-top: 5px;
+}
+
+   table.tbl-analyze{
+    /*float: left;*/
+    display:inline-block;
+    padding: 0;
+	margin-top: 0;
+    margin-bottom: 10px;
+	margin-left:10px;
+    background-color: lightsalmon;
+}
+
+.clear-question {
+	clear: left;
+}
+
+#btn-summary {
+	width: auto;
+	display: block;
 }

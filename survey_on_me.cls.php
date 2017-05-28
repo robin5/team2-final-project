@@ -22,14 +22,17 @@ class SurveyOnMe {
 				if (false !== ($response = QuestionResponsefactory::getResponse($question['question_id'], $reviewee, $user['user_id']))) {
 					$text = $response['text'];
 					$grade = $response['grade'];
+					if (empty($grade)) {
+						$grade = "---";
+					}
 				}
+				echo "<div class=\"resp-grade\">";
 				if ($showReviewer) {
 					echo "<br>{$user['first_name']} {$user['last_name']}&nbsp;&nbsp;-&nbsp;&nbsp;";
 				}
-				echo "<div class=\"resp-grade\">";
 				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span><br>";
 				echo "</div>";
-				echo "<textarea class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea><br>";
+				echo "<textarea class=\"ta-response\" rows=\"5\">{$text}</textarea><br>";
 			}
 			echo "</div>";
 		}
