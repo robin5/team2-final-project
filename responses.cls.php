@@ -60,7 +60,7 @@ EOT;
 
 	public static function injectQuestionAnswers($reviewer, $questions, $users) {
 	
-		echo "<div>";
+		//echo "<div>";
 
 		$userIndex = 0;
 		$buttonIndex = 0;
@@ -84,16 +84,16 @@ EOT;
 				echo "<div class=\"resp-grade\">";
 				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span><br>";
 				echo "</div>";
-				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea><br>";
+				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea>";
 				
-				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Review</button><br>";
+				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Review</button>";
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
 				$buttonIndex++;
 			} // for each questions
 			echo "<div class=\"clear-question\"></div></div>";
 			$userIndex++;
 		} // for each users
-		echo "</div>";
+		//echo "</div>";
 	}
 
 	public static function injectUserTabs($users) {

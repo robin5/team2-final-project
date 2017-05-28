@@ -25,9 +25,7 @@
     //API
   	$data= $feedback;
     //Watson username and password
-  	//$credentials = '751ee35e-bd33-4c65-85a0-ae6baad1d03f : j8bVuMIj46JA';
-
-    $credentials = '95adcd29-4b80-4fa3-8ee7-1604ba4da748 : E3N7oVOwp4eG';
+   $credentials = '95adcd29-4b80-4fa3-8ee7-1604ba4da748 : E3N7oVOwp4eG';
   	//review all text for tone, not by sentence
   	$reviewAll ='&sentences=false';
 
@@ -52,7 +50,8 @@
     //Number of tone scores in each Tone array in categories
     $numTones='';
 
-    echo '<table id="analysis-all" class="tbl-analyze"><tbody>';
+    echo '<table class="tbl-analyze"><tbody>';
+    //echo '<table id="analysis-all" class="tbl-analyze"><tbody>';
     echo '<tr>';
 
     //this loop access the tone array and the name of the catagory
@@ -83,6 +82,7 @@
     echo '</tr">';//tone
 
    echo '</tbody></table">';//results
+   //echo '<button class="btn-hide" onclick=> Hide </button>'; //TEST
   } //END getTone function
 ////
 

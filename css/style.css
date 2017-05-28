@@ -49,7 +49,8 @@ header {
 	margin-right: 10px;
 	display: block;
 	float: right;
-	color:#FFF; 
+	color:#FFF;
+	text-transform:uppercase;
 }
 #header-bottom {
 	clear: both;
@@ -68,6 +69,7 @@ header {
 
 main {
 	padding: 0 20px 0 20px;
+	margin-top: 20px;
 }
 
 #div-register-user {
@@ -101,38 +103,50 @@ footer {
     height: 100px;
     width: 100%;
     overflow:hidden;
+    margin-top: 20px;
 }
 
 footer a {
 	color:#fff;
+	padding:8px;
+	/*border-radius: 2px;*/
+	text-transform: uppercase;
+    text-decoration: none;
+
+}
+
+footer a:hover, a:active {
+    background-color: #FF6C24;
 }
 
 span.footer-back {
 	float: left;
 	display: block;
 	padding: 20px;
-	font-size:1.5em;
+	font-size:1.15em;
 }
 
 span.footer-log-out {
 	float: right;
 	display: block;
 	padding: 20px;
-	font-size:1.5em;
+	font-size:1.15em;
 }
 
 span.footer-copyright {
 	display: block;
-	margin-top: 50px;
+	margin-top: 60px;
 	text-align: center;
-	font-size: 1.5em;
+	font-size: 1em;
 }
 
 table {
 	border: 3px solid #666;
 	border-collapse: collapse;	
 }
-th {background:#77A140;
+th {
+	/*background:#77A140;*/
+	background:#365e70;
 	color:#FFf;
 	padding:10px;
 	border:1px solid #666;
@@ -233,18 +247,18 @@ button.btn-analyze {
 	margin-bottom: 10px;
 }
 
-table.tbl-analyze {
+/*table.tbl-analyze {
 	float: left;
-	padding: 0;
+	padding: 10;
 	margin-bottom: 20px;
 }
-
+*/
 p.resp-grade {
 	clear: left;
 	margin-top: 20px;
 }
-
-div.div-analyze {
+div.div-analyze, #tone-summary, #txt-summary{
+/*div.div-analyze {*/
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -290,28 +304,63 @@ textarea.ta-response {
 	margin-top: -12px;
 }
 
-#txt-summary {
-}
 
 /*************************************************
  * CSS for survey_on_me.php and responses.php
  *************************************************/
- 
-.resp-button {
+#div-resp-student-select{
+	margin-top:40px;
+	font-size: 1.15em;
+}
+
+#reviewer{
+	font-size: 1em;
+	font-style: italic;
+	text-align: right;
+	padding-right: 5px;
+	/*    margin-bottom: 10px;
+	background: #FF6C24;
+    color: #fff;
+    padding: 5px 0 5px 15px;
+    margin-bottom: 20px;
+    font-size: 1.25em;
+    font-weight: bold;*/
+
+}
+
+#div-resp-student{
+	/*float:right;
+	color:#fff;
+	padding:0px;
+	*/
+	padding: 0 0 5px 15px;
+	display:block;
+	background-color: #FF6C24;
+}
+
+ button{
+ 	/*border-radius: 4px;*/
+ 	padding:6px;
+ 	font-size: 1em;
+ }
+
+#btn-summary, .btn-hide, .resp-button {
 	display: inline-block;
 	float: left;
+	margin-left:0px;
 	margin-bottom: 20px;
 	margin-top: 5px;
 }
+#btn-summary{
+	margin-top:20px;
+	margin-left:10px;}
 
    table.tbl-analyze{
     /*float: left;*/
     display:inline-block;
-    padding: 0;
-	margin-top: 0;
-    margin-bottom: 10px;
-	margin-left:10px;
-    background-color: lightsalmon;
+    padding: 10px;
+	margin: 10px;
+    background-color: #ff9f71;
 }
 
 .clear-question {
@@ -321,4 +370,16 @@ textarea.ta-response {
 #btn-summary {
 	width: auto;
 	display: block;
+}
+
+/*************************************************
+ * CSS for active and selected links on Dashboard and edit team
+ *************************************************/
+ a{	text-decoration: none;
+ 	text-transform:capitalize;
+    padding:4px;}
+ a:hover, a:active {
+    background-color: #DBE5EB;
+
+
 }

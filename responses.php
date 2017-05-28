@@ -61,16 +61,21 @@ try {
 		}
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
+	<!-- Amy moved from main -->
+			<div id="div-resp-student">
+			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
+		</div>
 	<main>
 		<?php
 			if (!empty($errMsg)) {
 				injectDivError($errMsg);
 			}
 		?>
+		<!-- AMY - moved to main
 		<div id="div-resp-student">
-			<h3><?php echo "Responses by {$fullName} ({$teamName})"; ?></h3>
-		</div>
-		
+			<div id="reviewer"><?php //echo "Responses by: {$fullName} ({$teamName})"; ?></div>
+		</div>-->
+
 		<?php 
 			if ($users) {
 				Responses::injectUserTabs($users);
@@ -80,13 +85,14 @@ try {
 		<!-- <SUMMARY> -->
 		<div id="txt-summary">	
 			<hr>
+
 			<div>
 				<button id='btn-summary' class="resp-button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">
 					Click to See Tone Summary
 				</button>
 			</div>
 			<div id="tone-summary"></div>
-		</div><br><br>
+		</div> 
 		
 		<?php 
 			if ($questions && $users) {
@@ -101,13 +107,28 @@ try {
 			tabClick(0);
 		});
 	
-		function toggleAnalyze() {
+/*		function toggleAnalyze() {
 			var value = $('#summary-analyze').css('display');
 			
 			if (value == 'block') {
 				value = $('#summary-analyze').css('display', 'none');
 			} else {
 				value = $('#summary-analyze').css('display', 'block');
+			}
+		}*/
+		function toggleAnalyze() {
+			var value = $('#tone-summary').css('display');
+
+			if (value == 'block') {
+				value = $('#tone-summary').css('display', 'none');
+
+				$("#btn-summary").html('Refresh');		
+				$("#btn-summary").attr("onclick","getAreaTxt('btn-summary','txt-summary','tone-summary')");
+
+			} else {
+				value = $('#tone-summary').css('display', 'block');
+				$("#btn-summary").html('Hide');
+
 			}
 		}
 		
@@ -117,7 +138,8 @@ try {
 				// if indexed tab is same as clicked index
 				 if ($(this).attr('id') == 'sp-tab-' + index) {
 					 // Change to selected color
-					 $(this).css('background-color', '#888');
+					 $(this).css('background-color', '#DBE5EB');
+					 $(this).css('padding', '10px');
 					 // Show div with answers
 					 $('#user-' + $(this).attr('data-index')).show();
 				 } else {
