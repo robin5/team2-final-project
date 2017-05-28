@@ -95,7 +95,7 @@ main {
 footer {
 	color:#fff;
 	background: #4E87A0;
-    position: absolute;
+    /*position: absolute;*/
     left: 0;
     bottom: 0;
     height: 100px;
