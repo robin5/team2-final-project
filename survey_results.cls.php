@@ -27,9 +27,21 @@ class SurveyResults {
 				
 				$fullName = "{$instanceTeam['first_name']}&nbsp;{$instanceTeam['last_name']}";
 				echo "<tr>";
+
 				echo "<td>{$fullName}</td>";
+
 				echo "<td>{$instanceTeam['user_name']}</td>";
-				echo "<td><a href=\"responses.php?instance-id={$instanceId}&reviewer={$instanceTeam['user_id']}\">surveys</a></td>";
+				//echo "<td><a href=\"responses.php?instance-id={$instanceId}&reviewer={$instanceTeam['user_id']}\">surveys</a></td>";
+
+				echo "<td><a href=\"responses.php" . 
+						"?instance-id={$instanceId}" .
+						"&survey-name={$surveyName}" .
+						"&full-name={$fullName}" .
+						"&team-id={$instanceTeam['team_id']}" . 
+						"&team-name={$instanceTeam['team_name']}" . 
+						"&reviewer={$instanceTeam['user_id']}\">" . 
+						"{$instanceTeam['first_name']}'s surveys</a></td>";
+
 				echo "<td><a href=\"survey_on_me.php" . 
 						"?instance-id={$instanceId}" .
 						"&survey-name={$surveyName}" .

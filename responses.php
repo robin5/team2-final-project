@@ -9,6 +9,9 @@ try {
 	require_once('includes/header.php');
 	require_once('includes/nav.php');
 	require_once('includes/footer.php');
+	require_once('includes/Database/TeamUserFactory.php');
+	require_once('includes/Database/SurveyInstanceFactory.php');
+	require_once('Responses.cls.php');
 	
 } catch(Exception $e) {
 	$error = $e->getMessage();
@@ -18,119 +21,86 @@ try {
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Edit Review</title>
+	<title>CSS Review By Student</title>
 	<link href="css/style.css" rel= "stylesheet" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<style>
-	.resp-grade{margin: 10px 0;}
-
-	button{margin-bottom:10px;}
-
-	.question {background-color:#DBE5EB; padding:4px; margin:10px;}
-	
-	textarea.ta-response { font-family: 'Open Sans', sans-serif;
-		font-size: 1em;
-    	border-color: gray;
-    	width: 80%;
-    	margin:10px;
-    	padding: 10px;	
-    }
-    .resp-grade{font-weight:bold;}
-
-    table.tbl-analyze{
-    /* float: left; */
-    display:inline-block;
-    padding: 0;
-    margin-bottom: 10px;
-    margin-left:80px;
-    background-color: lightsalmon;
-}
-#btn-summary{width:80%;
-margin-left:60px;}
-	</style>
-}
+	<script src="js/analyzetone.js"></script>
 </head>
 <body>
 	<?php injectHeader(); ?>
-	<?php injectNav("Dashboard > Responses by Richard Lint (Team-1)"); ?>
+	<?php
+		$errMsg = "";
+		$instanceId = false;
+		$teamId = false;
+		$userIds = false;
+		$questions = false;
+		$surveyName = false;
+		$fullName = false;
+		
+		if ($_SERVER['REQUEST_METHOD'] === "GET") {
+			if (!empty($_GET['instance-id']) &&
+				!empty($_GET['team-id']) &&
+				!empty($_GET['survey-name']) &&
+				!empty($_GET['team-name']) &&
+				!empty($_GET['full-name']) &&
+				!empty($_GET['reviewer'])) {
 
-	<!-- ROBIN put api script here temp. It should be moved to header once PHP starts generating the html -->
-	<script src="js/analyzetone.js"></script>
-
-	<!--                                                                             -->
-	<!-- HTML form Moc for demo -->
-	<strong>Richard Lint | <span style="background-color: #888;">Patrick McCulley</span> | Andrey Demchenko</strong><hr>
+				$instanceId = $_GET['instance-id'];
+				$teamId = $_GET['team-id'];
+				$surveyName = $_GET['survey-name'];
+				$fullName = $_GET['full-name'];
+				$teamName = $_GET['team-name'];
+				$reviewer = $_GET['reviewer'];
+				
+				if (false === ($users = TeamUserFactory::getTeamMembersByTeamId($teamId))) {
+					$errMsg =  TeamInstanceFactory::getLastError();
+				} else if (false === ($questions = SurveyInstanceFactory::getSurveyInstanceQuestionIds($instanceId))) {
+					$errMsg =  TeamInstanceFactory::getLastError();
+				}
+			}
+		}
+	?>
+	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
 	<main>
+		<?php
+			if (!empty($errMsg)) {
+				injectDivError($errMsg);
+			}
+		?>
+		<div id="div-resp-student">
+			<h3><?php echo "Responses by {$fullName} ({$teamName})"; ?></h3>
+		</div>
+		
+		<?php 
+			if ($users) {
+				Responses::injectUserTabs($users);
+			}
+		?>
 
 		<!-- <SUMMARY> -->
 		<div id="txt-summary">	
-			<div><button id='btn-summary' class="button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">Click to See Tone Summary</button></div>
+			<hr>
+			<div>
+				<button id='btn-summary' class="resp-button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">
+					Click to See Tone Summary
+				</button>
+			</div>
 			<div id="tone-summary"></div>
-		</div>
+		</div><br><br>
 		
-		<!-- <QUESTIONS> -->
-		<div>
-		<div class="question">
-		<div class="resp-grade">Grade: 
-		<select>
-		  <option value="a">A</option>
-		  <option value="b">B</option>
-		  <option value="c">C</option>
-		  <option value="d">D</option>
-		</select>
-		<span style="background: white;">&nbsp;A&nbsp;</span> Work cooperatively as part of a team and contribute in both leadership and supportive roles.</div>
-		<textarea id="txt-q1" class="ta-response" rows="5" placeholder="Enter text here...">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</textarea>
-		<br><button id="btn-q1" class="button" onclick="getAreaTxt('btn-q1','txt-q1','tone-q1')">Review</button><br>
-		<div id="tone-q1"><p></p></div>
-		</div>
-
-		<div class="question">
-		<p class="resp-grade">Grade: 
-				<select>
-		  <option value="a">A</option>
-		  <option value="b" selected>B</option>
-		  <option value="c">C</option>
-		  <option value="d">D</option>
-		</select>
-		<span style="background: white;">&nbsp;A&nbsp;</span> Build relationships of trust, mutual respect and productive interactions.</p>
-		<textarea id="txt-q2" class="ta-response" rows="5" placeholder="Enter text here...">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</textarea>
-		<br><button id="btn-q2" class="button" onclick="getAreaTxt('btn-q2','txt-q2','tone-q2')">Review</button><br>
-		<div id="tone-q2"><p></p></div>
-		</div>
-
-		<div class="question">
-		<p class="resp-grade">Grade: 
-		<select>
-		  <option value="a">A</option>
-		  <option value="b">B</option>
-		  <option value="c" selected>C</option>
-		  <option value="d">D</option>
-		</select>
-		<span style="background: white;">&nbsp;A&nbsp;</span> Be flexible, adapt to unanticipated situations and resolve conflicts</p>
-		<textarea id="txt-q3" class="ta-response" rows="5" placeholder="Enter text here...">Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</textarea>
-		<br><button id="btn-q3" class="button" onclick="getAreaTxt('btn-q3','txt-q3','tone-q3')">Review</button><br>
-		<div id="tone-q3"><p></p></div>
-		</div>
-		
-		<div class="question">
-		<p class="resp-grade">Grade: 
-		<select>
-		  <option value="a">A</option>
-		  <option value="b">B</option>
-		  <option value="c">C</option>
-		  <option value="d" selected>D</option>
-		</select>
-		<span style="background: white;">&nbsp;A&nbsp;</span> Communicate and clarify ideas through well-written business correspondence, proposals, instructions, design summaries and client briefs. (Note: This includes all correspondence through email, Slack, and other communication methodologies adopted by your team.)</p>
-		<textarea id="txt-q4" class="ta-response" rows="5" placeholder="Enter text here...">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</textarea>
-		<br><button id="btn-q4" class="button" onclick="getAreaTxt('btn-q4','txt-q4','tone-q4')">Review</button><br>
-		<div id="tone-q4"><p></p></div>
-		</div>
-		</div> 
-
-
+		<?php 
+			if ($questions && $users) {
+				Responses::injectQuestionAnswers($reviewer, $questions, $users);
+			}
+		?>
 	</main>
-	<!--  -->
-		<script>
+	<?php injectFooter(); ?>
+	<script>
+	
+		$(document).ready(function(){
+			tabClick(0);
+		});
+	
 		function toggleAnalyze() {
 			var value = $('#summary-analyze').css('display');
 			
@@ -140,9 +110,26 @@ margin-left:60px;}
 				value = $('#summary-analyze').css('display', 'block');
 			}
 		}
+		
+		function tabClick(index) {
+			// loop through tabs class
+			$('.sp-tab').each(function(){
+				// if indexed tab is same as clicked index
+				 if ($(this).attr('id') == 'sp-tab-' + index) {
+					 // Change to selected color
+					 $(this).css('background-color', '#888');
+					 // Show div with answers
+					 $('#user-' + $(this).attr('data-index')).show();
+				 } else {
+					 // Change to not selected color
+					 $(this).css('background-color', '#fff');
+					 // Hide div with answers
+					 $('#user-' + $(this).attr('data-index')).hide();
+				 }
+			});
+		}
 	</script>
 
 </body>
 
-	<?php //injectFooter(); ?>
 </html>

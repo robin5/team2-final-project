@@ -21,7 +21,7 @@ try {
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Edit Review</title>
+	<title>CSS Review On Student</title>
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
