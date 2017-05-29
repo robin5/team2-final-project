@@ -1,16 +1,24 @@
 /**/
 
 	function analyzeTone(textArea, respDiv) {
-		$.ajax({
-			type: "GET",  
-			url: './includes/ToneAnalyzer/tone.inc.php', 
-			data: { feedback : textArea},
 
-			success:function(html) {
-				var toneanalyze = $(respDiv);
-				toneanalyze.html(html);
-			}
-		});
+		if (textArea !='') {
+			$.ajax({
+				type: "GET",  
+				url: './includes/ToneAnalyzer/tone.inc.php', 
+				data: { feedback : textArea},
+			
+				success:function(html) {
+					var toneanalyze = $(respDiv);
+					toneanalyze.html(html);
+
+				},
+				error: function(){
+					$(respDiv).html('<div class="tone-error">An error occurred</div>');
+				}
+			});
+		} else {var toneanalyze = $(respDiv);
+				toneanalyze.html('<div class="tone-error">ERROR: Nothing to Review...Please type your peer review in the text box above.</div>')};
 	}
 	  
 	/***************************************************

@@ -29,8 +29,15 @@
   	//review all text for tone, not by sentence
   	$reviewAll ='&sentences=false';
 
+///////// LOCAL TEST  /////////
+//    $url="sampledata.json";
+//    $data = file_get_contents($url);
+//    $tone_data = json_decode(($data),true);
+    //print_r ($data);
+/////////          /////////
+
     //API path to Watson service
-  	$url= "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=".urlencode($data).$reviewAll;
+ 	$url= "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=".urlencode($data).$reviewAll;
 
   	//CALL CURL callAPI & convert json to array
   	$tone_data = json_decode(CallAPI('GET', $url, $credentials),true);

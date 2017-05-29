@@ -304,7 +304,11 @@ textarea.ta-response {
 	margin-top: -12px;
 }
 
-
+.tone-error{
+	display:inline-block;
+	background-color:yellow;
+	margin:20px 40px;
+}
 /*************************************************
  * CSS for survey_on_me.php and responses.php
  *************************************************/
