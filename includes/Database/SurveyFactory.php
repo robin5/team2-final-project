@@ -211,7 +211,7 @@ class SurveyFactory extends DatabaseFactory {
 		
 		if (false !== ($surveyId = self::duplicateSurvey($surveyId, $ownerId))){
 			// Note: that $surveyId now point to new duplicate survey
-			if (false !== ($instanceId = SurveyInstanceFactory::insert($surveyId, $ownerId, $start, $end))) {
+			if (false !== ($instanceId = SurveyInstanceFactory::insert($start, $end))) {
 				// Update the new survey's instance
 				if (false !== self::updateSurveyInstance($surveyId, $instanceId, $ownerId)) {
 					// Attach the teams to the new survey's instance
