@@ -267,9 +267,9 @@ class DashBoard {
 		return $status;
 	}
 
-	public static function startSurvey($surveyId, $ownerId, $startDateTime, $endDateTime, $teams, &$errMsg) {
+	public static function startSurvey($instanceName, $surveyId, $ownerId, $startDateTime, $endDateTime, $teams, &$errMsg) {
 
-		$status = SurveyFactory::startSurvey($surveyId, $ownerId, $startDateTime, $endDateTime, $teams);
+		$status = SurveyFactory::startSurvey($instanceName, $surveyId, $ownerId, $startDateTime, $endDateTime, $teams);
 		if (false === $status) {
 			$errMsg = SurveyInstanceFactory::getLastError();
 		} else {

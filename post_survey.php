@@ -20,10 +20,14 @@ try {
 </head>
 <body>
 	<?php injectHeader(); ?>
-	<?php injectNav("Dashboard > Post Review"); ?>
+	<?php injectNav("Dashboard > Post Survey"); ?>
 	<main>
 	<form action="dashboard.php" method="post">
-		<div id="div-entries">
+		<div id="div-post-survey">
+			<br><br>
+			<label for="instance-name" class="lbl-post-survey">Instance Name:</label>
+			<input id="instance-name" type="text" class="inp-post-survey" name="instance-name" required />
+			<br><br>
 			<?php PostSurvey::injectSurveySelect(); ?>
 			<br><br>
 			<?php PostSurvey::injectTeamSelect(); ?>
