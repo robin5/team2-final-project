@@ -8,16 +8,13 @@ class surveyInstanceFactory extends DatabaseFactory {
 	 * Description: Starts a new survey instance
 	 *********************************************************/
 	 
-    public static function insert($surveyId, $ownerId, $start, $end) {
+    public static function insert($start, $end) {
         
 		$instanceId = false;
 		
 		$db = DatabaseConnectionFactory::getConnection();
 		
-		//$surveyName = $db->escape_string($surveyName);
-		$ownerId = $db->escape_string($ownerId);
-		
-        $query = "INSERT INTO tbl_survey_instance (survey_id, owner_id, start_date, end_date) VALUES ('{$surveyId}','{$ownerId}','{$start}','{$end}')";
+        $query = "INSERT INTO tbl_survey_instance (start_date, end_date) VALUES ('{$start}','{$end}')";
 
 		// Insert instance into database
         if ($db->query($query) === true) {
