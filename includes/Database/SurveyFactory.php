@@ -207,9 +207,9 @@ class SurveyFactory extends DatabaseFactory {
 	 *     PROCEDURE IN THE DATABASE
 	 **********************************************************/
 	 
-	public static function startSurvey($surveyId, $ownerId, $start, $end, $teams) {
+	public static function startSurvey($instanceName, $surveyId, $ownerId, $start, $end, $teams) {
 		
-		if (false !== ($surveyId = self::duplicateSurvey($surveyId, $ownerId))){
+		if (false !== ($surveyId = self::duplicateSurvey($instanceName, $surveyId, $ownerId))){
 			// Note: that $surveyId now point to new duplicate survey
 			if (false !== ($instanceId = SurveyInstanceFactory::insert($start, $end))) {
 				// Update the new survey's instance
@@ -233,13 +233,11 @@ class SurveyFactory extends DatabaseFactory {
 	 * [REVISIT] THIS SHOULD BE A TRANSACTION
 	 **********************************************************/
 	 
-	public static function duplicateSurvey($surveyId, $ownerId) {
+	public static function duplicateSurvey($instanceName, $surveyId, $ownerId) {
 
-		if (false !== ($survey = self::getSurvey($surveyId, $ownerId))) {
-			if (false !== ($questions = SurveyQuestionFactory::getSurveyQuestions($surveyId))) {
-				if (false !== ($newSurveyId = self::insertSurvey($survey['name'], $ownerId, $questions))) {
-					return $newSurveyId;
-				}
+		if (false !== ($questions = SurveyQuestionFactory::getSurveyQuestions($surveyId))) {
+			if (false !== ($newSurveyId = self::insertSurvey($instanceName, $ownerId, $questions))) {
+				return $newSurveyId;
 			}
 		}
 		return false;

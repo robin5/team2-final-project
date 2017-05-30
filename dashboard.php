@@ -123,13 +123,15 @@ try {
 			else if ($_POST['action'] === "start-survey") {
 
 				// Verify having all parameters
-				if (!empty($_POST['survey-id']) &&
+				if (!empty($_POST['instance-name']) &&
+					!empty($_POST['survey-id']) &&
 					!empty($_POST['survey-start']) && 
 					!empty($_POST['survey-end']) &&
 					!empty($_POST['survey-teams'])) {
 					
 					// start the survey
 					DashBoard::startSurvey(
+						$_POST['instance-name'], 
 						$_POST['survey-id'], 
 						$_SESSION['userId'], 
 						$_POST['survey-start'], 
