@@ -9,14 +9,43 @@ try {
 	require_once('includes/header.php');
 	require_once('includes/nav.php');
 	require_once('includes/footer.php');
-	
-	if ($_SERVER['REQUEST_METHOD']) {
-		$userName = $_GET['user-name'];
-	}
+	require_once('take_survey.cls.php');
 	
 } catch(Exception $e) {
 	$error = $e->getMessage();
 }
+?>
+<?php
+
+	$errMsg = "";
+	$surveyId = 0;
+	$surveyName = "";
+	$teamName = "";
+	$reviewerId = 0;
+	$revieweeId = 0;
+	$questions = false;
+	$responses = false;
+
+	if ($_SERVER['REQUEST_METHOD'] == "GET") {
+		// Create a survey
+		if (!empty($_GET['survey-id']) &&
+			!empty($_GET['reviewer-id']) &&
+			!empty($_GET['reviewee-id'])) {
+			
+			$surveyId = $_GET['survey-id'];
+			$surveyName = $_GET['survey-name'];
+			$teamName = $_GET['team-name'];
+			$reviewerId = $_GET['reviewer-id'];
+			$revieweeId = $_GET['reviewee-id'];
+			$revieweeName = $_GET['reviewee-name'];
+
+			if (false === ($questions = QuestionResponseFactory::getQuestions($surveyId))) {
+				$errMsg = QuestionResponseFactory::getLastError();
+			} else if (false === ($responses = QuestionResponseFactory::getResponses($revieweeId, $_SESSION['userId']))) {
+				$errMsg = QuestionResponseFactory::getLastError();
+			} 
+		}
+	}
 ?>
 <!doctype html>
 <html lang="en">
@@ -24,68 +53,42 @@ try {
 	<meta charset="UTF-8">
 	<title>Edit Review</title>
 	<link href="css/style.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
 	<?php injectHeader(); ?>
-	<?php injectNav("Dashboard > Survey"); ?>
-	<h1><strong><?php echo($userName); ?></strong></h1><hr>
-	
+	<?php injectNav("Dashboard > Survey: {$surveyName}"); ?>
+	<?php injectDivError($errMsg); ?>
+	<h1><strong><?php echo "{$teamName}: {$revieweeName}"; ?></strong></h1><hr>
 	<main>
-		<div>
-		<p><label for="select-grade-1">Grade:</label>
-		<select id="select-grade-1">
-			<option>A</option>
-			<option>B</option>
-			<option>C</option>
-			<option>D</option>
-			<option>F</option>
-		</select>&nbsp;
-		Work cooperatively as part of a team and contribute in both leadership and supportive roles.</p>
-		<textarea id="input-q1" cols="80" rows="5"></textarea><br>
-		<br>		
-		<p><label for="select-grade-1">Grade:</label>
-		<select id="select-grade-1">
-			<option>A</option>
-			<option>B</option>
-			<option>C</option>
-			<option>D</option>
-			<option>F</option>
-		</select>&nbsp;
-		Build relationships of trust, mutual respect and productive interactions.</p>
-		<textarea id="input-q2" cols="80" rows="5"></textarea>
-		<br>
-
-		<p><label for="select-grade-1">Grade:</label>
-		<select id="select-grade-1">
-			<option>A</option>
-			<option>B</option>
-			<option>C</option>
-			<option>D</option>
-			<option>F</option>
-		</select>&nbsp;
-		Be flexible, adapt to unanticipated situations and resolve conflicts</p>
-		<textarea id="input-q3" cols="80" rows="5"></textarea>
-		<br>
-
-		<p><label for="select-grade-1">Grade:</label>
-		<select id="select-grade-1">
-			<option>A</option>
-			<option>B</option>
-			<option>C</option>
-			<option>D</option>
-			<option>F</option>
-		</select>&nbsp;
-		Communicate and clarify ideas through well-written business correspondence, proposals, instructions, design summaries and client briefs. (Note: This includes all correspondence through email, Slack, and other communication methodologies adopted by your team.)</p>
-		<textarea id="input-q4" cols="80" rows="5"></textarea>
-		<br><br>
-
-		</div>
-		<form>
-			<button style="font-size: 1.25em;">Save & Exit</button>
-			<span style="font-size: 1.25em;">&nbsp;|&nbsp;</span>
-			<button type="submit" style="font-size: 1.25em;">Submit</button>
-		</form>
+		<?php TakeSurvey::injectSurveyQuestions($surveyId, $revieweeId, $questions, $responses); ?>
 	</main>
 	<?php injectFooter(); ?>
+	<script>
+		// fill in required fields with some data
+		function fakeFillFields() {
+			$('textarea').val(" ");
+			$('#survey-name').val(" ");
+			return true;
+		}
+		
+		function isValidForm(evt) {
+			var isValid = true;
+			$('textarea').each(function(){
+				if ($(this).val() == "") {
+					isValid = false;
+				}
+			});
+			
+			$('select').each(function(){
+				console.log($(this).val());
+				if ($(this).val() == 0) {
+					alert("You must select a grade for each question.");
+					isValid = false;
+				}
+			});
+			return isValid;
+		}
+	</script>
 </body>
 </html>

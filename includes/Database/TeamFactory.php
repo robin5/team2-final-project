@@ -36,7 +36,7 @@ class TeamFactory extends DatabaseFactory
 	 *     given them team_id
 	 *******************************************************/
 	 
-	public static function getTeams($teamId) {
+	public static function getTeams($ownerId) {
 		
 		$result;
 		$row;
@@ -45,7 +45,7 @@ class TeamFactory extends DatabaseFactory
 		
 		$db = DatabaseConnectionFactory::getConnection();
 		
-		$query = "SELECT name, team_id FROM tbl_team where owner_id = {$teamId} ORDER BY name";
+		$query = "SELECT name, team_id FROM tbl_team where owner_id = {$ownerId} ORDER BY name";
 
 		if (false != ($result = $db->query($query))) {
 			$teams = [];

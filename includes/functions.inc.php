@@ -118,5 +118,8 @@ function getSurveyQuestions($surveyId) {
 	return SurveyFactory::getSurveyQuestion($surveyId);
 }
 
+function logout($data) {
+	file_put_contents("css.log", $data . "\r\n", FILE_APPEND);
+}
 
 ?>

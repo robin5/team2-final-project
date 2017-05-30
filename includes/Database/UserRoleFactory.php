@@ -2,7 +2,6 @@
 
 require_once('Database.php');
 require_once('UserRole.php');
-//require_once('../util.inc.php');
 
 class UserRoleFactory
 {
@@ -57,9 +56,4 @@ class UserRoleFactory
 		}
 		return $roles;
 	}
-public static function pre_dump($variable) {
-	echo "<pre>";
-	var_dump($variable);
-	echo "</pre>";
-}
 }
