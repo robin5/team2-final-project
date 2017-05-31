@@ -143,12 +143,19 @@ class SurveyFactory extends DatabaseFactory {
 	 * Description: 
 	 *******************************************************/
 	 
-	public static function updateSurvey($surveyName, $questions, $ownerId) {
+	public static function updateSurvey($surveyId, $surveyName, $ownerId, $questions) {
 	
-		$status = false;
-		self::$lastError = "Not Yet Implemented";
-		
-		return $status;
+		if (false === ($status = SurveyQuestionFactory::deleteSurvey($surveyId))) {
+			return false;
+		} else {
+			$numQuestions = count($questions);
+			for($qs_index = 0; $qs_index < $numQuestions; $qs_index++) {
+				if (false === SurveyQuestionFactory::insert($surveyId, $questions[$qs_index], $qs_index)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	/*******************************************************

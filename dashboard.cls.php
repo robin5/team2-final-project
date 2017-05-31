@@ -162,8 +162,6 @@ class DashBoard {
 		}
 		echo "</table>";
 	}
-
-
 	
 	public static function injectSurveysOnMeTable() {
 
