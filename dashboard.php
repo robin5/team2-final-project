@@ -101,11 +101,12 @@ try {
 			// ---------------------------------------
 			
 			else if ($_POST['action'] === "edit-survey") {
+
 				// Verify having all parameters
 				if (!empty($_POST['survey-id']) &&
 					!empty($_POST['survey-name']) && 
 					!empty($_POST['survey-questions'])) {
-					
+
 					// Update the survey
 					DashBoard::updateSurvey(
 						$_POST['survey-id'], 

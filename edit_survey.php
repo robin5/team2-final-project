@@ -44,9 +44,10 @@ function injectDivSurvey($surveyName, $surveyId) {
 
 		<label for="survey-name">Survey Name:</label>
 		<input id="survey-name" name="survey-name" type="text" value="<?php echo "{$surveyName}"?>" required/><br><br>
+		<input id="survey-id" name="survey-id" type="hidden" value="<?php echo "{$surveyId}"?>"><br><br>
 		
 		<table>
-			<tr><th>Question</th><th>Action</th><tr>
+			<tr><th>Question</th><th>Action</th></tr>
 			
 			<?php 
 				$rowId = 0;
@@ -54,7 +55,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 				if (false !== $surveyId) {
 					if (false != ($questions = SurveyQuestionFactory::getSurveyQuestions($surveyId))) {
 						foreach($questions as $question) {
-							$tr = "<tr id=row-\"{$rowId}\">";
+							$tr = "<tr id=row-{$rowId} class=\"question-row\">";
 							$tr .= "<td><textarea name=\"survey-questions[{$rowId}]\" cols=\"80\" rows=\"5\" required>{$question}</textarea></td>";
 							$tr .= "<td><span id=\"delete-row{$rowId}\" class=\"fake-anchor\">delete</span></td></tr>";
 							echo $tr;
@@ -122,21 +123,22 @@ function injectDivSurvey($surveyName, $surveyId) {
 	<?php injectFooter(); ?>
 	<script>
 	
+		var rowId;
+
 		$(document).ready(function(){
-			// addBlankRow();
+			rowId = $('.question-row').length - 1;
+			console.log("Num rows = " + rowId);
 		});
 
-		var rowId = 0;
-
 		function addBlankRow() {
-			$('#tr-add').before(getNextRow());
+			$('#tr-add').before(getNextRowId());
 		}
 
-		function getNextRow() {
-			var tr = '<tr id=row-"' + rowId + '">';
+		function getNextRowId() {
+			rowId++;
+			var tr = '<tr id=row-' + rowId + ' class="question-row">';
 			tr += '<td><textarea name="survey-questions[' + rowId + ']" cols="80" rows="5" required></textarea></td>';
 			tr += '<td><span id="delete-row' + rowId + '" class="fake-anchor">delete</span></td></tr>'
-			rowId++;
 			return tr;
 		}
 		
