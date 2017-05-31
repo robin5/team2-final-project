@@ -154,6 +154,22 @@ class SurveyFactory extends DatabaseFactory {
 					return false;
 				}
 			}
+			if (false === SurveyFactory::updateSurveyName($surveyId, $surveyName, $ownerId)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static function updateSurveyName($surveyId, $surveyName, $ownerId) {
+		
+		$query = "UPDATE tbl_survey SET name = '{$surveyName}' WHERE survey_id={$surveyId} AND owner_id={$ownerId};";
+		
+		$db = DatabaseConnectionFactory::getConnection();
+
+		if (false === $db->query($query)) {
+			self::$lastError = $db->error;
+			return false;
 		}
 		return true;
 	}
@@ -283,5 +299,4 @@ class SurveyFactory extends DatabaseFactory {
 		}
 		return true;
 	}
-	
 }

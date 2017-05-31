@@ -72,11 +72,8 @@ class SurveyQuestionFactory
 		$db = DatabaseConnectionFactory::getConnection();
 
 		$query = "DELETE FROM tbl_survey_question WHERE survey_id = {$surveyId}";
-			echo "<br>{$query} ";
-		
-			echo "got here J ";
+
 		if (false !== $db->query($query)) {
-			echo "got here K ";
 			return true;
 		} else {
 			$lastError = $db->error;
