@@ -232,7 +232,7 @@ try {
 	<?php
 		if ($_SESSION['role_instructor'] === true) {
 			echo "<ul>";
-			echo "<li><a href=\"edit_survey.php?action=create\">Create a survey</a></li>";
+			echo "<li><a href=\"edit_survey.php?action=create\">Create a survey template</a></li>";
 			echo "<li><a href=\"edit_team.php\">Create a team</a></li>";
 			echo "<li><a href=\"post_survey.php\">Launch a Survey</a></li>";
 			echo "</ul><hr>";
@@ -246,13 +246,12 @@ try {
 		?>
 		<?php
 			if (true === $_SESSION['role_instructor']) {
-				DashBoard::injectSurveysTable();
-				echo "<hr>";
+				DashBoard::injectSurveyInstancesTable();
+				echo "<br><hr>";
+				DashBoard::injectSurveyTemplatesTable();
 				DashBoard::injectTeamsTable($userId);
-				echo "<hr>";
 			} else if (true === $_SESSION['role_student']){
 				DashBoard::injectPendingSurveysTable();
-				//echo "<hr>";
 				DashBoard::injectSurveysOnMeTable();
 			}
 		?>
