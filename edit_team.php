@@ -29,6 +29,7 @@ try {
 function injectUsersSelect() {
 
 	if (false != ($users = getAllUsers())) {
+		echo "<option value=\"0\" selected>--Select a student--</option>";
 		foreach($users as $user) {
 			
 			$firstLast = "{$user['first_name']} {$user['last_name']}";
@@ -44,13 +45,14 @@ function injectUsersSelect() {
 
 		echo "<table id=\"tbl-edit-team\">";
 		echo "<tr><td id=\"table-team-name\" colspan=\"4\">{$teamName}</td></tr>";
-		echo "<tr><th class=\"td-user-id\" style=\"display:none;\"></th><th>User</th><th>Name</th><th>Action</th></tr>";
+		//echo "<tr><th class=\"td-user-id\" style=\"display:none;\"></th><th>User</th><th>Name</th><th>Action</th></tr>";
+		echo "<tr><th>User</th><th>Name</th><th>Action</th></tr>";
 
 		if (false != ($members = getTeamMembers($teamId))) {
 			foreach($members as $user) {
 				echo "<tr>";
-				echo "<td class=\"td-user-id\" style=\"display:none;\">{$user['user_id']}</td>";
-				echo "<td>{$user['user_name']}</td>";
+				//echo "<td class=\"td-user-id\" style=\"display:none;\">{$user['user_id']}</td>";
+				echo "<td data-user-id=\"{$user['user_id']}\">{$user['user_name']}</td>";
 				echo "<td>{$user['first_name']}" . " " . "{$user['last_name']}</td>";
 				echo "<td><a onclick = \"return confirm('Are you sure?');\" href=\"#\">delete</a></td>";
 				echo "</tr>";
@@ -132,9 +134,9 @@ function injectUsersSelect() {
 
 			// Get user IDs from <td> elements in table
 			var userIds = [];
-			$('.td-user-id').each(function(){
+			$('td[data-user-id]').each(function(){
 				// Add userId values to an array
-				userIds.push($(this).text());
+				userIds.push($(this).attr('data-user-id'));
 			});
 			
 			// Copy user IDs to hidden controls value attribute
@@ -158,8 +160,8 @@ function injectUsersSelect() {
 		
 		function getNextRow(userId, userName, firstLast) {
 			var row = '<tr id="row' + userId + '">';
-			row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
-			row += '<td>' + userName + '</td>';
+			//row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
+			row += '<td data-user-id="' + userId + '">' + userName + '</td>';
 			row += '<td>' + firstLast + '</td>';
 			row += '<td><span id="delete-row' + userId + '" class="fake-anchor">delete</span></td></tr>'
 			console.log(row);

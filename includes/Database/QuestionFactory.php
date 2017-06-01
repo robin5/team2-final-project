@@ -48,5 +48,30 @@ class QuestionFactory extends DatabaseFactory
 		}
         return $text;
     }
+	
+	/**************************************************************
+	 * Function: deleteQuestionsBySurveyId 
+	 * Description: deletes all questions from the survey specified
+	 *              by surveyId.
+	 **************************************************************/
+	 
+	public static function deleteQuestionsBySurveyId($surveyId) {
+		
+		$db = DatabaseConnectionFactory::getConnection();
+
+		$query = 
+		   "DELETE FROM tbl_question 
+			WHERE question_id IN
+				(SELECT question_id
+				 FROM tbl_survey_question 
+				 WHERE survey_id={$surveyId})";
+
+		if (false !== $db->query($query)) {
+			return true;
+		} else {
+			$lastError = $db->error;
+		}
+		return false;
+	}
 }
 	

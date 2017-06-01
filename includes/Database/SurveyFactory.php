@@ -1,5 +1,6 @@
 <?php
 require_once('Database.php');
+require_once('QuestionFactory.php');
 require_once('SurveyQuestionFactory.php');
 require_once('TeamInstanceFactory.php');
 
@@ -145,7 +146,9 @@ class SurveyFactory extends DatabaseFactory {
 	 
 	public static function updateSurvey($surveyId, $surveyName, $ownerId, $questions) {
 	
-		if (false === ($status = SurveyQuestionFactory::deleteSurvey($surveyId))) {
+		if (false === QuestionFactory::deleteQuestionsBySurveyId($surveyId)) {
+			return false;
+		} else if (false === SurveyQuestionFactory::deleteSurvey($surveyId)) {
 			return false;
 		} else {
 			$numQuestions = count($questions);
