@@ -7,17 +7,16 @@ require_once('includes/Database/SurveyInstanceFactory.php');
 
 class DashBoard {
 
-	public static function injectSurveysTable() {
+	public static function injectSurveyInstancesTable() {
 
 		$numRows = 0;
 
-		echo "<h3>My Surveys</h3>";
+		echo "<h3>Survey Instances</h3>";
 		echo "<table><tr><th>Survey</th><th>Start Date</th><th>End Date</th><th>Status</th><th>Action</th></tr>";
 
 		if (false === ($surveyInstances = surveyInstanceFactory::getSurveyInstancesByOwner($_SESSION['userId']))) {
 			$errMsg = surveyInstanceFactory::getLastError();
 			echo "<tr><td colspan=5>{$errMsg}</td>";
-			$numRows++;
 		} else {
 			foreach($surveyInstances as $surveyInstance)  {
 			$numRows++;
@@ -56,10 +55,21 @@ class DashBoard {
 				echo "</tr>";
 			}
 		}
+		if ($numRows === 0) {
+			echo "<td colspan='5'>None defined.</td>";
+		}
+		echo "</table>";
+	}
+
+	public static function injectSurveyTemplatesTable() {
+
+		$numRows = 0;
+
+		echo "<h3>My Templates</h3>";
+		echo "<table><tr><th>Survey</th><th>Action</th></tr>";
 		if (false === ($sourceSurveys = surveyFactory::getSourceSurveys($_SESSION['userId']))) {
 			$errMsg = surveyFactory::getLastError();
-			echo "<tr><td colspan=5>{$errMsg}</td>";
-			$numRows++;
+			echo "<tr><td colspan=2>{$errMsg}</td>";
 		} else {
 			foreach($sourceSurveys as $survey)  {
 			$numRows++;
@@ -68,9 +78,6 @@ class DashBoard {
 				
 				echo "<tr>";
 				echo "<td>{$survey['name']}</td>";
-				echo "<td>---</td>";
-				echo "<td>---</td>";
-				echo "<td>---</td>";
 				echo "<td>"; 
 				echo "<a href=\"edit_survey.php?action=edit&survey-name={$surveyName}&survey-id={$survey['survey_id']}\">Edit</a>&nbsp;";
 				echo "<a onclick=\"return areYouSure();\" ";
@@ -80,12 +87,9 @@ class DashBoard {
 		}
 
 		if ($numRows === 0) {
-			echo "<td colspan='5'>None defined.</td>";
+			echo "<td colspan='2'>None defined.</td>";
 		}
-		
 		echo "</table>";
-		
-		
 	}
 
 	public static function injectTeamsTable($owner_id) {
