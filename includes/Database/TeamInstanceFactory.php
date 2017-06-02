@@ -8,7 +8,7 @@ class TeamInstanceFactory extends DatabaseFactory {
 	 * Description: Insert a new row into the table
 	 *********************************************************/
 	 
-    public static function insert($teamId, $instanceId) {
+    public static function xinsert($teamId, $instanceId) {
         
 		$teamInstanceId = false;
 		
@@ -26,7 +26,7 @@ class TeamInstanceFactory extends DatabaseFactory {
         return $teamInstanceId;
     }
 	
-	public static function getInstanceTeams($instanceId) {
+	public static function xgetInstanceTeams($instanceId) {
 
 		$instanceTeams = false;
 	
@@ -59,7 +59,7 @@ class TeamInstanceFactory extends DatabaseFactory {
 		return $instanceTeams;
 	}
 
-	public static function getInstanceTeamUserIds($instanceId, $teamId)	 {
+	public static function xgetInstanceTeamUserIds($instanceId, $teamId)	 {
 		
 		$userIds= false;
 	
@@ -83,4 +83,5 @@ class TeamInstanceFactory extends DatabaseFactory {
 		}
 		return $userIds;
 	}
+
 }

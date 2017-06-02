@@ -1,5 +1,5 @@
 <?php
-require_once('includes/Database/TeamInstanceFactory.php');
+require_once('includes/Database/TeamFactory.php');
 
 class SurveyResults {
 
@@ -9,7 +9,7 @@ class SurveyResults {
 		$isFirst = true;
 		echo "<div id=\"div-entries\">";
 		echo "<table>";
-		if (false !== ($instanceTeams = TeamInstanceFactory::getInstanceTeams($instanceId))) {
+		if (false !== ($instanceTeams = TeamFactory::getTeamUsersByInstance($instanceId))) {
 
 			foreach($instanceTeams as $instanceTeam) {
 				

@@ -30,7 +30,7 @@ try {
 	<?php
 		$errMsg = "";
 		
-		// echo "<pre>"; print_r($_POST); echo "</pre>";
+		//echo "<pre>"; print_r($_POST); echo "</pre>";
 		
 		if (($_SERVER['REQUEST_METHOD'] === "POST") && (isset($_POST['action']))) {
 
@@ -128,16 +128,16 @@ try {
 					!empty($_POST['survey-id']) &&
 					!empty($_POST['survey-start']) && 
 					!empty($_POST['survey-end']) &&
-					!empty($_POST['survey-teams'])) {
+					!empty($_POST['team-ids'])) {
 					
 					// start the survey
-					DashBoard::startSurvey(
+					DashBoard::launchSurveyInstance(
 						$_POST['instance-name'], 
 						$_POST['survey-id'], 
 						$_SESSION['userId'], 
 						$_POST['survey-start'], 
 						$_POST['survey-end'], 
-						$_POST['survey-teams'],
+						$_POST['team-ids'],
 						$errMsg);
 				}
 			}

@@ -1,7 +1,8 @@
 <?php
 require_once('Database.php');
+require_once('QuestionFactory.php');
 require_once('SurveyQuestionFactory.php');
-require_once('TeamInstanceFactory.php');
+require_once('TeamFactory.php');
 
 class SurveyFactory extends DatabaseFactory {
 
@@ -107,8 +108,6 @@ class SurveyFactory extends DatabaseFactory {
 			$result->close();
 		} else {
 			$lastError = $db->error;
-			echo $lastError;
-			echo $lastError;
 		}
 		return $surveys;
 	}
@@ -130,7 +129,6 @@ class SurveyFactory extends DatabaseFactory {
 			for ($qsIndex = 0; $qsIndex < $numQuestions; $qsIndex++) {
 				if (false === SurveyQuestionFactory::insert($surveyId, $questions[$qsIndex], $qsIndex)) {
 					// [REVISIT] at this point we really should roll back the entire transaction
-					echo "<br>SurveyQuestionFactory::insert failed";
 					return false;
 				}
 			}
@@ -145,7 +143,9 @@ class SurveyFactory extends DatabaseFactory {
 	 
 	public static function updateSurvey($surveyId, $surveyName, $ownerId, $questions) {
 	
-		if (false === ($status = SurveyQuestionFactory::deleteSurvey($surveyId))) {
+		if (false === QuestionFactory::deleteQuestionsBySurveyId($surveyId)) {
+			return false;
+		} else if (false === SurveyQuestionFactory::deleteSurvey($surveyId)) {
 			return false;
 		} else {
 			$numQuestions = count($questions);
@@ -224,26 +224,20 @@ class SurveyFactory extends DatabaseFactory {
 	}
 
 	/**********************************************************
-	 * Function: startSurvey
+	 * Function: launchSurveyInstance
 	 * Description: launches an instance of a survey 
 	 *     [REVISIT] THIS SHOULD BE A TRANSACTION IN A STORED 
 	 *     PROCEDURE IN THE DATABASE
 	 **********************************************************/
 	 
-	public static function startSurvey($instanceName, $surveyId, $ownerId, $start, $end, $teams) {
+	public static function launchSurveyInstance($instanceName, $surveyId, $ownerId, $start, $end, $teamIds) {
 		
 		if (false !== ($surveyId = self::duplicateSurvey($instanceName, $surveyId, $ownerId))){
 			// Note: that $surveyId now point to new duplicate survey
 			if (false !== ($instanceId = SurveyInstanceFactory::insert($start, $end))) {
 				// Update the new survey's instance
 				if (false !== self::updateSurveyInstance($surveyId, $instanceId, $ownerId)) {
-					// Attach the teams to the new survey's instance
-					for ($i = 0; $i < count($teams); $i++) {
-						if (false === TeamInstanceFactory::insert($teams[$i], $instanceId)) {
-							return false;
-						}
-					}
-					return true;
+					return TeamFactory::generateInstanceTeams($instanceId, $ownerId, $teamIds);
 				}
 			}
 		}

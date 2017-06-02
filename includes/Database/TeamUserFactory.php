@@ -56,4 +56,30 @@ class TeamUserFactory
 
 		return $userIds;
 	}
+	
+	public static function getUserIds($teamId) {
+		
+		$userIds = false;
+		
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$teamId = $db->escape_string($teamId);
+
+        $query = "SELECT user_id 
+				  FROM tbl_team_user 
+				  WHERE team_id='{$teamId}'";
+				  
+		if (false !== ($result = $db->query( $query ))) {
+			$userIds = [];
+			while ($row = $result->fetch_assoc()) {
+				$userIds[] = $row['user_id'];
+			}
+			$result->close();
+		} else {
+			$lastError = $db->error;
+		}
+
+		return $userIds;
+	}
+
 }
