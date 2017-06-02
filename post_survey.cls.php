@@ -29,16 +29,15 @@ class PostSurvey {
 	public static function injectTeamSelect() {
 
 		echo '<label for="select-team" class="lbl-post-survey">Team:</label>';
-		echo '<select id="select-review" class="inp-post-survey" name="survey-teams[]" multiple>';
+		echo '<select id="select-review" class="inp-post-survey" name="team-ids[]" multiple>';
 
 		$teams = false;
 
-		if (false === ($teams = TeamFactory::getTeams($_SESSION['userId']))) {
+		if (false === ($teams = TeamFactory::getRootTeams($_SESSION['userId']))) {
 			$errMsg = TeamFactory::getLastError();
 			echo "<option>{$errMsg}</option>";
 		} else {
 			foreach($teams as $team) {
-echo "hello";
 				// Create table row
 				echo "<option value=\"{$team['team_id']}\">{$team['name']}</option>";
 			}

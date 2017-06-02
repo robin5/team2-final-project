@@ -99,7 +99,7 @@ class DashBoard {
 		echo "<table>";
 		echo "<tr><th>Team</th><th>Action</th></tr>";
 
-		$teams = TeamFactory::getTeams($owner_id);
+		$teams = TeamFactory::getRootTeams($owner_id);
 		if (count($teams) == 0) {
 			echo "<tr><td colspan=\"2\">None defined.</tr>";
 		} else {
@@ -269,11 +269,11 @@ class DashBoard {
 		return $status;
 	}
 
-	public static function startSurvey($instanceName, $surveyId, $ownerId, $startDateTime, $endDateTime, $teams, &$errMsg) {
+	public static function launchSurveyInstance($instanceName, $surveyId, $ownerId, $startDateTime, $endDateTime, $teamIds, &$errMsg) {
 
-		$status = SurveyFactory::startSurvey($instanceName, $surveyId, $ownerId, $startDateTime, $endDateTime, $teams);
+		$status = SurveyFactory::launchSurveyInstance($instanceName, $surveyId, $ownerId, $startDateTime, $endDateTime, $teamIds);
 		if (false === $status) {
-			$errMsg = SurveyInstanceFactory::getLastError();
+			$errMsg = SurveyFactory::getLastError();
 		} else {
 			$errMsg = "";
 		}
