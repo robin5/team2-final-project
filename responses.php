@@ -2,10 +2,6 @@
 session_start();
 require_once('includes/session_in.inc.php');
 try {
-	if (empty($_SESSION['valid'])) {
-		header('Location:index.php');
-		exit;
-	}
 	require_once('includes/header.php');
 	require_once('includes/nav.php');
 	require_once('includes/footer.php');
