@@ -15,7 +15,10 @@ require_once('util.inc.php');
 
 function registerUser($userName, $password, $firstName, $lastName, $email, $isInstructor) {
 	// Get roleId from the database
-	if ($user_id = UserFactory::insert($userName, $password, $firstName, $lastName, $email, $isInstructor)) {
+	
+	$password_hash = password_hash($password, PASSWORD_DEFAULT);
+	
+	if ($user_id = UserFactory::insert($userName, $password_hash, $firstName, $lastName, $email, $isInstructor)) {
 		// Set the variables for a valid session
 		$_SESSION['valid'] = true;
 		$_SESSION['timeout'] = time();
@@ -46,11 +49,11 @@ function registerUser($userName, $password, $firstName, $lastName, $email, $isIn
  *     PROCEDURE INCASED IN A TRANSACTION
  ******************************************************/
 
-function login($userName, $password) {
+function login($userName, $passwordHash) {
 
 	$userId = false;
 	
-	if (false != ($userId = UserFactory::getUserId($userName, $password))) {
+	if (false != ($userId = UserFactory::getUserId($userName, $passwordHash))) {
 		$_SESSION['valid'] = true;
 		$_SESSION['timeout'] = time();
 		$_SESSION['userName'] = $userName;

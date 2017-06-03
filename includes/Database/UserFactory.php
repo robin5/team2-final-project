@@ -44,7 +44,7 @@ class UserFactory extends DatabaseFactory {
 	 *              and adds role into users_roles table
 	 *****************************************************/
 	 
-	public static function getUserId($userName, $password = null) {
+	public static function getUserId($userName, $passwordHash = null) {
 		
 		$result;
 		$row;
@@ -52,20 +52,26 @@ class UserFactory extends DatabaseFactory {
 		
 		$db = DatabaseConnectionFactory::getConnection();
 		
-		if ($password == null) {
+		if ($passwordHash == null) {
 			$query = "SELECT user_id FROM users ";
 			$query .= "WHERE user_name = \"{$userName}\" LIMIT 1";
 		} else {
-			$query = "SELECT user_id FROM users ";
-			$query .= "WHERE user_name = \"{$userName}\" AND password=\"{$password}\" LIMIT 1";
+			$query = "SELECT user_id, password FROM users ";
+			$query .= "WHERE user_name = \"{$userName}\" LIMIT 1";
 		}
 
 		if (false != ($result = $db->query($query))) {
 			if ($result->num_rows) {
 				if (null != ($row = $result->fetch_row())) {
 					$userId = intval($row[0]);
+					if ($passwordHash != null) {
+						if (!password_verify($passwordHash, $row[1])) {
+							$lastError = "Invalid password";
+							$userId = false;
+						}
+					}
 				} else {
-				$lastError = "User not found.";
+					$lastError = "User not found.";
 				}
 			} else {
 				$lastError = "User not found.";
