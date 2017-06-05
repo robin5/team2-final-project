@@ -104,15 +104,20 @@ try {
 
 				// Verify having all parameters
 				if (!empty($_POST['survey-id']) &&
-					!empty($_POST['survey-name']) && 
-					!empty($_POST['survey-questions'])) {
+					!empty($_POST['survey-name'])) {
 
+					if (!empty($_POST['survey-questions'])) {
+						$questions = $_POST['survey-questions'];
+					} else {
+						$questions = [];
+					}
+					
 					// Update the survey
 					DashBoard::updateSurvey(
 						$_POST['survey-id'], 
 						$_POST['survey-name'], 
 						$_SESSION['userId'], 
-						$_POST['survey-questions'],
+						$questions,
 						$errMsg);
 				}
 			}
