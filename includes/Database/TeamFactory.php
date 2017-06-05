@@ -116,19 +116,6 @@ class TeamFactory extends DatabaseFactory
 	}
 	
 	/*******************************************************
-	 * Function: updateTeam 
-	 * Description: 
-	 *******************************************************/
-	 
-	function updateTeam($teamName, $userIds, $ownerId) {
-	
-		$status = false;
-		self::$lastError = "Not Yet Implemented";
-		
-		return $status;
-	}
-	
-	/*******************************************************
 	 * Function: deleteTeam 
 	 * Description: 
 	 *******************************************************/
@@ -207,4 +194,41 @@ class TeamFactory extends DatabaseFactory
 		return $instanceTeams;
 	}
 
+	/*******************************************************
+	 * Function: updateTeam 
+	 * Description: updates team parameters and members
+	 *******************************************************/
+	 
+	public static function updateTeam($teamId, $teamName, $ownerId, $userIds) {
+		if (false !== TeamUserFactory::deleteTeam($teamId)) {
+			if (false != TeamFactory::updateTeamName($teamId, $teamName, $ownerId)) {
+				if (false === TeamUserFactory::insertUsers($teamId, $userIds))
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/*******************************************************
+	 * Function: updateTeamName 
+	 * Description: updates the team name
+	 *******************************************************/
+	 
+	public static function updateTeamName($teamId, $teamName, $ownerId) {
+
+		$db = DatabaseConnectionFactory::getConnection();
+		
+		$teamName = $db->escape_string($teamName);
+		$ownerId = $db->escape_string($ownerId);
+		
+		$query = "UPDATE tbl_team SET name = '{$teamName}' 
+					WHERE team_id={$teamId} AND owner_id={$ownerId}";
+
+		// Execute query
+        if (false === $db->query($query)) {
+			self::$lastError = $db->error;
+			return false;
+		}
+        return true;
+	}
 }
