@@ -29,7 +29,7 @@ try {
 function injectUsersSelect() {
 
 	if (false != ($users = getAllUsers())) {
-		echo "<option value=\"0\" selected>--Select a student--</option>";
+		echo "<option value=\"-1\" selected>--Select a student--</option>";
 		foreach($users as $user) {
 			
 			$firstLast = "{$user['first_name']} {$user['last_name']}";
@@ -151,11 +151,17 @@ function injectUsersSelect() {
 		}
 		
 		function addBlankRow() {
-			var userName = $( "#sel-user-id option:selected" ).attr('data-username');
-			var firstLast = $( "#sel-user-id option:selected" ).attr('data-firstlast');
 			var userId = $( "#sel-user-id").val();
-			var table = $('table');
-			table.append(getNextRow(userId, userName, firstLast));
+			
+			if (-1 != userId) {
+				var userName = $( "#sel-user-id option:selected" ).attr('data-username');
+				var firstLast = $( "#sel-user-id option:selected" ).attr('data-firstlast');
+				if ($('td[data-user-id = ' + userId + ']').length > 0) {
+					alert(firstLast + " is already a member of the team!");
+				} else {
+					$('table').append(getNextRow(userId, userName, firstLast));
+				}
+			}
 		}
 		
 		function getNextRow(userId, userName, firstLast) {
