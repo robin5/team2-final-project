@@ -64,7 +64,7 @@ try {
 				// Verify having all parameters
 				if (!empty($_POST['team-id']) &&
 					!empty($_POST['team-name']) && 
-					!empty($_POST['team-user-ids'])) {
+					isset($_POST['team-user-ids'])) {
 					
 					$teamUserIds = explode(",", $_POST['team-user-ids']);
 
@@ -73,7 +73,7 @@ try {
 						$_POST['team-id'], 
 						$_POST['team-name'], 
 						$_SESSION['userId'], 
-						$_POST['team-user-ids'],
+						$teamUserIds,
 						$errMsg);
 				}
 			}

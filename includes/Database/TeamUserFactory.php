@@ -82,4 +82,30 @@ class TeamUserFactory
 		return $userIds;
 	}
 
+    public static function deleteTeam($teamId) {
+        
+		$db = DatabaseConnectionFactory::getConnection();
+		
+        $query = "DELETE FROM tbl_team_user WHERE team_id = {$teamId}";
+
+		if (false === $db->query($query)) {
+			$lastError = $db->error;
+			return false;
+		}
+        return true;
+    }
+	
+	/**************************************************************
+	 * Function: insertUsers 
+	 * Description: Insert array of users into the tbl_team_user
+	 **************************************************************/
+	 
+    public static function insertUsers($teamId, $userIds) {
+        
+		foreach ($userIds as $userId) {
+			if (false === TeamUserFactory::insert($teamId, $userId))
+				return false;
+		}
+		return true;
+    }
 }
