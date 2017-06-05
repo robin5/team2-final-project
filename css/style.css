@@ -1,13 +1,14 @@
 /* style.css */
 /* for crud.php */
-/* Developed by Bruce Elgort */
 /* February 2014 */
-
-html, body {
+* {
+	box-sizing: border-box;
+}
+body {
 	margin: 0;
 }
 
-html, body {
+body {
 	height: 100%;
 	width: 100%;
 	font-family: Arial, Helvetica;
@@ -26,6 +27,7 @@ header {
 	width: 100%;
 	background: #4E87A0;
 	font-size:1.5em;
+	
 }
 
 .header-title {
@@ -35,6 +37,7 @@ header {
 	display: block;
 	float: left;
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	
 }
 
 .header-caps {
@@ -97,13 +100,13 @@ main {
 footer {
 	color:#fff;
 	background: #4E87A0;
-    /*position: absolute;*/
+    position: relative;
     left: 0;
     bottom: 0;
     height: 100px;
     width: 100%;
     overflow:hidden;
-    margin-top: 20px;
+    margin-top: 200px;
 }
 
 footer a {
