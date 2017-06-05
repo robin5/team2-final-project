@@ -50,11 +50,11 @@ function injectUsersSelect() {
 
 		if (false != ($members = getTeamMembers($teamId))) {
 			foreach($members as $user) {
-				echo "<tr>";
+				echo "<tr id=row-id-{$user['user_id']}>";
 				//echo "<td class=\"td-user-id\" style=\"display:none;\">{$user['user_id']}</td>";
 				echo "<td data-user-id=\"{$user['user_id']}\">{$user['user_name']}</td>";
 				echo "<td>{$user['first_name']}" . " " . "{$user['last_name']}</td>";
-				echo "<td><a onclick = \"return confirm('Are you sure?');\" href=\"#\">delete</a></td>";
+				echo "<td><a data-row-id=\"{$user['user_id']}\" href=\"#\" onclick=\"deleteRow(event)\">delete</a></td>";
 				echo "</tr>";
 			}
 		}
@@ -139,10 +139,10 @@ function injectUsersSelect() {
 				userIds.push($(this).attr('data-user-id'));
 			});
 			
-			// Copy user IDs to hidden controls value attribute
+			// Copy user IDs to hidden control's value attribute
 			$('#team-user-ids').val(userIds.toString());
 			
-			// Copy the team's name to hidden controls value attribute
+			// Copy the team's name to hidden control's value attribute
 			$('#team-name').val($('#input-team-name').val());
 		}
 		
@@ -159,13 +159,20 @@ function injectUsersSelect() {
 		}
 		
 		function getNextRow(userId, userName, firstLast) {
-			var row = '<tr id="row' + userId + '">';
+			var row = '<tr id="row-id-' + userId + '">';
 			//row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
 			row += '<td data-user-id="' + userId + '">' + userName + '</td>';
 			row += '<td>' + firstLast + '</td>';
-			row += '<td><span id="delete-row' + userId + '" class="fake-anchor">delete</span></td></tr>'
+			row += '<td><a data-row-id=\"' + userId + '\" href=\"#\" onclick=\"deleteRow(event)\">delete</a></td></tr>'
 			console.log(row);
 			return row;
+		}
+		
+		// Deletes a row from the table and prevents the anchor from firing.
+		function deleteRow(event) {
+			var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
+			$(rowToDelete).remove();
+			event.preventDefault();
 		}
 	</script>
 </body>
