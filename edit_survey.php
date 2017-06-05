@@ -55,9 +55,9 @@ function injectDivSurvey($surveyName, $surveyId) {
 				if (false !== $surveyId) {
 					if (false != ($questions = SurveyQuestionFactory::getSurveyQuestions($surveyId))) {
 						foreach($questions as $question) {
-							$tr = "<tr id=row-{$rowId} class=\"question-row\">";
+							$tr = "<tr id=row-id-{$rowId} class=\"question-row\">";
 							$tr .= "<td><textarea name=\"survey-questions[{$rowId}]\" cols=\"80\" rows=\"5\" required>{$question}</textarea></td>";
-							$tr .= "<td><span id=\"delete-row{$rowId}\" class=\"fake-anchor\">delete</span></td></tr>";
+							$tr .= "<td><a href=\"#\" data-row-id=\"{$rowId}\" onclick=\"deleteRow(event)\">delete</a></td></tr>";
 							echo $tr;
 							$rowId++;
 						}
@@ -136,12 +136,19 @@ function injectDivSurvey($surveyName, $surveyId) {
 
 		function getNextRowId() {
 			rowId++;
-			var tr = '<tr id=row-' + rowId + ' class="question-row">';
+			var tr = '<tr id=row-id-' + rowId + ' class="question-row">';
 			tr += '<td><textarea name="survey-questions[' + rowId + ']" cols="80" rows="5" required></textarea></td>';
-			tr += '<td><span id="delete-row' + rowId + '" class="fake-anchor">delete</span></td></tr>'
+			tr += '<td><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
 			return tr;
 		}
 		
+		// Deletes a row from the table and prevents the anchor from firing.
+		function deleteRow(event) {
+			var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
+			$(rowToDelete).remove();
+			event.preventDefault();
+		}
+
 		// fill in required fields with some data
 		function fakeFillFields() {
 			$('textarea').val(" ");

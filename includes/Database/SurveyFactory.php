@@ -148,12 +148,15 @@ class SurveyFactory extends DatabaseFactory {
 		} else if (false === SurveyQuestionFactory::deleteSurvey($surveyId)) {
 			return false;
 		} else {
-			$numQuestions = count($questions);
-			for($qs_index = 0; $qs_index < $numQuestions; $qs_index++) {
-				if (false === SurveyQuestionFactory::insert($surveyId, $questions[$qs_index], $qs_index)) {
+			
+			$qs_index = 0;
+			foreach($questions as $question) {
+				if (false === SurveyQuestionFactory::insert($surveyId, $question, $qs_index)) {
 					return false;
 				}
+				$qs_index++;
 			}
+			
 			if (false === SurveyFactory::updateSurveyName($surveyId, $surveyName, $ownerId)) {
 				return false;
 			}
