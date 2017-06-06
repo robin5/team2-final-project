@@ -17,6 +17,9 @@ try {
 	<meta charset="UTF-8">
 	<title>Post Review</title>
 	<link href="css/style.css" rel="stylesheet" />
+	<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css"/ >
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="js/jquery.datetimepicker.full.min.js"></script>
 </head>
 <body>
 	<?php injectHeader(); ?>
@@ -32,11 +35,11 @@ try {
 			<br><br>
 			<?php PostSurvey::injectTeamSelect(); ?>
 			<br><br>
-			<label for="start-date" class="lbl-post-survey">Start Date:</label>
-			<input id="review-name" type="datetime-local" class="inp-post-survey" name="survey-start" required />
+			<label for="start-date-time" class="lbl-post-survey">Start Date:</label>
+			<input id="start-date-time" class="inp-post-survey" name="survey-start" required />
 			<br><br>
-			<label for="End-date" class="lbl-post-survey">End Date:</label>
-			<input id="review-name" type="datetime-local" class="inp-post-survey" name="survey-end" required />
+			<label for="end-date-time" class="lbl-post-survey">End Date:</label>
+			<input id="end-date-time" class="inp-post-survey" name="survey-end" required />
 			<br><br><hr>
 			<button id="post-survey" type="submit" name="action" value="start-survey">Start Survey</button>
 			&nbsp;|&nbsp;
@@ -49,5 +52,11 @@ try {
 	</form>
 	</main>
 	<?php injectFooter(); ?>
+	<script>
+		$(function() {
+			$('#start-date-time').datetimepicker();
+			$('#end-date-time').datetimepicker();
+		})
+	</script>
 </body>
 </html>
