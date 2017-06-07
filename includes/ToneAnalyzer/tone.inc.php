@@ -1,7 +1,6 @@
 
 
 <?php
-//test
 /// CONTACT WATSON GET TONE SCORES ///
   function callAPI ($method, $url, $credentials, $data=false){
   	$curl = curl_init();
