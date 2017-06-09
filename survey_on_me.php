@@ -19,6 +19,8 @@ try {
 	<meta charset="UTF-8">
 	<title>CSS Review On Student</title>
 	<link href="css/style.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/analyzetone.js"></script>
 </head>
 <body>
 	<?php injectHeader(); ?>
@@ -54,6 +56,10 @@ try {
 		}
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
+	<!-- Amy moved from main -->
+			<div id="div-resp-student">
+			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
+		</div>
 	<main>
 		<?php
 			if (!empty($errMsg)) {
@@ -61,6 +67,19 @@ try {
 			}
 		?>
 		<h3><strong>About <?php  echo "{$fullName}"; ?></strong></h3><hr>
+		<!--AMY -->
+				<!-- <SUMMARY> -->
+		<div id="txt-summary">	
+			<!-- <hr> -->
+
+			<div>
+				<button id='btn-summary' class="resp-button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">
+					Click to See Tone Summary
+				</button>
+			</div>
+			<div id="tone-summary"></div>
+		</div> 
+		<!-- -->
 		<?php 
 			if ($questions && $users) {
 				SurveyOnMe::injectQuestionAnswers($reviewee, $questions, $users);
@@ -68,5 +87,26 @@ try {
 		?>
 	</main>
 	<?php injectFooter(); ?>
+		<script>
+	
+		$(document).ready(function(){
+			tabClick(0);
+		});
+				function toggleAnalyze() {
+			var value = $('#tone-summary').css('display');
+
+			if (value == 'block') {
+				value = $('#tone-summary').css('display', 'none');
+
+				$("#btn-summary").html('Refresh');		
+				$("#btn-summary").attr("onclick","getAreaTxt('btn-summary','txt-summary','tone-summary')");
+
+			} else {
+				value = $('#tone-summary').css('display', 'block');
+				$("#btn-summary").html('Hide');
+
+			}
+		}
+		</script>function<!-- AMY -->
 </body>
 </html>
