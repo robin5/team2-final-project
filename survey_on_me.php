@@ -87,7 +87,7 @@ try {
 		<script>
 	
 		$(document).ready(function(){
-			$('input[type="text"], textarea').attr('readonly','readonly');//AMY tb off
+			$('input[type="text"], textarea').attr('readonly','readonly');//AMY turned tab off
 			//tabClick(0);
 		});
 				function toggleAnalyze() {
@@ -105,6 +105,6 @@ try {
 
 			}
 		}
-		</script>function<!-- AMY -->
+		</script>function
 </body>
 </html>
