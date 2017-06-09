@@ -6,8 +6,6 @@ class Responses {
 
 	public static function injectQuestionAnswers($reviewer, $questions, $users) {
 	
-		//echo "<div>";
-
 		$userIndex = 0;
 		$buttonIndex = 0;
 		foreach($users as $user) {
@@ -26,7 +24,7 @@ class Responses {
 						$grade = "---";
 					}
 				}
-				//echo "<br>{$user['first_name']} {$user['last_name']}&nbsp;&nbsp;-&nbsp;&nbsp;";
+				
 				echo "<div class=\"resp-grade\">";
 				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span>&nbsp;&nbsp;{$question['text']}<br>";
 				echo "</div>";
@@ -39,7 +37,6 @@ class Responses {
 			echo "<div class=\"clear-question\"></div></div>";
 			$userIndex++;
 		} // for each users
-		//echo "</div>";
 	}
 
 	public static function injectUserTabs($users) {
