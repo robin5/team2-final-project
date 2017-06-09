@@ -56,10 +56,7 @@ try {
 		}
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
-	<!-- Amy moved from main -->
-			<div id="div-resp-student">
-			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
-		</div>
+<!-- deleted the section adding name and team to the header as was not needed in summary -->
 	<main>
 		<?php
 			if (!empty($errMsg)) {
@@ -90,7 +87,8 @@ try {
 		<script>
 	
 		$(document).ready(function(){
-			tabClick(0);
+			$('input[type="text"], textarea').attr('readonly','readonly');//AMY tb off
+			//tabClick(0);
 		});
 				function toggleAnalyze() {
 			var value = $('#tone-summary').css('display');

@@ -1,5 +1,3 @@
-
-
 <?php
 /// CONTACT WATSON GET TONE SCORES ///
   function callAPI ($method, $url, $credentials, $data=false){

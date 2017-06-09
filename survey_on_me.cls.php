@@ -25,6 +25,13 @@ class SurveyOnMe {
 			// echo "</div>";
 			//foreach($users as $user) {
 			foreach($questions as $question) {
+			echo "<div class=\"question\">";
+			echo "<div class=\"resp-grade\">";
+			echo "<p>{$question['text']}</p>";
+			echo "</div>";
+
+
+				
 			//foreach($users as $user) {
 				
 				$text = "";
