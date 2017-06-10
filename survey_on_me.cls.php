@@ -10,12 +10,16 @@ class SurveyOnMe {
 		$buttonIndex = 0;
 
 		$showReviewer = ($reviewee != $_SESSION['userId']);
-		foreach($users as $user) {
-			foreach($questions as $question) {
+		foreach($questions as $question) {
 			echo "<div class=\"question\">";
 			echo "<div class=\"resp-grade\">";
 			echo "<p>{$question['text']}</p>";
 			echo "</div>";
+
+			foreach($users as $user) {
+				echo "<div class=\"clear-question\"></div>";
+				$userIndex++;
+
 				$text = "";
 				$grade = "---";
 				if (false !== ($response = QuestionResponsefactory::getResponse($question['question_id'], $reviewee, $user['user_id']))) {
@@ -36,9 +40,11 @@ class SurveyOnMe {
 				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Review</button>";
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
 				$buttonIndex++;
+
+
+				}// for each users
 			} // for each questions
-			echo "<div class=\"clear-question\"></div></div>";
-			$userIndex++;
-		}// for each users
+		/****/
+
 	}
 }
