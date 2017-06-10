@@ -43,8 +43,8 @@ function injectDivSurvey($surveyName, $surveyId) {
 	<form id="form-survey" action = "dashboard.php" method="post">
 
 		<label for="survey-name">Survey Name:</label>
-		<input id="survey-name" name="survey-name" type="text" value="<?php echo "{$surveyName}"?>" required/><br><br>
-		<input id="survey-id" name="survey-id" type="hidden" value="<?php echo "{$surveyId}"?>"><br><br>
+		<input id="survey-name" name="survey-name" type="text" value="<?php echo "{$surveyName}"?>" required/><br>
+		<input id="survey-id" name="survey-id" type="hidden" value="<?php echo "{$surveyId}"?>"><br>
 		
 		<table>
 			<tr><th>Question</th><th>Action</th></tr>
@@ -66,8 +66,9 @@ function injectDivSurvey($surveyName, $surveyId) {
 			?>
 			<tr id="tr-add" >
 				<td style="min-width: 400px;">
-					<button type="button" style="width: 100%" id="add-question" name="action" value="add-question" onclick="addBlankRow()" >
-						<span style="font-size: 1.5em;">Add Question</span>
+					<button type="button" form-survey id="add-question" name="action" value="add-question" onclick="addBlankRow()" >
+						<!-- <span style="font-size: 1.5em;">Add Question</span> -->
+						Add Question
 					</button>
 				</td>
 				<td>&nbsp;</td>
@@ -76,11 +77,13 @@ function injectDivSurvey($surveyName, $surveyId) {
 		<br>
 
 	<button id="create-survey" for="form-survey" name="action" value="<?php echo (false === $surveyId) ? "create-survey" : "edit-survey" ?>" type="submit">
-		<span style="font-size: 1.5em">Save & Exit</span>
+		<!-- <span style="font-size: 1.5em">Save & Exit</span> -->
+		Save & Exit
 	</button>
 	&nbsp;|&nbsp;
 	<button type="submit" id="btn-cancel" name="action" value="cancelled" onclick="fakeFillFields();">
-		<span style="font-size: 1.5em">Cancel</span>
+		<!-- <span style="font-size: 1.5em">Cancel</span> -->
+		Cancel
 	</button>
 	</form>
 <?php 
@@ -108,6 +111,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php 
 		injectNav("Dashboard > " . $crumb);
@@ -120,7 +124,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 			injectDivSurvey($surveyName, $surveyId);
 		?>
 	</main>
-	<?php injectFooter(); ?>
+
 	<script>
 	
 		var rowId;
@@ -156,5 +160,6 @@ function injectDivSurvey($surveyName, $surveyId) {
 			return true;
 		}
 	</script>
+	<?php injectFooter(); ?>
 </body>
 </html>

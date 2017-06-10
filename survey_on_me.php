@@ -23,6 +23,7 @@ try {
 	<script src="js/analyzetone.js"></script>
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php
 		$errMsg = "";
@@ -105,6 +106,6 @@ try {
 
 			}
 		}
-		</script>function
+		</script>
 </body>
 </html>

@@ -43,7 +43,7 @@ class DashBoard {
 
 				// Create table row
 				echo "<tr>";
-				echo "<td>{$surveyInstance['name']}</td>";
+				echo "<td class=\"surveyname\">{$surveyInstance['name']}</td>";
 				echo "<td>{$surveyInstance['start_date']}</td>";
 				echo "<td>{$surveyInstance['end_date']}</td>";
 				echo "<td>{$status}</td>";
@@ -77,7 +77,7 @@ class DashBoard {
 				$surveyName = htmlspecialchars($survey['name']); // [REVISIT]
 				
 				echo "<tr>";
-				echo "<td>{$survey['name']}</td>";
+				echo "<td class=\"surveyname\">{$survey['name']}</td>";
 				echo "<td>"; 
 				echo "<a href=\"edit_survey.php?action=edit&survey-name={$surveyName}&survey-id={$survey['survey_id']}\">Edit</a>&nbsp;";
 				echo "<a onclick=\"return areYouSure();\" ";
@@ -104,7 +104,7 @@ class DashBoard {
 			echo "<tr><td colspan=\"2\">None defined.</tr>";
 		} else {
 			foreach ($teams as $team) {
-				echo "<tr><td>{$team['name']}</td><td>";
+				echo "<tr><td class=\"surveyname\">{$team['name']}</td><td>";
 				echo "<a href=\"edit_team.php?action=edit-team&team-id={$team['team_id']}&team-name={$team['name']}\">Edit</a>";
 				echo '&nbsp;&nbsp;';
 				echo "<a onclick=\"return areYouSure();\" href=\"{$_SERVER['PHP_SELF']}?action=delete-team&team-id={$team['team_id']}&team-name={$team['name']}\">Delete</a>";
