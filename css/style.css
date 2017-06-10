@@ -1,6 +1,6 @@
 /* style.css */
-/* for crud.php */
-/* February 2014 */
+/* for CSS Team 2 Final Project */
+/* June 2017 */
 * {
 	box-sizing: border-box;
 }
@@ -27,7 +27,7 @@ header {
 	width: 100%;
 	background: #4E87A0;
 	font-size:1.5em;
-	
+	tbl-edit-team
 }
 
 .header-title {
@@ -144,6 +144,8 @@ span.footer-copyright {
 }
 
 table {
+	width: 100%;
+	text-transform: capitalize;
 	border: 3px solid #666;
 	border-collapse: collapse;	
 }
@@ -163,6 +165,12 @@ td.leftalign {
 	text-align:left;
 }
 
+td.surveyname {
+	text-align:right;
+	/*width:25%;	*/
+	text-transform: uppercase;
+}
+
 #div-error-msg {
 	background: #FF0000;
 	color: white;
@@ -170,6 +178,8 @@ td.leftalign {
 	font-size: 1.5em;
 	font-weight: bold;
 }
+
+label, select, option {text-transform:capitalize;}
 
 /*************************************************
  * CSS for register.php
@@ -200,41 +210,46 @@ span.fake-anchor {
 	text-decoration: underline;
 }
 
+#sel-user-id {padding:4px; margin-bottom: 20px;}
+
 .lbl-create-team {
 	display: block;
 	float: left;
 	width: 130px;
-	margin-left: 10px;
-	text-align: right;
-	margin-right: 10px;
+	/*margin-left: 10px;*/
+	text-align: left;
 	font-size: 1.2em;
 }
 
 .input-create-team {
 	font-size: 1.2em;
+	margin-bottom: 10px;
 }
 
-#tbl-edit-team {
-	margin-left: 150px;
+#tbl-edit-team, #table-team-name {
+	/*margin-left: 150px;*/
+	width: 60%;
 	margin-top: 20px;
 	border: 3px solid #666;
 	border-collapse: collapse;
+	padding:0px;
 }
 
 button {
-	font-size: 1.2em;
+	margin-right:4px;
+	/*font-size: 1.2em;*/
 }
 
 #btn-create-team {
-	margin-left: 150px;
+	/*margin-left: 150px;*/
 	margin-top: 20px;
 }
 
-#btn-add-team {
+#lbl-create-team, #btn-add-team {
 	display: block;
 	float: left;
 	width: 130px;
-	margin-left: 10px;
+/*	margin-left: 10px;*/
 	text-align: center;
 	margin-right: 10px;
 }
@@ -266,16 +281,18 @@ div.div-analyze, #tone-summary, #txt-summary{
 	margin-bottom: 10px;
 }
 
-.lbl-post-survey {
+label, .lbl-post-survey {
 	display: block;
 	float: left;
-	width: 120px;
+	width: 130px;
 	font-size: 1.2em
 }
 
-.inp-post-survey {
+input, .inp-post-survey {
 	font-size: 1.2em;
 }
+
+#add-question{width:100%;}
 
 /*************************************************
  * CSS for survey_on_me.php and responses.php
@@ -362,7 +379,7 @@ textarea.ta-response {
 	margin-top:20px;
 	margin-left:10px;}
 
-   table.tbl-analyze{
+table.tbl-analyze{
     /*float: left;*/
     display:inline-block;
     padding: 10px;
