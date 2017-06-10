@@ -65,7 +65,7 @@ try {
 			<input id="chk-instructor" type="checkbox" name="instructor" value="2"><br><br>
 			</div>
 			<div id="div-reg-button">
-				<button class="reg-button" id="register" name="register" type="submit">Register</button>
+				<button class="reg-button" id="register" name="register" type="submit">Register</button>&nbsp;|&nbsp;<a href="index.php">Back</a>
 			</div>
 		</form>
 		</div>
