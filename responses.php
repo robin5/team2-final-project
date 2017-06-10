@@ -23,6 +23,8 @@ try {
 	<script src="js/analyzetone.js"></script>
 </head>
 <body>
+	<div class="fixedheader"> <!-- ?? Is this what you wanted to add Dave??-->
+	
 	<?php injectHeader(); ?>
 	<?php
 		$errMsg = "";
@@ -58,9 +60,10 @@ try {
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
 	<!-- Amy moved from main -->
-			<div id="div-resp-student">
+		<div id="div-resp-student">
 			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
 		</div>
+	</div><!-- added for Dave's Fixed Header -->
 	<main>
 		<?php
 			if (!empty($errMsg)) {
