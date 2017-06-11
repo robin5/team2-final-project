@@ -49,9 +49,9 @@ try {
 				$fullName = $_GET['full-name'];
 				
 				if (false === ($users = TeamUserFactory::getTeamMembersByTeamId($teamId))) {
-					$errMsg =  TeamInstanceFactory::getLastError();
+					$errMsg =  TeamUserFactory::getLastError();
 				} else if (false === ($questions = SurveyInstanceFactory::getSurveyInstanceQuestionIds($instanceId))) {
-					$errMsg =  TeamInstanceFactory::getLastError();
+					$errMsg =  SurveyInstanceFactory::getLastError();
 				}
 			}
 		}

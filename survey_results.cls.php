@@ -1,5 +1,7 @@
 <?php
 require_once('includes/Database/TeamFactory.php');
+require_once('includes/Database/SurveyInstanceFactory.php');
+require_once('includes/Database/QuestionResponseFactory.php');
 
 class SurveyResults {
 
@@ -56,7 +58,7 @@ class SurveyResults {
 		
 	}	
 
-	public static function injectTeamTables2($instanceId, $surveyName) {
+	public static function injectTeamTables2($instanceId, $surveyName, $questions, $instanceTeams) {
 		
 		$lastTeamId = "";
 		$isFirst = true;
@@ -79,12 +81,14 @@ class SurveyResults {
 				$lastTeamId = $teamId;
 				
 				$fullName = "{$instanceTeam['first_name']}&nbsp;{$instanceTeam['last_name']}";
-				echo "<div id=\"pie-chart-{$instanceTeam['user_id']}\" style=\"width: 200px; height: 200px; margin-top: 0; float: left;\">&nbsp;</div>";
+				
+				$pieData = SurveyResults::getPieData($questions, $instanceTeam['user_id'], $instanceTeam['team_id']);
+				
+				echo "<div data='{$pieData}' id=\"pie-chart-{$instanceTeam['user_id']}\" class=\"pie-chart\" style=\"width: 200px; height: 200px; margin-top: 0; float: left;\">&nbsp;</div>";
+				
 				echo "<div class=\"reviewee-content\" style=\"float: left; margin-left: 40px; margin-top: 20px;\">";
 
 				echo "<h2>{$fullName} - {$instanceTeam['user_name']}</h2>";
-
-				//echo "<td><a href=\"responses.php?instance-id={$instanceId}&reviewer={$instanceTeam['user_id']}\">surveys</a></td>";
 
 				echo "<a href=\"survey_on_me.php" . 
 						"?instance-id={$instanceId}" .
@@ -108,5 +112,65 @@ class SurveyResults {
 				echo "</div>";
 			}
 		}
-	}	
+	}
+	
+	public static function getPieData($questions, $reviewee, $teamId) {
+
+		$grades = [];
+		
+		// Get the members of the team
+		if (false === ($reviewers = TeamUserFactory::getTeamMembersByTeamId($teamId))) {
+			$errMsg =  TeamUserFactory::getLastError();
+			// Display this to user somehow
+		} else {
+
+			// Init the accumulators
+			$numA = 0;
+			$numB = 0;
+			$numC = 0;
+			$numD = 0;
+			$numF = 0;
+			$numNA = 0;
+		
+			// Loop thru each question
+			foreach($questions as $question) {
+				
+				// Loop thru each reviewer
+				foreach($reviewers as $reviewer) {
+					
+					// Get the response to each question
+					if (false !== ($response = QuestionResponsefactory::getResponse($question['question_id'], $reviewee, $reviewer['user_id']))) {
+						$text = $response['text'];
+						$grade = $response['grade'];
+						if (empty($grade)) {
+							$grade = "---";
+						}
+					}
+					// Add the occurences of grades
+					switch($grade) {
+						case 'A': $numA++; break;
+						case 'B': $numB++; break;
+						case 'C': $numC++; break;
+						case 'D': $numD++; break;
+						case 'F': $numF++; break;
+						default: $numNA++; break;
+					}
+				}
+			}
+
+			// Place grades into series format for pie charts
+			// [['A', 1],['B', 1],['C', 1],['D', 1],['F', 1]]"
+
+			if ($numA > 0) {$grades[] = (['A', $numA]);}
+			if ($numB > 0) {$grades[] = (['B', $numB]);}
+			if ($numC > 0) {$grades[] = (['C', $numC]);}
+			if ($numD > 0) {$grades[] = (['D', $numD]);}
+			if ($numF > 0) {$grades[] = (['F', $numF]);}
+			if ($numNA > 0) {$grades[] = (['Not Available', $numNA]);}
+
+			$grades = json_encode($grades);
+		}
+		
+		return $grades;
+	}
 }

@@ -34,6 +34,13 @@ try {
 			if (!empty($_GET['instance-id'])) {
 				$instanceId = $_GET['instance-id'];
 				$surveyName = $_GET['survey-name'];
+				
+				if (false === ($questions = SurveyInstanceFactory::getSurveyInstanceQuestionIds($instanceId))) {
+					$errMsg =  SurveyInstanceFactory::getLastError();
+				} else if (false !== ($instanceTeams = TeamFactory::getTeamUsersByInstance($instanceId))) {
+					$errMsg =  TeamFactory::getLastError();
+				}
+
 			}
 		}
 	?>
@@ -45,9 +52,20 @@ try {
 			}
 		?>
 		<br>
-		<?php SurveyResults::injectTeamTables2($instanceId, $surveyName); ?>
+		<!--?php SurveyResults::injectTeamTables($instanceId, $surveyName); ?-->
+		<?php SurveyResults::injectTeamTables2($instanceId, $surveyName, $questions, $instanceTeams); ?>
 	</main>
 	<?php injectFooter(); ?>
 	<script src="js/piechart.js"></script>
+	<script>
+	
+		$(function() {
+			$('.pie-chart').each(function() {
+				pieData = eval($(this).attr('data'));
+				createPieChart($(this).attr('id'), pieData);
+			});
+		});
+	
+	</script>
 </body>
 </html>
