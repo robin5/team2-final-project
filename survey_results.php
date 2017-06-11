@@ -17,6 +17,10 @@ try {
 	<meta charset="UTF-8">
 	<title>Member Responses</title>
 	<link href="css/style.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
 	<?php injectHeader(); ?>
@@ -41,8 +45,9 @@ try {
 			}
 		?>
 		<br>
-		<?php SurveyResults::injectTeamTables($instanceId, $surveyName); ?>
+		<?php SurveyResults::injectTeamTables2($instanceId, $surveyName); ?>
 	</main>
 	<?php injectFooter(); ?>
+	<script src="js/piechart.js"></script>
 </body>
 </html>
