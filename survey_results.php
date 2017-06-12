@@ -17,6 +17,10 @@ try {
 	<meta charset="UTF-8">
 	<title>Member Responses</title>
 	<link href="css/style.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
 	<?php injectHeader(); ?>
@@ -30,6 +34,13 @@ try {
 			if (!empty($_GET['instance-id'])) {
 				$instanceId = $_GET['instance-id'];
 				$surveyName = $_GET['survey-name'];
+				
+				if (false === ($questions = SurveyInstanceFactory::getSurveyInstanceQuestionIds($instanceId))) {
+					$errMsg =  SurveyInstanceFactory::getLastError();
+				} else if (false !== ($instanceTeams = TeamFactory::getTeamUsersByInstance($instanceId))) {
+					$errMsg =  TeamFactory::getLastError();
+				}
+
 			}
 		}
 	?>
@@ -41,8 +52,20 @@ try {
 			}
 		?>
 		<br>
-		<?php SurveyResults::injectTeamTables($instanceId, $surveyName); ?>
+		<!--?php SurveyResults::injectTeamTables($instanceId, $surveyName); ?-->
+		<?php SurveyResults::injectTeamTables2($instanceId, $surveyName, $questions, $instanceTeams); ?>
 	</main>
 	<?php injectFooter(); ?>
+	<script src="js/piechart.js"></script>
+	<script>
+	
+		$(function() {
+			$('.pie-chart').each(function() {
+				pieData = eval($(this).attr('data'));
+				createPieChart($(this).attr('id'), pieData);
+			});
+		});
+	
+	</script>
 </body>
 </html>
