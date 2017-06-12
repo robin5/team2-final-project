@@ -27,6 +27,7 @@ header {
 	width: 100%;
 	background: #4E87A0;
 	font-size:1.5em;
+	tbl-edit-team
 }
 
 .header-title {
@@ -146,7 +147,8 @@ table {
 	width: 100%;
 	text-transform: capitalize;
 	border: 3px solid #666;
-	border-collapse: collapse;	
+	border-collapse: collapse;
+	text-transform: uppercase;	
 }
 th {
 	/*background:#77A140;*/
@@ -166,9 +168,13 @@ td.leftalign {
 
 td.surveyname {
 	text-align:right;
-	/*width:25%;	*/
+	width:30%;	
 	text-transform: uppercase;
+	/*font-weight: bold;*/
 }
+
+table.sm-col-name{ width:60%;}
+
 
 #div-error-msg {
 	background: #FF0000;
@@ -274,6 +280,9 @@ div.div-analyze, #tone-summary, #txt-summary{
 	margin-bottom: 10px;
 }
 
+#tone-summary .tbl-analyze{background:white; width:100%;
+
+} 
 label, .lbl-post-survey {
 	display: block;
 	float: left;
@@ -388,7 +397,7 @@ table.tbl-analyze{
     width:50%;
     padding: 10px;
 	margin: auto;
-	margin-top:6px;
+	margin-top:10px;
     background-color: #ff9f71;
 }
 
