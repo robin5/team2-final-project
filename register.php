@@ -43,8 +43,10 @@ try {
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav("Register"); ?>
+	</div>
 	<main>
 	<?php injectDivError($registrationError); ?>
 		<div id="div-register-user">

@@ -70,6 +70,7 @@ function injectUsersSelect() {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php 
 		if ($teamId === false) { 
@@ -80,6 +81,7 @@ function injectUsersSelect() {
 			$action = "update-team";
 		}
 	?>
+	</div>
 	<main>
 		<?php
 			if (!empty($errorMsg)) {

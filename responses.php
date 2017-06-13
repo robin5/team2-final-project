@@ -23,8 +23,7 @@ try {
 	<script src="js/analyzetone.js"></script>
 </head>
 <body>
-	<div class="fixedheader"> <!-- ?? Is this what you wanted to add Dave??-->
-	
+	<div class="fixedheader"> 
 	<?php injectHeader(); ?>
 	<?php
 		$errMsg = "";
@@ -63,7 +62,7 @@ try {
 		<div id="div-resp-student">
 			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
 		</div>
-	</div><!-- added for Dave's Fixed Header -->
+	</div>
 	<main>
 		<?php
 			if (!empty($errMsg)) {

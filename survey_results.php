@@ -23,6 +23,7 @@ try {
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php
 		$errMsg = "";
@@ -40,11 +41,11 @@ try {
 				} else if (false !== ($instanceTeams = TeamFactory::getTeamUsersByInstance($instanceId))) {
 					$errMsg =  TeamFactory::getLastError();
 				}
-
 			}
 		}
 	?>
 	<?php injectNav("Dashboard > Survey Results: " . $surveyName); ?>
+	</div>
 	<main>
 		<?php
 			if (!empty($errMsg)) {
