@@ -76,7 +76,7 @@ try {
 					Click to See Tone Summary
 				</button>
 			</div>
-			<div id="tone-summary"></div>
+			<div id="tone-summary" class="tone-summary"></div>
 		</div> 
 		<!-- -->
 		<?php 

@@ -1,17 +1,20 @@
-/**/
+	/***************************************************
+	 * SEND TEXT TO WATSON API in TONE.INC.PHP
+	 * PUT TONE RESULTS BACK ON PAGE
+	 ***************************************************/
+	function analyzeTone(txtReview, respDiv) {
+		//txtReview = feedback to be reviewed
+		//respDiv = ID for div where tone results will go
 
-	function analyzeTone(textArea, respDiv) {
-
-		if (textArea !='') {
+		if (txtReview !='') {
 			$.ajax({
 				type: "GET",  
 				url: './includes/ToneAnalyzer/tone.inc.php', 
-				data: { feedback : textArea},
+				data: { feedback : txtReview},
 			
 				success:function(html) {
 					var toneanalyze = $(respDiv);
 					toneanalyze.html(html);
-
 				},
 				error: function(){
 					$(respDiv).html('<div class="tone-error">An error occurred</div>');
@@ -19,31 +22,42 @@
 			});
 		} else {var toneanalyze = $(respDiv);
 				toneanalyze.html('<div class="tone-error">ERROR: Nothing to Review...Please type your peer review in the text box above.</div>')};
-	}
-	  
+	}//END analyzeTone
+
+
 	/***************************************************
-	 *
+	 * COLLECT TEXT FOR TONE ANALYZE
 	 ***************************************************/
 
-     function getAreaTxt(button, textArea, respDiv) {
-		// Change button text to Refresh
-		$('#' + button).html('Refresh');
-	
+     function getAreaTxt(button, txtA, respDiv) {
+     	//button = button id, txtA=textarea id, respDiv = output div ID for tone results
+
 		//is it summary? 
-		if (button === 'btn-summary') {
+		//if button clicked is summary bttton 
+		if (button.search( "btn-summary") != -1) {
+			console.log("YOU ARE in summary button");
 			//process text for summary
-			var textArea='';
-			$('textarea').each(function(){
-				textArea += " "+ $(this).val();});
+			var txtcollect="";
 
-			$('#' + button).html('Hide');
-			$("#btn-summary").attr("onclick","toggleAnalyze()");
+			//SELECT EACH text area and collect all all the text shown() text from textarea
+			$( "textarea" ).each(function(  ) {
+				//text only from visible elements //
+				if ($(this).is(':visible') ) {
+					txtcollect += " "+ $(this).val();
+				} //end if it is not hide()
+			}); //END each text area
+			//console.log(txtcollect);
 
-
+			//IF it is question button //
 		  } else {
+		  	console.log("question  button");
 		  //process text for a question
-		  	textArea = $('#' + textArea).val();}
-			$('#tone-summary').css('display', 'block');
-		  //Get Tone
-		  analyzeTone(textArea, '#' + respDiv);
-    }
+
+		  	txtcollect = $('#' + txtA).val();
+		  	//console.log(txtcollect);	
+		  }//END ELSE
+
+			//$('#tone-summary').css('display', 'block');
+		 //Get Tone
+		 analyzeTone(txtcollect, '#' + respDiv);
+    } //END getAreaTxt
