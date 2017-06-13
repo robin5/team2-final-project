@@ -18,8 +18,10 @@ try {
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav("Dashboard > Review Aggregate Results"); ?>
+	</div>
 	<main>
 		<div id="div-user">
 		<form action="dashboard.php" method="post">

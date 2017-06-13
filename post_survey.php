@@ -22,8 +22,10 @@ try {
 	<script src="js/jquery.datetimepicker.full.min.js"></script>
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav("Dashboard > Post Survey"); ?>
+	</div>
 	<main>
 	<form action="dashboard.php" method="post">
 		<div id="div-post-survey">

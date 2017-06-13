@@ -52,8 +52,10 @@ try {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav("Dashboard > Survey: {$surveyName}"); ?>
+	</div>
 	<?php injectDivError($errMsg); ?>
 	<h1><strong><?php echo "{$teamName}: {$revieweeName}"; ?></strong></h1><hr>
 	<main>

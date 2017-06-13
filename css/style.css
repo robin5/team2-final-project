@@ -12,7 +12,7 @@ body {
 	height: 100%;
 	width: 100%;
 	font-family: Arial, Helvetica;
-	padding: 0;
+	padding: 150px 0 0 0;
 	background: #FDFDFD;
 }
 
@@ -27,7 +27,13 @@ header {
 	width: 100%;
 	background: #4E87A0;
 	font-size:1.5em;
-	tbl-edit-team
+}
+
+.fixedheader {
+	position: fixed;
+	margin-bottom: 50px;
+	width: 100%;
+	top: 0;
 }
 
 .header-title {

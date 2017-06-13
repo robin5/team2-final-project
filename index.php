@@ -33,8 +33,10 @@ try {
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav(null); ?>
+	</div>
 	<?php injectDivError($loginError); ?>
 	<main>
 	<h3>Enter UserName and Password</h3 

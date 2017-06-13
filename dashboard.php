@@ -23,8 +23,10 @@ try {
 </head>
 <body>
 	<div class="wrapper">
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav("Dashboard"); ?>
+	</div>
 	<div id='div-error-msg'>
 	</div>
 	<?php

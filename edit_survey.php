@@ -116,6 +116,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 	<?php 
 		injectNav("Dashboard > " . $crumb);
 	?>
+	</div>
 	<main>
 		<?php
 			if (!empty($errorMsg)) {
