@@ -57,7 +57,6 @@ try {
 		}
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
-	</div>
 <!-- deleted the section adding name and team to the header as was not needed in summary -->
 	<main>
 		<?php
@@ -76,7 +75,7 @@ try {
 					Click to See Tone Summary
 				</button>
 			</div>
-			<div id="tone-summary"></div>
+			<div id="tone-summary" class="tone-summary"></div>
 		</div> 
 		<!-- -->
 		<?php 

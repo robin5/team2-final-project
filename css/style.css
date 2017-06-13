@@ -28,12 +28,12 @@ header {
 	background: #4E87A0;
 	font-size:1.5em;
 }
-
 .fixedheader {
 	position: fixed;
 	margin-bottom: 50px;
 	width: 100%;
 	top: 0;
+	tbl-edit-team
 }
 
 .header-title {
@@ -280,13 +280,13 @@ p.resp-grade {
 	clear: left;
 	margin-top: 20px;
 }
-div.div-analyze, #tone-summary, #txt-summary{
+div.div-analyze, .tone-summary, #txt-summary{
 /*div.div-analyze {*/
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-#tone-summary .tbl-analyze{background:white; width:100%;
+.tone-summary .tbl-analyze{background:white; width:80%;
 
 } 
 label, .lbl-post-survey {

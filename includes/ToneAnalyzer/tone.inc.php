@@ -17,37 +17,43 @@
   }
 
 
-
-/// SETUP WATSON API & Get JSON///
+/***************************************************
+  /// SETUP WATSON API & Get JSON///
+***************************************************/
   function getTone ($feedback){
     //API
   	$data= $feedback;
     //Watson username and password
-   $credentials = '95adcd29-4b80-4fa3-8ee7-1604ba4da748 : E3N7oVOwp4eG';
+    $credentials = '95adcd29-4b80-4fa3-8ee7-1604ba4da748 : E3N7oVOwp4eG';
   	//review all text for tone, not by sentence
   	$reviewAll ='&sentences=false';
 
-///////// LOCAL TEST  /////////
-//    $url="sampledata.json";
-//    $data = file_get_contents($url);
-//    $tone_data = json_decode(($data),true);
+    ///////// LOCAL JSON TEST FOR TESTING OFFLINE /////////
+    // $url="sampledata.json";
+    // $data = file_get_contents($url);
+    // $tone_data = json_decode(($data),true);
     //print_r ($data);
-/////////          /////////
+    ///////////////////////////////////////////
 
-    //API path to Watson service
- 	$url= "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=".urlencode($data).$reviewAll;
+    ///////// API to WATSON  /////////
+ 	  $url= "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=".urlencode($data).$reviewAll;
 
   	//CALL CURL callAPI & convert json to array
   	$tone_data = json_decode(CallAPI('GET', $url, $credentials),true);
+    /////////          /////////
 
     //Process resuts and return in table to response.php
     processTone ($tone_data);
 
     //var_dump($tone_data); //TEST to see JSON returned from Watson
     //print_r($tone_data); //TEST 
-  } //END processTone function
+  } //END getTone function
+/****************************************************/
 
+
+/************************************************************
   ////PROCESS the JSON RESULTS from WATSON and format in HTML
+*************************************************************/
   function processTone ($tone_data){
 
    //number of tone categories
@@ -89,16 +95,25 @@
    echo '</tbody></table">';//results
    //echo '<button class="btn-hide" onclick=> Hide </button>'; //TEST
   } //END getTone function
-////
 
+/****************************************************/
+
+
+/************************************************************
 //GET DATA FROM analyzeTone function in RESPONSE.php
+*************************************************************/
 $dataIn= $_GET['feedback'];
 //var_dump($dataIn); //TEST
 
-//TEST -SAMPLE TEXT- Use test API seprate from areatext
-//$dataIn="Hi Team, I know the times are difficult! Our sales have been disappointing for the past three quarters for our data analytics product suite. We have a competitive data analytics product suite in the industry. But we need to do our job selling it!";
-//TEST
+///////// //TEST -SAMPLE TEXT // /////////////////
+/////////Use test API seprate from areatext /////////
 
-//PROCESS data/text from response.php.
+//$dataIn="Hi Team, I know the times are difficult! Our sales have been disappointing for the past three quarters for our data analytics product suite. We have a competitive data analytics product suite in the industry. But we need to do our job selling it!";
+///////// //END TEST// /////////////////
+
+
+/************************************************************
+//FUNCTION PROCESS data/text from response.php in WATSON
+*************************************************************/
 getTone($dataIn);
 ?>

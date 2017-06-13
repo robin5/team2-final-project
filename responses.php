@@ -23,7 +23,8 @@ try {
 	<script src="js/analyzetone.js"></script>
 </head>
 <body>
-	<div class="fixedheader"> 
+	<div class="fixedheader"> <!-- ?? Is this what you wanted to add Dave??-->
+	
 	<?php injectHeader(); ?>
 	<?php
 		$errMsg = "";
@@ -62,17 +63,13 @@ try {
 		<div id="div-resp-student">
 			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
 		</div>
-	</div>
+	</div><!-- added for Dave's Fixed Header -->
 	<main>
 		<?php
 			if (!empty($errMsg)) {
 				injectDivError($errMsg);
 			}
 		?>
-		<!-- AMY - moved to main
-		<div id="div-resp-student">
-			<div id="reviewer"><?php //echo "Responses by: {$fullName} ({$teamName})"; ?></div>
-		</div>-->
 
 		<?php 
 			if ($users) {
@@ -80,18 +77,6 @@ try {
 			}
 		?>
 
-		<!-- <SUMMARY> -->
-		<div id="txt-summary">	
-			<hr>
-
-			<div>
-				<button id='btn-summary' class="resp-button" onclick="getAreaTxt('btn-summary','txt-summary','tone-summary')">
-					Click to See Tone Summary
-				</button>
-			</div>
-			<div id="tone-summary"></div>
-		</div> 
-		
 		<?php 
 			if ($questions && $users) {
 				Responses::injectQuestionAnswers($reviewer, $questions, $users);
@@ -105,15 +90,7 @@ try {
 			tabClick(0);
 		});
 	
-/*		function toggleAnalyze() {
-			var value = $('#summary-analyze').css('display');
-			
-			if (value == 'block') {
-				value = $('#summary-analyze').css('display', 'none');
-			} else {
-				value = $('#summary-analyze').css('display', 'block');
-			}
-		}*/
+	/*****REDO TOGGLE *****************************/
 		function toggleAnalyze() {
 			var value = $('#tone-summary').css('display');
 
@@ -129,7 +106,8 @@ try {
 
 			}
 		}
-		
+	/*****END REDO TOGGLE for SUMMARY w USER ID*****************************/
+
 		function tabClick(index) {
 			// loop through tabs class
 			$('.sp-tab').each(function(){
