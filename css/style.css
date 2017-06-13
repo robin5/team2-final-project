@@ -305,10 +305,21 @@ input, .inp-post-survey {
 /*************************************************
  * CSS for survey_on_me.php and responses.php
  *************************************************/
- 
+ #question {
+ 	padding-top: 40px;
+ 	padding-left:10px;
+ 	padding-bottom: 2px;
+ 	font-size:1.2em;
+ 	color:#FFF;
+	text-transform:uppercase; 
+	background-color: #7caabf;
+	border-radius: 4px;
+	/*margin:auto;*/
+}
+
 .question {
 	background-color:#DBE5EB;
-	padding: 4px 10px 10px 10px;
+	padding: 4px 10px 24px 10px;
 	margin: 10px 0 10px 0;
 }
 
@@ -324,7 +335,7 @@ textarea.ta-response {
 
 .resp-grade {
 	clear: left;
-	margin: 12px 0 5px 4px;
+	margin: 3px 0 5px 4px;
 	font-weight:bold;
 }
 
