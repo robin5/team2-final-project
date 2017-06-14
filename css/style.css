@@ -113,7 +113,7 @@ footer {
     height: 100px;
     width: 100%;
     overflow:hidden;
-    margin-top: 200px;
+    margin-top: 236px;
 }
 
 footer a {
@@ -152,7 +152,6 @@ span.footer-copyright {
 
 table {
 	width: 100%;
-	text-transform: capitalize;
 	border: 3px solid #666;
 	border-collapse: collapse;
 	text-transform: uppercase;	
@@ -421,7 +420,7 @@ table.tbl-analyze{
  * CSS for active and selected links on Dashboard and edit team
  *************************************************/
  a{	text-decoration: none;
- 	text-transform:capitalize;
+ 	text-transform:uppercase;
     padding:4px;}
  a:hover, a:active {
     background-color: #DBE5EB;
