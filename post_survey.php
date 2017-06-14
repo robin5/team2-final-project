@@ -45,7 +45,7 @@ try {
 			<br><br><hr>
 			<button id="post-survey" type="submit" name="action" value="start-survey">Start Survey</button>
 			&nbsp;|&nbsp;
-			<button type="submit" id="btn-cancel" name="action" value="cancelled">
+			<button type="submit" id="btn-cancel" name="action" value="cancelled" onclick="fakeFillLaunchSurveyFields();">
 				<span>Cancel</span>
 			</button>
 		</div>
@@ -59,6 +59,12 @@ try {
 			$('#start-date-time').datetimepicker();
 			$('#end-date-time').datetimepicker();
 		})
+
+		// fill in required fields with some data
+		function fakeFillLaunchSurveyFields() {
+			$('input').val(" ");
+			return true;
+		}
 	</script>
 </body>
 </html>
