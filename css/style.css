@@ -28,6 +28,7 @@ header {
 	background: #4E87A0;
 	font-size:1.5em;
 }
+
 .fixedheader {
 	position: fixed;
 	margin-bottom: 50px;
@@ -312,13 +313,13 @@ input, .inp-post-survey {
  	color:#FFF;
 	text-transform:uppercase; 
 	background-color: #7caabf;
-	border-radius: 4px;
-	/*margin:auto;*/
+	border-radius: 8px;
+	border: 2px solid black;
 }
 
 .question {
 	background-color:#DBE5EB;
-	padding: 4px 10px 24px 10px;
+	/*padding: 4px 10px 24px 10px;*/
 	margin: 10px 0 10px 0;
 }
 
@@ -334,7 +335,7 @@ textarea.ta-response {
 
 .resp-grade {
 	clear: left;
-	margin: 3px 0 5px 4px;
+	margin: 3px 0 5px 0;
 	font-weight:bold;
 }
 
