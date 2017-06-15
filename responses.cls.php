@@ -21,7 +21,7 @@ class Responses {
 			echo "</div>"; //END OF txt summary div
 			/*********** END SUMMARY TONE ********************************/
 
-			echo "<div class=\"resp-grade\">";
+			echo "<div class=\"resp-grade\" class=\"tone-summary\">";
 			echo "<p>{$user['first_name']} {$user['last_name']} ({$user['user_name']})</p>";
 			echo "</div>";
 			

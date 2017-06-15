@@ -89,23 +89,28 @@ try {
 		$(document).ready(function(){
 			tabClick(0);
 		});
+			/*****REDO TOGGLE TONE *****************************/
+
+	$( ".resp-tone").click(function() {
+		$(this).toggle();
+		$( ".resp-button").show();
+		//$( ".resp-tone").hide();
+		console.log("1");
+	});
+
 	
-	/*****REDO TOGGLE *****************************/
-		function toggleAnalyze() {
-			var value = $('#tone-summary').css('display');
-
-			if (value == 'block') {
-				value = $('#tone-summary').css('display', 'none');
-
-				$("#btn-summary").html('Refresh');		
-				$("#btn-summary").attr("onclick","getAreaTxt('btn-summary','txt-summary','tone-summary')");
-
-			} else {
-				value = $('#tone-summary').css('display', 'block');
-				$("#btn-summary").html('Hide');
-
-			}
-		}
+	$( ".resp-button").click(function() {
+		$(this.button).hide();
+		$( ".tone-summary").show();
+		$( ".resp-tone").show();
+		console.log("2");
+	});
+	
+	$( ".tone-summary").click(function() {
+		$(".resp-button").show();
+		$( this).hide();
+		console.log("3");
+	});
 	/*****END REDO TOGGLE for SUMMARY w USER ID*****************************/
 
 		function tabClick(index) {

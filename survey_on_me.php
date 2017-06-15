@@ -58,13 +58,16 @@ try {
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
 	</div>
+
 <!-- deleted the section adding name and team to the header as was not needed in summary -->
 	<main>
+		<div>
 		<?php
 			if (!empty($errMsg)) {
 				injectDivError($errMsg);
 			}
 		?>
+		<div>
 		<h3><strong>About <?php  echo "{$fullName}"; ?></strong></h3><hr>
 		
 
@@ -73,6 +76,7 @@ try {
 				SurveyOnMe::injectQuestionAnswers($reviewee, $questions, $users);
 			}
 		?>
+	</div>
 	</main>
 	<?php injectFooter(); ?>
 		<script>
@@ -82,21 +86,29 @@ try {
 			//tabClick(0); //AMY commented out tab -Not used?
 		});
 
-		/**************** Amy to redo hide/show Tone UI*******************/
-		// function toggleAnalyze() {
-		// 	var value = $('#tone-summary').css('display');
+				/*****REDO TOGGLE TONE *****************************/
 
-		// 	if (value == 'block') {
-		// 		value = $('#tone-summary').css('display', 'none');
+	$( ".resp-tone").click(function() {
+		$(this).hide();
+		$( ".resp-button").show();
+		//$( ".resp-tone").hide();
+		console.log("1");
+	});
 
-		// 		$("#btn-summary").html('Refresh');		
-		// 		$("#btn-summary").attr("onclick","getAreaTxt('btn-summary','txt-summary','tone-summary')");
-
-		// 	} else {
-		// 		value = $('#tone-summary').css('display', 'block');
-		// 		$("#btn-summary").html('Hide');
-		// 	}
-		// } //end toggleAnalyze
+	
+	$( ".resp-button").click(function() {
+		$(this.button).hide();
+		$( ".tone-summary").show();
+		$( ".resp-tone").show();
+		console.log("2");
+	});
+	
+	$( ".tone-summary").click(function() {
+		$(".resp-button").show();
+		$( this).hide();
+		console.log("3");
+	});
+	/*****END REDO TOGGLE for SUMMARY w USER ID*****************************/
 		</script>
 </body>
 </html>
