@@ -36,8 +36,10 @@ try {
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
+	<div class="fixedheader">
 	<?php injectHeader(); ?>
 	<?php injectNav(null); ?>
+	</div>
 	<main>
 		<h3>CSS Application Has Logged Out</h3>
 		<div>
