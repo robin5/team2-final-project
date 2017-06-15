@@ -1,6 +1,6 @@
 /* style.css */
 /* for CSS Team 2 Final Project */
-/* June 2017 */
+/* June 14 2017 */
 * {
 	box-sizing: border-box;
 }
@@ -37,6 +37,7 @@ header {
 	z-index: 1;
 }
 
+
 .header-title {
 	color: #FFF; 
 	margin-top: 0;
@@ -60,7 +61,7 @@ header {
 	display: block;
 	float: right;
 	color:#FFF;
-	text-transform:uppercase;
+ 	text-transform:capitalize;
 }
 #header-bottom {
 	clear: both;
@@ -120,7 +121,7 @@ footer a {
 	color:#fff;
 	padding:8px;
 	/*border-radius: 2px;*/
-	text-transform: uppercase;
+ 	text-transform:capitalize;
     text-decoration: none;
 
 }
@@ -152,9 +153,10 @@ span.footer-copyright {
 
 table {
 	width: 100%;
+	/*text-transform: capitalize;*/
 	border: 3px solid #666;
 	border-collapse: collapse;
-	text-transform: uppercase;	
+	/*text-transform: uppercase;	*/
 }
 th {
 	/*background:#77A140;*/
@@ -173,9 +175,9 @@ td.leftalign {
 }
 
 td.surveyname {
-	text-align:right;
+	text-align:left;
 	width:30%;	
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	/*font-weight: bold;*/
 }
 
@@ -280,15 +282,8 @@ p.resp-grade {
 	clear: left;
 	margin-top: 20px;
 }
-div.div-analyze, .tone-summary, #txt-summary{
-/*div.div-analyze {*/
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
 
-.tone-summary .tbl-analyze{background:white; width:80%;
-
-} 
+ 
 label, .lbl-post-survey {
 	display: block;
 	float: left;
@@ -306,21 +301,21 @@ input, .inp-post-survey {
  * CSS for survey_on_me.php and responses.php
  *************************************************/
  #question {
+ 	/*margin-top: 100px;*/
  	padding-top: 40px;
- 	padding-left:10px;
+ 	padding-left:2px;
  	padding-bottom: 2px;
  	font-size:1.2em;
  	color:#FFF;
 	text-transform:uppercase; 
 	background-color: #7caabf;
-	border-radius: 8px;
-	border: 2px solid black;
+	/*margin:auto;*/
 }
 
 .question {
 	background-color:#DBE5EB;
-	/*padding: 4px 10px 24px 10px;*/
-	margin: 10px 0 10px 0;
+	padding: 4px 10px 24px 10px;
+	margin: 0px 0 10px 0;
 }
 
 textarea.ta-response {
@@ -335,19 +330,11 @@ textarea.ta-response {
 
 .resp-grade {
 	clear: left;
-	margin: 3px 0 5px 0;
+	margin: 3px 0 5px 4px;
 	font-weight:bold;
 }
 
-.resp-tone {
-	margin-top: -12px;
-}
 
-.tone-error{
-	display:inline-block;
-	background-color:yellow;
-	margin:20px 40px;
-}
 /*************************************************
  * CSS for survey_on_me.php and responses.php
  *************************************************/
@@ -399,24 +386,6 @@ textarea.ta-response {
 	margin-left:10px;}
 
 
-/*table.tbl-analyze {
-	width:50%;}*/
-
-/*table.tbl-analyze {
-	float: left;
-	padding: 10;
-	margin-bottom: 20px;
-}*/
-
-table.tbl-analyze{
-    /*float: left;*/
-    /*display:inline-block;*/
-    width:50%;
-    padding: 10px;
-	margin: auto;
-	margin-top:10px;
-    background-color: #ff9f71;
-}
 
 .clear-question {
 	clear: left;
@@ -431,10 +400,57 @@ table.tbl-analyze{
  * CSS for active and selected links on Dashboard and edit team
  *************************************************/
  a{	text-decoration: none;
- 	text-transform:uppercase;
+
+ 	/*text-transform:capitalize;*/
     padding:4px;}
  a:hover, a:active {
     background-color: #DBE5EB;
+}
+
+/*************************************************
+ * CSS for Tone Summary
+ *************************************************/
 
 
+/*.tbl-analyze{background-color:red;}*/
+/*.tone-summary {
+	display:inline-block;
+	font-size:.85em;
+	margin-left:10px;
+}*/
+
+.txt-summary{margin:0;
+background-color:#DBE5EB;}
+
+
+.tone-summary, .resp-tone {
+    display: inline-block;
+    font-size: .70em;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+   
+    background-color:#f4f8f9;
+ }
+
+.t-results{
+	display:table-cell;
+	align-content: top;
+}
+
+.t-results table {
+	border:none;
+	border-collapse: collapse;}
+
+
+/*.tm th{font-size:1em;}*/
+
+.t-results td, th{border: 0 solid; 
+text-align: left;}
+
+
+.tone-error{
+	display:inline-block;
+	background-color:yellow;
+	margin:20px 40px;
 }

@@ -61,20 +61,27 @@
     //Number of tone scores in each Tone array in categories
     $numTones='';
 
-    echo '<table class="tbl-analyze"><tbody>';
-    //echo '<table id="analysis-all" class="tbl-analyze"><tbody>';
-    echo '<tr>';
+    //echo '<table class="tbl-analyze">';
+    //echo '<div>';
 
+    //echo '<table id="analysis-all" class="tbl-analyze"><tbody>';
+    //echo '<div class="tone-summary"><table class="tbl-analyze"><tbody>';
+
+    //echo '<div class="tone-summary">';
+     
     //this loop access the tone array and the name of the catagory
+
     for ($i=0; $i <$numCategories ; $i++) { 
+      echo '<div class="t-results"><table>';
       //list of categories (category_id or category_name)
-    	echo "<td><b>".$tone_data['document_tone']['tone_categories'][$i]['category_name']."</b><br>";
+      echo "<tr><th><b>".$tone_data['document_tone']['tone_categories'][$i]['category_name']."</b></th></tr>";
+    	//echo "<td>".$tone_data['document_tone']['tone_categories'][$i]['category_name']."<br>";
 
       //list of scores per category
     	//Number of elements in the tones array 
     	$numTones=count($tone_data['document_tone']['tone_categories'][$i]['tones']);
 
-     //echo "<br>";
+     echo "</tr><tr>";
     	for ($k=0; $k <$numTones ; $k++) {
           //Tone
           $tone=$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['tone_name'];
@@ -86,13 +93,13 @@
           $score=round(($score * 100), 2)."%";
 
           //output tone name and score value
-    		  echo $tone.": ".$score."<br>";
+    		  echo "<td>".$tone.": ".$score."</tr>";
     	 }//end tone score loop (k)
-      echo "</td>";
+      echo "</table></div>";
     } //end category_name (i) loop
-    echo '</tr">';//tone
+   // echo '</div>';//tone
 
-   echo '</tbody></table">';//results
+   //echo '</div">';//results
    //echo '<button class="btn-hide" onclick=> Hide </button>'; //TEST
   } //END getTone function
 
