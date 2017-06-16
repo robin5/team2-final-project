@@ -1,6 +1,6 @@
 /* style.css */
 /* for CSS Team 2 Final Project */
-/* June 14 2017 */
+/* June 15 2017 */
 * {
 	box-sizing: border-box;
 }
@@ -301,14 +301,15 @@ input, .inp-post-survey {
  * CSS for survey_on_me.php and responses.php
  *************************************************/
  #question {
-    padding-top: 40px;
-    padding-left: 2px;
-    padding-bottom: 2px;
-    font-size: 1.2em;
-    color: #FFF;
-    text-transform: uppercase;
-    background-color: #7caabf;
-    border: 2px solid black;
+ 	/*margin-top: 100px;*/
+ 	padding-top: 40px;
+ 	padding-left:2px;
+ 	padding-bottom: 2px;
+ 	font-size:1.2em;
+ 	color:#FFF;
+	text-transform:uppercase; 
+	background-color: #7caabf;
+	border: 2px solid black;
     border-radius: 6px;
 }
 
@@ -329,7 +330,7 @@ textarea.ta-response {
 }
 
 .resp-grade {
-    clear: left;
+	clear: left;
     margin: 0 4px 4px;
     font-weight: bold;
     padding-top: 20px;
@@ -343,6 +344,7 @@ textarea.ta-response {
 	margin-top:40px;
 	font-size: 1.15em;
 }
+
 
 #reviewer{
 	font-size: 1em;
@@ -412,27 +414,52 @@ textarea.ta-response {
  * CSS for Tone Summary
  *************************************************/
 
-
-/*.tbl-analyze{background-color:red;}*/
-/*.tone-summary {
-	display:inline-block;
-	font-size:.85em;
-	margin-left:10px;
-}*/
-
-.txt-summary{margin:0;
-background-color:#DBE5EB;}
-
-
-.tone-summary, .resp-tone {
-    display: inline-block;
-    font-size: .70em;
+.bar{
+	/*width:80%;
+	 font-size: .70em; 
     margin-left: 20px;
     margin-top: 5px;
-    margin-bottom: 20px;
-   
-    background-color:#f4f8f9;
+    margin-bottom: 20px;*/
+    background-color: #f4f8f9;
+    display: inline-flex;
+    padding: 6px;
+	/*display: block;*/
+/*	display: inline-flex;
+	height: 100%;
+	background-color: yellow;
+	position: relative;
+	overflow: hidden;*/
+}
+
+.details { 
+	width:300px;
+	height: 20px;  /* Can be anything */
+	position: relative;
+	background: #555;
+	background-color:tan;
+	/*padding: 10px;*/
+}
+
+.txt-summary{
+	margin:0;
+	background-color:#DBE5EB;
+}
+
+/*.tone-summary{clear:both; border-radius: 4px; width:80%;}*/
+.tone-summary, .resp-tone {
+    /*display: inline-block;*/
+    font-size: .85rem;
+   	/*font-size: .75rem;*/
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 40px;
+    display: inline;
+    /*background-color:#f4f8f9;*/
  }
+.resp-tone {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
 
 .t-results{
 	display:table-cell;
@@ -454,4 +481,43 @@ text-align: left;}
 	display:inline-block;
 	background-color:yellow;
 	margin:20px 40px;
+}
+
+/************************/
+/****BAR*****/
+.out {
+    background-color: pink;
+    /*display: inline-flex;*/
+    display:-webkit-inline-box;
+ }
+
+.summaryemotion{
+    margin: 2px;
+   /* width: 100%;*/
+ }
+
+.cat{
+    /*background-color: #365e70;% */
+    /*color: #4e87a0;
+    padding: 4px;*/
+    font-size: 1em;
+    font-weight: 700;
+    color: #5a5a5a;
+}
+
+.meter { 
+	/*height: 2*/
+	position: relative;
+	background: #e0e0e0; /*gray background*/
+}
+
+.meter-label{color: #4e87a0;}
+.meter > span {
+	padding:2px; /**/
+	display: block;
+	height: 100%;
+	background-color: #ffa500; /*bar color orange*/
+	position: relative;
+	/*overflow: hidden;*/
+	border-radius: 4px;
 }
