@@ -61,10 +61,26 @@ try {
 	<script>
 	
 		$(function() {
+			
+			// Set the pie chart data for each chart
 			$('.pie-chart').each(function() {
+				// Get the chart data from the chart's div data attribute
 				pieData = eval($(this).attr('data'));
+				// Create the chart using the retrieved data
 				createPieChart($(this).attr('id'), pieData);
 			});
+			
+			// Find the width of the largest content div
+			var maxDivWidth = 0;
+			$('.reviewee-content').each(function(){
+				if ($(this).width() > maxDivWidth) {
+					maxDivWidth = $(this).width();
+				}
+			});
+			// Set all of the content widths to the largest content div width
+			$('.reviewee-content').width(maxDivWidth);
+			
+			
 		});
 	
 	</script>
