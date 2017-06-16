@@ -29,7 +29,7 @@
   	$reviewAll ='&sentences=false';
 
     ///////// LOCAL JSON TEST FOR TESTING OFFLINE /////////
-    // $url="sampledata.json";
+     //$url="negative.json";
     // $data = file_get_contents($url);
     // $tone_data = json_decode(($data),true);
     //print_r ($data);
@@ -42,8 +42,9 @@
   	$tone_data = json_decode(CallAPI('GET', $url, $credentials),true);
     /////////          /////////
 
-    //Process resuts and return in table to response.php
-    processTone ($tone_data);
+    //Process resuts and return in table to response.php  
+    processBar ($tone_data);
+   // processTone ($tone_data); 
 
     //var_dump($tone_data); //TEST to see JSON returned from Watson
     //print_r($tone_data); //TEST 
@@ -61,21 +62,14 @@
     //Number of tone scores in each Tone array in categories
     $numTones='';
 
-    //echo '<table class="tbl-analyze">';
-    //echo '<div>';
-
-    //echo '<table id="analysis-all" class="tbl-analyze"><tbody>';
-    //echo '<div class="tone-summary"><table class="tbl-analyze"><tbody>';
-
-    //echo '<div class="tone-summary">';
+    echo '<span class="details" >';
      
     //this loop access the tone array and the name of the catagory
-
     for ($i=0; $i <$numCategories ; $i++) { 
       echo '<div class="t-results"><table>';
       //list of categories (category_id or category_name)
       echo "<tr><th><b>".$tone_data['document_tone']['tone_categories'][$i]['category_name']."</b></th></tr>";
-    	//echo "<td>".$tone_data['document_tone']['tone_categories'][$i]['category_name']."<br>";
+
 
       //list of scores per category
     	//Number of elements in the tones array 
@@ -88,19 +82,83 @@
 
           //Score
     		  $score =$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['score'];
+          //var_dump($score);
 
           //FORMAT score to % & round up (1.05%)
-          $score=round(($score * 100), 2)."%";
+         $score=round(($score * 100), 2)."%";
+
+         // $score=round($score, 2);
+          //var_dump($score);
 
           //output tone name and score value
-    		  echo "<td>".$tone.": ".$score."</tr>";
+    		  //echo "<td>".$tone.": ".($score * 100)."%"."</tr>";
+          echo "<td>".$tone.": ".$score."</tr>";
+
+
     	 }//end tone score loop (k)
       echo "</table></div>";
+      
     } //end category_name (i) loop
-   // echo '</div>';//tone
+    echo "</span>"; /*end Details*/
 
-   //echo '</div">';//results
-   //echo '<button class="btn-hide" onclick=> Hide </button>'; //TEST
+  } //END getTone function
+
+/****************************************************/
+
+
+/************************************************************
+  ////PROCESS bar the JSON RESULTS 
+*************************************************************/
+  function processBar ($tone_data){
+
+   //number of tone categories
+    $numCategories=count($tone_data['document_tone']['tone_categories']);
+    //Number of tone scores in each Tone array in categories
+    $numTones='';
+
+    echo '<span class="bar" >';
+    //this loop access the tone array and the name of the catagory
+
+    for ($i=0; $i <$numCategories ; $i++) { 
+
+      echo '<div class="summaryemotion" >';
+ 
+      //list of categories (category_id or category_name)
+      //category name
+      echo '<div class="cat" >'.$tone_data['document_tone']['tone_categories'][$i]['category_name']."</div>";
+
+      //list of scores per category
+      //Number of elements in the tones array 
+      $numTones=count($tone_data['document_tone']['tone_categories'][$i]['tones']);
+
+      for ($k=0; $k <$numTones ; $k++) {
+          //Tone
+          $tone=$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['tone_name'];
+          //Score
+          $score =$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['score'];
+          //var_dump($score);
+
+          //FORMAT score to % & round up (1.05%)
+         $score=round(($score * 100), 0)."%";
+          //$score=round($score, 2);
+          //var_dump($score);
+
+          echo'<div class="meter-label">';
+          echo $tone;
+          echo '</div>'; //end meter-lable
+
+          echo'<div class="meter">';
+          echo "<span style=\"width:".$score."\">".$score."</span>";
+          echo '</div>'; //end meter
+
+
+       }//end tone score loop (k)
+      echo "</div>"; /*end category*/
+      
+    } //end category_name (i) loop
+    echo "</div>"; /*end summaryemotion*/
+    echo"</span>";/*end Bar*/
+
   } //END getTone function
 
 /****************************************************/
