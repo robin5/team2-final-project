@@ -99,16 +99,16 @@ try {
 		$(document).ready(function(){
 			tabClick(0);
 		});
-			/*****REDO TOGGLE TONE *****************************/
+
+
+	/***** TOGGLE TONE RESULTS *****************************/
 
 	$( ".resp-tone").click(function() {
 		$(this).toggle();
 		$( ".resp-button").show();
-		//$( ".resp-tone").hide();
 		console.log("1");
 	});
 
-	
 	$( ".resp-button").click(function() {
 		$(this.button).hide();
 		$( ".tone-summary").show();
@@ -121,7 +121,7 @@ try {
 		$( this).hide();
 		console.log("3");
 	});
-	/*****END REDO TOGGLE for SUMMARY w USER ID*****************************/
+	/*****END TOGGLE TONE*****************************/
 
 		function tabClick(index) {
 			// loop through tabs class

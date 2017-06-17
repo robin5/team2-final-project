@@ -35,7 +35,7 @@
 		//is it summary? 
 		//if button clicked is summary bttton 
 		if (button.search( "btn-summary") != -1) {
-			console.log("YOU ARE in summary button");
+			//console.log("YOU ARE in summary button");
 			//process text for summary
 			var txtcollect="";
 
@@ -57,7 +57,6 @@
 		  	//console.log(txtcollect);	
 		  }//END ELSE
 
-			//$('#tone-summary').css('display', 'block');
 		 //Get Tone
 		 analyzeTone(txtcollect, '#' + respDiv);
     } //END getAreaTxt

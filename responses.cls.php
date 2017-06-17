@@ -50,7 +50,7 @@ class Responses {
 					$text = "-- Not yet Submitted --";
 					$textclass = "ta-response-none";
 				}
-				
+				//GRADE
 				echo "<div class=\"resp-grade\">";
 				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span>&nbsp;&nbsp;{$question['text']}<br>";
 				echo "</div>";
@@ -58,6 +58,7 @@ class Responses {
 				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\" cols=\"80\" rows=\"5\">{$text}</textarea>";
 				
 				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Review</button>";
+				//TONE
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
 				$buttonIndex++;
 			} // for each questions
