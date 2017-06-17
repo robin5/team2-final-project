@@ -7,6 +7,7 @@ try {
 	require_once('includes/footer.php');
 	require_once('includes/Database/TeamUserFactory.php');
 	require_once('includes/Database/SurveyInstanceFactory.php');
+	require_once('includes/Database/SurveyFactory.php');
 	require_once('Responses.cls.php');
 	
 } catch(Exception $e) {
@@ -51,9 +52,11 @@ try {
 				$reviewer = $_GET['reviewer'];
 				
 				if (false === ($users = TeamUserFactory::getTeamMembersByTeamId($teamId))) {
-					$errMsg =  TeamInstanceFactory::getLastError();
+					$errMsg =  TeamUserFactory::getLastError();
 				} else if (false === ($questions = SurveyInstanceFactory::getSurveyInstanceQuestionIds($instanceId))) {
-					$errMsg =  TeamInstanceFactory::getLastError();
+					$errMsg =  SurveyInstanceFactory::getLastError();
+				} else if (false === ($surveyId = SurveyFactory::getSurveyIdByInstance($_SESSION['userId'], $instanceId))) {
+					$errMsg =  SurveyFactory::getLastError();
 				}
 			}
 		}
@@ -79,9 +82,16 @@ try {
 
 		<?php 
 			if ($questions && $users) {
-				Responses::injectQuestionAnswers($reviewer, $questions, $users);
+				Responses::injectQuestionAnswers($surveyId, $reviewer, $questions, $users);
 			}
 		?>
+		
+		<?php 
+			if ($users) {
+				Responses::injectUserRedoSection($surveyId, $instanceId, $reviewer, $users);
+			}
+		?>
+
 	</main>
 	<?php injectFooter(); ?>
 	<script>

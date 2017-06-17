@@ -32,7 +32,7 @@ try {
 	<?php
 		$errMsg = "";
 		
-		//echo "<pre>"; print_r($_POST); echo "</pre>";
+		// echo "<pre>"; print_r($_POST); echo "</pre>";
 		
 		if (($_SERVER['REQUEST_METHOD'] === "POST") && (isset($_POST['action']))) {
 
@@ -155,8 +155,6 @@ try {
 			
 			else if (($_POST['action'] === "submit-survey") || 
 					 ($_POST['action'] === "save-survey")){
-
-					
 					 
 				// Verify having all parameters
 				if (!empty($_POST['reviewee']) &&
@@ -176,6 +174,26 @@ try {
 						$_POST['responses'],
 						$_POST['response-id'],
 						$submitFlag,
+						$errMsg);
+				}
+			}
+
+			// ---------------------------------------
+			// Submit a survey
+			// ---------------------------------------
+			
+			else if ($_POST['action'] === "redo-survey") {
+
+			// Verify having all parameters
+				if (!empty($_POST['reviewer']) &&
+					!empty($_POST['instance-id']) && 
+					!empty($_POST['reviewees'])) {
+
+					DashBoard::redoSurveys(
+						$_SESSION['userId'],
+						$_POST['instance-id'], 
+						$_POST['reviewer'],
+						$_POST['reviewees'],
 						$errMsg);
 				}
 			}

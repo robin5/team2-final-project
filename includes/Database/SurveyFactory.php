@@ -240,7 +240,9 @@ class SurveyFactory extends DatabaseFactory {
 			if (false !== ($instanceId = SurveyInstanceFactory::insert($start, $end))) {
 				// Update the new survey's instance
 				if (false !== self::updateSurveyInstance($surveyId, $instanceId, $ownerId)) {
-					return TeamFactory::generateInstanceTeams($instanceId, $ownerId, $teamIds);
+					if (false !== TeamFactory::generateInstanceTeams($instanceId, $ownerId, $teamIds)) {
+						return SurveyCompleteFactory::generateSurveyCompletes($surveyId, $ownerId, $teamIds);
+					}
 				}
 			}
 		}
@@ -280,6 +282,22 @@ class SurveyFactory extends DatabaseFactory {
 			self::$lastError = $db->error;
 		} else {
 			return $survey;
+		}
+		return false;
+	}
+	
+	public static function getSurveyIdByInstance($ownerId, $instanceId) {
+		
+		$query = "SELECT survey_id FROM tbl_survey WHERE instance_id={$instanceId} AND owner_id={$ownerId}";
+		
+		$db = DatabaseConnectionFactory::getConnection();
+
+		if (false === ($result = $db->query($query))) {
+			self::$lastError = $db->error;
+		} else if (false === ($survey = $result->fetch_assoc())) {
+			self::$lastError = $db->error;
+		} else {
+			return $survey['survey_id'];
 		}
 		return false;
 	}
