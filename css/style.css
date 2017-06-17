@@ -110,11 +110,11 @@ footer {
 	background: #4E87A0;
     position: relative;
     left: 0;
-    bottom: 0;
+    /*bottom: 0;*/
     height: 100px;
     width: 100%;
     overflow:hidden;
-    margin-top: 236px;
+    margin-top: 376px;
 }
 
 footer a {
@@ -370,9 +370,8 @@ textarea.ta-response {
 }
 
  button{
- 	/*border-radius: 4px;*/
+ 	border-radius: 4px;
  	padding:6px;
- 	font-size: 1em;
  }
 
 #btn-summary, .btn-hide, .resp-button {
