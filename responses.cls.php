@@ -4,13 +4,14 @@ require_once('includes/Database/QuestionResponseFactory.php');
 
 class Responses {
 
-	public static function injectQuestionAnswers($reviewer, $questions, $users) {
+	public static function injectQuestionAnswers($surveyId, $reviewer, $questions, $users) {
 	
 		$userIndex = 0;
 		$buttonIndex = 0;
 		foreach($users as $user) {
 
-
+			$submissionId = SurveyCompleteFactory::getSubmissionId($surveyId, $user['user_id'], $reviewer);
+			
 			echo "<div id=\"user-{$userIndex}\" class=\"question\">";
 
 			/*********** SUMMARY TONE PER USER ********************************/
@@ -22,27 +23,40 @@ class Responses {
 			/*********** END SUMMARY TONE ********************************/
 
 			echo "<div class=\"resp-grade\" class=\"tone-summary\">";
-			echo "<p>{$user['first_name']} {$user['last_name']} ({$user['user_name']})</p>";
+			//echo "<p>{$user['first_name']} {$user['last_name']} ({$user['user_name']})</p>";
 			echo "</div>";
 			
 			foreach($questions as $question) {
 				
 				$text = "";
 				$grade = "---";
-				if (false !== ($response = QuestionResponsefactory::getResponse($question['question_id'], $user['user_id'], $reviewer))) {
-					$text = $response['text'];
-					$grade = $response['grade'];
+				$textclass = "ta-response";
+				
+				if ($submissionId == 1) {
+					if (false !== ($response = QuestionResponsefactory::getResponse($question['question_id'], $user['user_id'], $reviewer))) {
+						$text = $response['text'];
+						$grade = $response['grade'];
+					}
+					if (empty($text)) {
+						$text = "Nothing submitted!";
+					}
 					if (empty($grade)) {
 						$grade = "---";
 					}
+				} else if ($submissionId == 2) {
+					$text = "-- Requested resubmission --";
+					$textclass = "ta-response-redo";
+				} else if ($submissionId == 0) {
+					$text = "-- Not yet Submitted --";
+					$textclass = "ta-response-none";
 				}
 				//GRADE
 				echo "<div class=\"resp-grade\">";
 				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span>&nbsp;&nbsp;{$question['text']}<br>";
-				echo "</div>"; //end resp-grade div
-				//BUTTON AND TEXTAREA
-				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea>";
-	
+				echo "</div>";
+				
+				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\" cols=\"80\" rows=\"5\">{$text}</textarea>";
+				
 				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Review</button>";
 				//TONE
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
@@ -69,7 +83,29 @@ class Responses {
 		}
 		echo "</strong>";
 		echo "</div>";
+	}
+	
+	public static function injectUserRedoSection($surveyId, $instanceId, $reviewer, $users) {
+
+		$index = 0;
+		echo "<div id=\"div-user-redo\">";
+		echo "<form action=\"dashboard.php\" method=\"POST\"><fieldset><legend>Check user who should redo surveys and press \"Redo Surveys\" button</legend><br>";
 		
+		echo "<input id=\"reviewer\" type=\"hidden\" name=\"reviewer\" value=\"{$reviewer}\">";
+		echo "<input id=\"instance-id\" type=\"hidden\" name=\"instance-id\" value=\"{$instanceId}\">";
+		
+		foreach($users as $user) {
+
+			$submissionId = SurveyCompleteFactory::getSubmissionId($surveyId, $user['user_id'], $reviewer);
+			
+			if ($submissionId == 1) {
+				echo "<input id=\"redo-input{$index}\" type=\"checkbox\" name=reviewees[{$index}] value=\"{$user['user_id']}\">";
+				echo " {$user['first_name']} {$user['last_name']}<br>";
+				$index++;
+			}
+		}
+		echo "<br><button type=\"submit\" name=\"action\" value=\"redo-survey\">Redo Surveys</fieldset>";
+		echo "</div>";
 	}
 	
 }

@@ -212,7 +212,7 @@ class QuestionResponseFactory extends DatabaseFactory {
 		}
 
 		if ($submitFlag) {
-			return SurveyCompleteFactory::insert($surveyId, $reviewee, $reviewer, 1 /*submitted */);
+			return SurveyCompleteFactory::setSubmissionId($surveyId, $reviewer, $reviewee, 1 /*submitted */);
 		}
 		return true;
 	}
