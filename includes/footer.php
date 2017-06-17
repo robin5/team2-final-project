@@ -9,7 +9,7 @@
 		echo "<span class=footer-log-out>";
 		echo "<a href=\"logout.php\">Log Out</a>";
 		echo "</span>";
-		echo "<span class=\"footer-copyright\">Copyright 2017</span>";
+		echo "<span class=\"footer-copyright\">Team2: Clark College Survey &copy 2017</span>";
 		echo "</footer>";
 	}
 ?>
