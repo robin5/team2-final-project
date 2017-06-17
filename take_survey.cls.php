@@ -50,7 +50,7 @@ class TakeSurvey {
 			
 			if (count($questions) > 0) {
 				echo "<button style=\"font-size: 1.25em;\" name=\"action\" value=\"save-survey\">Save & Exit</button>&nbsp;|&nbsp;";
-				echo "<button type=\"submit\" id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
+				echo "<button type=\"submit\" style=\"font-size: 1.25em;\"id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
 				echo "<span style=\"font-size: 1.25em;\">&nbsp;|&nbsp;</span>";
 				echo "<button type=\"submit\" style=\"font-size: 1.25em;\" name=\"action\" value=\"submit-survey\">Submit</button>";
 			}
