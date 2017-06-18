@@ -142,7 +142,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 		function getNextRowId() {
 			rowId++;
 			var tr = '<tr id=row-id-' + rowId + ' class="question-row">';
-			tr += '<td><textarea name="survey-questions[' + rowId + ']" cols="80" rows="5" required></textarea></td>';
+			tr += '<td><textarea name="survey-questions[' + rowId + ']" cols="208" rows="5" required></textarea></td>';
 			tr += '<td><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
 			return tr;
 		}
