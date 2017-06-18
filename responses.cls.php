@@ -17,7 +17,7 @@ class Responses {
 			/*********** SUMMARY TONE PER USER ********************************/
 			echo "<div id=\"txt-summary-{$userIndex}\" class=\"summary\">";
 			echo "<hr>";
-			echo "<div> <button id=\"btn-summary-{$userIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-summary-{$userIndex}','txt-summary-{$userIndex}','tone-summary-{$userIndex}')\">Click to See Tone Summary</button></div>";
+			echo "<div> <button id=\"btn-summary-{$userIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-summary-{$userIndex}','txt-summary-{$userIndex}','tone-summary-{$userIndex}')\">Show Tone Summary</button></div>";
 			echo "<div id=\"tone-summary-{$userIndex}\" class=\"tone-summary\"></div>";
 			echo "</div>"; //END OF txt summary div
 			/*********** END SUMMARY TONE ********************************/
@@ -56,8 +56,9 @@ class Responses {
 				echo "</div>";
 				
 				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\" cols=\"80\" rows=\"5\">{$text}</textarea>";
-				
-				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Review</button>";
+
+				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" class=\"iconbutton\"  onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\" value=\"Tone\">Tone Details</button>";
+
 				//TONE
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
 				$buttonIndex++;

@@ -97,7 +97,7 @@ try {
 
 	
 	$( ".resp-button").click(function() {
-		$(this.button).hide();
+		// $(this).hide();
 		$( ".tone-summary").show();
 		$( ".resp-tone").show();
 		console.log("2");
