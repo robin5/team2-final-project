@@ -20,14 +20,40 @@ function validateForm(evt) {
 
 	var isValid = false;
 	const msgRequired = "<strong>&nbsp;&nbsp;required!&nbsp;&nbsp;</strong>";
-	
+
 	try {
 		isValid = true;
 		isValid &= checkValid('#username',   '#req-username'  );
 		isValid &= checkValid('#password',   '#req-password'  );
+		isValid &= checkValid('#password2',  '#req-password2' );
 		isValid &= checkValid('#first-name', '#req-first-name');
 		isValid &= checkValid('#last-name',  '#req-last-name' );
 		isValid &= checkValid('#email',      '#req-email'     );
+		
+		password1 = $('#password').val();
+		password2 = $('#password2').val();
+		
+		// Verify that passwords match
+		if ((password1 != '') && (password2 != '')) {
+			if (password1 != password2) {
+				$('#req-password').html('<strong>&nbsp;&nbsp;Passwords do not match!&nbsp;&nbsp;</strong>').show();
+				$('#req-password2').html('<strong>&nbsp;&nbsp;Passwords do not match!&nbsp;&nbsp;</strong>').show();
+				isValid = false;
+			} else {
+				$('#req-password').html('&nbsp;').hide();
+				$('#req-password2').html('&nbsp;').hide();
+			}
+		}
+		
+		// Verify that a role is selected
+		var roleVal = $('#select-role').val();
+		
+		if (!((roleVal == 1) || (roleVal == 2))) {
+			$('#req-role').html('<strong>&nbsp;&nbsp;You must specify a role!&nbsp;&nbsp;</strong>').show();
+			isValid = false;
+		}  else {
+			$('#req-role').html('&nbsp;').hide();
+		}
 	}
 	finally {
 		if (!isValid) {
@@ -46,7 +72,7 @@ function validateForm(evt) {
  *******************************************************/
 
  function checkValid(field, reqElement) {
-
+	 
 	var text = $(field).val().trim();
 	$(field).val(text);
 
@@ -54,7 +80,7 @@ function validateForm(evt) {
 		$(reqElement).html('<strong>&nbsp;&nbsp;required!&nbsp;&nbsp;</strong>').show();
 		return false;
 	} else {
-		$(reqElement).html('&nbsp;').hide();
+		$(reqElement).html('&nbsp;').hide();console.log('hide');
 		return true;
 	}
 }

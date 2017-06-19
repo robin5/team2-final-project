@@ -13,7 +13,7 @@ class UserFactory extends DatabaseFactory {
 	 *     PROCEDURE INCASED IN A TRANSACTION
 	 *****************************************************/
 	 
-    public static function insert($user_name, $password, $first_name, $last_name, $email, $isInstructor) {
+    public static function insert($user_name, $password, $first_name, $last_name, $email) {
         
 		$userId = false;
 		
