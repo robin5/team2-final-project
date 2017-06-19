@@ -57,7 +57,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 						
 						foreach($questions as $question) {
 							$tr = "<tr id=row-id-{$rowId} class=\"question-row\">";
-							$tr .= "<td><textarea class=\"ta-response\" name=\"survey-questions[{$rowId}]\" cols=\"80\" rows=\"5\" required>{$question}</textarea></td>";
+							$tr .= "<td><textarea class=\"ta-response\" name=\"survey-questions[{$rowId}]\" required>{$question}</textarea></td>";
 							$tr .= "<td><a href=\"#\" data-row-id=\"{$rowId}\" onclick=\"deleteRow(event)\">delete</a></td></tr>";
 							echo $tr;
 							$rowId++;
@@ -129,7 +129,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 		function getNextRowId() {
 			rowId++;
 			var tr = '<tr id=row-id-' + rowId + ' class="question-row">';
-			tr += '<td><textarea name="survey-questions[' + rowId + ']" cols="208" rows="5" required></textarea></td>';
+			tr += '<td><textarea class="ta-response" name="survey-questions[' + rowId + ']" required></textarea></td>';
 			tr += '<td><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
 			return tr;
 		}
