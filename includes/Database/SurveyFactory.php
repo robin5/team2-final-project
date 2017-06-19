@@ -126,11 +126,14 @@ class SurveyFactory extends DatabaseFactory {
 		if (false !== ($surveyId = self::insert($surveyName, $ownerId))) {
 			
 			$numQuestions = count($questions);
-			for ($qsIndex = 0; $qsIndex < $numQuestions; $qsIndex++) {
-				if (false === SurveyQuestionFactory::insert($surveyId, $questions[$qsIndex], $qsIndex)) {
+			
+			$qsIndex = 0;
+			foreach($questions as $question) {
+				if (false === SurveyQuestionFactory::insert($surveyId, $question, $qsIndex)) {
 					// [REVISIT] at this point we really should roll back the entire transaction
 					return false;
 				}
+				$qsIndex++;
 			}
 		}
 		return $surveyId;

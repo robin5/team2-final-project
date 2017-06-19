@@ -54,6 +54,7 @@ function injectDivSurvey($surveyName, $surveyId) {
 
 				if (false !== $surveyId) {
 					if (false != ($questions = SurveyQuestionFactory::getSurveyQuestions($surveyId))) {
+						
 						foreach($questions as $question) {
 							$tr = "<tr id=row-id-{$rowId} class=\"question-row\">";
 							$tr .= "<td><textarea class=\"ta-response\" name=\"survey-questions[{$rowId}]\" cols=\"80\" rows=\"5\" required>{$question}</textarea></td>";
@@ -89,19 +90,6 @@ function injectDivSurvey($surveyName, $surveyId) {
 <?php 
 }
 ?>
-
-
-<!--
-
-1. Work cooperatively as part of a team and contribute in both leadership and supportive roles.
-
-2. Be flexible, adapt to unanticipated situations and resolve conflicts
-
-3. Build relationships of trust, mutual respect and productive interactions.
-
-4. Communicate and clarify ideas through well-written business correspondence, proposals, instructions, design summaries and client briefs. (Note: This includes all correspondence through email, Slack, and other communication methodologies adopted by your team.)
-
--->
 <!doctype html>
 <html lang="en">
 <head>
@@ -125,7 +113,6 @@ function injectDivSurvey($surveyName, $surveyId) {
 			injectDivSurvey($surveyName, $surveyId);
 		?>
 	</main>
-
 	<script>
 	
 		var rowId;
