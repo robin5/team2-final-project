@@ -47,7 +47,7 @@ class SurveyOnMe {
 				//Show tone UI if viewer is the reviewer (#showRevier)
 				echo "<div>Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span></div><br>";
 				echo "</div>";
-				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea>";
+				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\">{$text}</textarea>";
 
 				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" class=\"iconbutton\"  onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\">Tone Details</button>";
 				
@@ -57,7 +57,7 @@ class SurveyOnMe {
 					//Viewre is not reviewer hide names and tone UI
 				echo "<div>Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span></div><br>";
 				echo "</div>";
-				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\" cols=\"80\" rows=\"5\">{$text}</textarea>";
+				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"ta-response\">{$text}</textarea>";
 				}// end if viewer is reviewer
 				$buttonIndex++;
 
