@@ -20,6 +20,8 @@ try {
 	<title>CSS Review On Student</title>
 	<link href="css/style.css" rel="stylesheet" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!-- <script src="jquery-3.2.1.slim.min.js"></script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 	<script src="js/analyzetone.js"></script>
 </head>
 <body>
@@ -57,9 +59,7 @@ try {
 		}
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
-	</div>
-
-<!-- deleted the section adding name and team to the header as was not needed in summary -->
+	</div> <!-- end header -->
 	<main>
 		<div>
 		<?php
@@ -82,33 +82,32 @@ try {
 		<script>
 	
 		$(document).ready(function(){
-			$('input[type="text"], textarea').attr('readonly','readonly');//AMY turned tab off
-			//tabClick(0); //AMY commented out tab -Not used?
+			$('input[type="text"], textarea').attr('readonly','readonly');//<- don't allow editing fo textareas
+			//tabClick(0); 
 		});
 
-				/*****REDO TOGGLE TONE *****************************/
+			/*****Hide/Show TOGGLE for TONE RESULTS *************/
+			$( ".resp-tone").click(function() {
+				$(this).hide();
+				$( ".resp-button").show();
+				//$( ".resp-tone").hide();
+				console.log("1");
+			});
 
-	$( ".resp-tone").click(function() {
-		$(this).hide();
-		$( ".resp-button").show();
-		//$( ".resp-tone").hide();
-		console.log("1");
-	});
-
-	
-	$( ".resp-button").click(function() {
-		// $(this).hide();
-		$( ".tone-summary").show();
-		$( ".resp-tone").show();
-		console.log("2");
-	});
-	
-	$( ".tone-summary").click(function() {
-		$(".resp-button").show();
-		$( this).hide();
-		console.log("3");
-	});
-	/*****END REDO TOGGLE for SUMMARY w USER ID*****************************/
+			
+			$( ".resp-button").click(function() {
+				// $(this).hide();
+				$( ".tone-summary").show();
+				$( ".resp-tone").show();
+				console.log("2");
+			});
+			
+			$( ".tone-summary").click(function() {
+				$(".resp-button").show();
+				$( this).hide();
+				console.log("3");
+			});
+			/*****END TOGGLE TONE*****************************/
 		</script>
 </body>
 </html>

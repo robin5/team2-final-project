@@ -20,8 +20,13 @@ try {
 	<meta charset="UTF-8">
 	<title>CSS Review By Student</title>
 	<link href="css/style.css" rel= "stylesheet" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!-- <script src="jquery-3.2.1.slim.min.js"></script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 	<script src="js/analyzetone.js"></script>
+
+
 </head>
 <body>
 	<div class="fixedheader"> <!-- ?? Is this what you wanted to add Dave??-->
@@ -62,11 +67,11 @@ try {
 		}
 	?>
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
-	<!-- Amy moved from main -->
+
 		<div id="div-resp-student">
 			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
 		</div>
-	</div><!-- added for Dave's Fixed Header -->
+	</div><!-- end Header -->
 	<main>
 		<?php
 			if (!empty($errMsg)) {
@@ -101,7 +106,7 @@ try {
 		});
 
 
-	/***** TOGGLE TONE RESULTS *****************************/
+	/*****Hide/Show TOGGLE for TONE RESULTS *************/
 
 	$( ".resp-tone").click(function() {
 		$(this).toggle();
