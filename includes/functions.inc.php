@@ -13,22 +13,22 @@ require_once('util.inc.php');
  * Return: New users userId or false if unsuccessful
  ******************************************************/
 
-function registerUser($userName, $password, $firstName, $lastName, $email, $isInstructor) {
+function registerUser($userName, $password, $firstName, $lastName, $email, $role) {
 	// Get roleId from the database
 	
 	$password_hash = password_hash($password, PASSWORD_DEFAULT);
 	
-	if ($user_id = UserFactory::insert($userName, $password_hash, $firstName, $lastName, $email, $isInstructor)) {
+	if ($user_id = UserFactory::insert($userName, $password_hash, $firstName, $lastName, $email)) {
 		// Set the variables for a valid session
 		$_SESSION['valid'] = true;
 		$_SESSION['timeout'] = time();
 		$_SESSION['userId'] = $user_id;
 		$_SESSION['userName'] = $_POST['username'];
-		if ($isInstructor) {
+		if ($role == 2) {
 			UserRoleFactory::insert($user_id, UserRoleFactory::ROLE_INSTRUCTOR);
 			$_SESSION['role_student'] = false;
 			$_SESSION['role_instructor'] = true;
-		} else {
+		} else if ($role == 1){
 			UserRoleFactory::insert($user_id, UserRoleFactory::ROLE_STUDENT);
 			$_SESSION['role_student'] = true;
 			$_SESSION['role_instructor'] = false;
