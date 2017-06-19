@@ -43,10 +43,10 @@ try {
 	<div>
 		<form action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 			<label for="username">User Name:</label>
-			<input id="username" type="text" name="username" value="belgort" required autofocus>
+			<input id="username" type="text" name="username" required autofocus>
 			<br /><br />
 			<label for="password">Password:</label>
-			<input id="password" type="password" name="password" value="1234" required>
+			<input id="password" type="password" name="password" required>
 			<br /><br />
 			<button type="submit" name="login">Login</button>&nbsp;|&nbsp;<a href="register.php">register new user:</a>
 		</form>
