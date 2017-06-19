@@ -123,59 +123,63 @@ class DashBoard {
 			$errMsg = surveyInstanceFactory::getLastError();
 			echo "<tr><td colspan=6>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
 		} else {
-			foreach($surveyInstances as $survey)  {
-				
-				if (false === ($teamMembers = TeamUserFactory::getTeamMembersByTeamId($survey['team_id']))) {
-					$errMsg = TeamUserFactory::getLastError();
-					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
-				} else if (false === ($reviewees = SurveyCompleteFactory::getRevieweesByReviewer($survey['survey_id'], $_SESSION['userId']))) {
-					$errMsg = SurveyCompleteFactory::getLastError();
-					echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
-				}
-				else {
-					$rowSpan = count($teamMembers);
-					$row = 0;
-					while ($row < $rowSpan) {
-						if ($row == 0) {
-							echo "<tr>";
-							echo "<td rowspan=\"{$rowSpan}\">{$survey['survey_name']}</td>";
-							echo "<td rowspan=\"{$rowSpan}\">{$survey['team_name']}</td>";
+			if (count($surveyInstances) > 0) {
+				foreach($surveyInstances as $survey)  {
+					
+					if (false === ($teamMembers = TeamUserFactory::getTeamMembersByTeamId($survey['team_id']))) {
+						$errMsg = TeamUserFactory::getLastError();
+						echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+					} else if (false === ($reviewees = SurveyCompleteFactory::getRevieweesByReviewer($survey['survey_id'], $_SESSION['userId']))) {
+						$errMsg = SurveyCompleteFactory::getLastError();
+						echo "<tr><td colspan=5>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
+					}
+					else {
+						$rowSpan = count($teamMembers);
+						$row = 0;
+						while ($row < $rowSpan) {
+							if ($row == 0) {
+								echo "<tr>";
+								echo "<td rowspan=\"{$rowSpan}\">{$survey['survey_name']}</td>";
+								echo "<td rowspan=\"{$rowSpan}\">{$survey['team_name']}</td>";
+							}
+							$revieweeName = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'];
+							
+							// Determine anchor tag dependent upon submission status
+							$submissionStatus = DashBoard::getSubmissionStatus($teamMembers[$row]['user_id'], $reviewees);
+							if ($submissionStatus == 0) {
+								$anchor = "<a href=\"take_survey.php?" .
+									"survey-id={$survey['survey_id']}&" .
+									"survey-name={$survey['survey_name']}&" .
+									"team-name={$survey['team_name']}&" .
+									"reviewee-name={$revieweeName}&" .
+									"reviewer-id={$_SESSION['userId']}&" .
+									"reviewee-id={$teamMembers[$row]['user_id']}\">" .
+									"Start</a>";
+							} else if ($submissionStatus == 1) {
+								$anchor = 'submitted';
+							} else if ($submissionStatus == 2) {
+								$anchor = "<a href=\"take_survey.php?" .
+									"survey-id={$survey['survey_id']}&" .
+									"survey-name={$survey['survey_name']}&" .
+									"team-name={$survey['team_name']}&" .
+									"reviewee-name={$revieweeName}&" .
+									"reviewer-id={$_SESSION['userId']}&" .
+									"reviewee-id={$teamMembers[$row]['user_id']}\">" .
+									"Redo</a>";
+							} else {
+								$anchor = 'unknown';
+							}
+							
+							echo "<td>{$revieweeName}</td>";
+							echo "<td>{$teamMembers[$row]['user_name']}</td>";
+							echo "<td>{$anchor}</td>";
+							echo "</tr>";
+							$row++;
 						}
-						$revieweeName = $teamMembers[$row]['first_name'] . " " . $teamMembers[$row]['last_name'];
-						
-						// Determine anchor tag dependent upon submission status
-						$submissionStatus = DashBoard::getSubmissionStatus($teamMembers[$row]['user_id'], $reviewees);
-						if ($submissionStatus == 0) {
-							$anchor = "<a href=\"take_survey.php?" .
-								"survey-id={$survey['survey_id']}&" .
-								"survey-name={$survey['survey_name']}&" .
-								"team-name={$survey['team_name']}&" .
-								"reviewee-name={$revieweeName}&" .
-								"reviewer-id={$_SESSION['userId']}&" .
-								"reviewee-id={$teamMembers[$row]['user_id']}\">" .
-								"Start</a>";
-						} else if ($submissionStatus == 1) {
-							$anchor = 'submitted';
-						} else if ($submissionStatus == 2) {
-							$anchor = "<a href=\"take_survey.php?" .
-								"survey-id={$survey['survey_id']}&" .
-								"survey-name={$survey['survey_name']}&" .
-								"team-name={$survey['team_name']}&" .
-								"reviewee-name={$revieweeName}&" .
-								"reviewer-id={$_SESSION['userId']}&" .
-								"reviewee-id={$teamMembers[$row]['user_id']}\">" .
-								"Redo</a>";
-						} else {
-							$anchor = 'unknown';
-						}
-						
-						echo "<td>{$revieweeName}</td>";
-						echo "<td>{$teamMembers[$row]['user_name']}</td>";
-						echo "<td>{$anchor}</td>";
-						echo "</tr>";
-						$row++;
 					}
 				}
+			} else {
+				echo "<tr><td colspan=5>None found.</td>";
 			}
 		}
 		echo "</table>";
@@ -200,29 +204,32 @@ class DashBoard {
 			$errMsg = surveyInstanceFactory::getLastError();
 			echo "<tr><td colspan=3>{$errMsg}</td>"; // [REVISIT] USE JAVASCRIPT TO PUT IN CORRECT PLACE ON PAGE
 		} else {
-		
-			foreach($surveyResponses as $surveyResponse)  {
-				
-				$fullName = $surveyResponse['first_name'] . " " . $surveyResponse['last_name'];
-				
-				if ($surveyResponse['released']) {
-					// $action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">Review</a>";
-					$action =
-						"<a href=\"survey_on_me.php" . 
-						"?instance-id={$surveyResponse['instance_id']}" .
-						"&survey-name={$surveyResponse['survey_name']}" .
-						"&full-name={$fullName}" .
-						"&team-id={$surveyResponse['team_id']}" . 
-						"&reviewee={$_SESSION['userId']}\">" . 
-						"Review</a>";
-				} else {
-					$action = "Pending...";
+			if (count($surveyResponses) > 0) {
+				foreach($surveyResponses as $surveyResponse)  {
+					
+					$fullName = $surveyResponse['first_name'] . " " . $surveyResponse['last_name'];
+					
+					if ($surveyResponse['released']) {
+						// $action = "<a href=\"survey_on_me.php?user-name={$surveyResponse['survey_name']}\">Review</a>";
+						$action =
+							"<a href=\"survey_on_me.php" . 
+							"?instance-id={$surveyResponse['instance_id']}" .
+							"&survey-name={$surveyResponse['survey_name']}" .
+							"&full-name={$fullName}" .
+							"&team-id={$surveyResponse['team_id']}" . 
+							"&reviewee={$_SESSION['userId']}\">" . 
+							"Review</a>";
+					} else {
+						$action = "Pending...";
+					}
+					
+					echo "<td>{$surveyResponse['survey_name']}</td>";
+					echo "<td>{$surveyResponse['team_name']}</td>";
+					echo "<td>{$action}</td>";
+					echo "</tr>";
 				}
-				
-				echo "<td>{$surveyResponse['survey_name']}</td>";
-				echo "<td>{$surveyResponse['team_name']}</td>";
-				echo "<td>{$action}</td>";
-				echo "</tr>";
+			} else {
+				echo "<tr><td colspan=3>None found.</td>";
 			}
 		}
 		echo "</table>";
