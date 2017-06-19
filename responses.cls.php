@@ -34,7 +34,7 @@ class Responses {
 			foreach($questions as $question) {
 				
 				$text = "";
-				$grade = "---";
+				$grade = "";
 				$textclass = "ta-response";
 				
 				if ($submissionId == 1) {
@@ -44,9 +44,7 @@ class Responses {
 					}
 					if (empty($text)) {
 						$text = "Nothing submitted!";
-					}
-					if (empty($grade)) {
-						$grade = "---";
+						$textclass = "ta-response-redo";
 					}
 				} else if ($submissionId == 2) {
 					$text = "-- Requested resubmission --";
@@ -56,8 +54,15 @@ class Responses {
 					$textclass = "ta-response-none";
 				}
 				//GRADE
+				
+				if (empty($grade)) {
+					$grade = "N/A";
+					$gradeClass = "resp-grade-highlight-warning";
+				} else {
+					$gradeClass = "resp-grade-highlight-normal";
+				}
 				echo "<div class=\"resp-grade\">";
-				echo "Grade: <span style=\"background: white;\">&nbsp;{$grade}&nbsp;</span>&nbsp;&nbsp;{$question['text']}<br>";
+				echo "Grade: <span class=\"{$gradeClass}\">&nbsp;{$grade}&nbsp;</span>&nbsp;&nbsp;{$question['text']}<br>";
 				echo "</div>";
 				
 				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\">{$text}</textarea>";

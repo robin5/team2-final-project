@@ -374,6 +374,14 @@ textarea.ta-response-none {
     padding-top: 20px;
 }
 
+.resp-grade-highlight-normal {
+	background: white;
+}
+
+.resp-grade-highlight-warning {
+	background: yellow;
+}
+
 
 /*************************************************
  * CSS for survey_on_me.php and responses.php
