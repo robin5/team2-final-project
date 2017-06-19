@@ -11,13 +11,18 @@ class Responses {
 		foreach($users as $user) {
 
 			$submissionId = SurveyCompleteFactory::getSubmissionId($surveyId, $user['user_id'], $reviewer);
+			if ($submissionId == 1) {
+				$disabledTone = "";
+			} else {
+				$disabledTone = "disabled";
+			}
 			
 			echo "<div id=\"user-{$userIndex}\" class=\"question\">";
 
 			/*********** SUMMARY TONE PER USER ********************************/
 			echo "<div id=\"txt-summary-{$userIndex}\" class=\"summary\">";
 			echo "<hr>";
-			echo "<div> <button id=\"btn-summary-{$userIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-summary-{$userIndex}','txt-summary-{$userIndex}','tone-summary-{$userIndex}')\">Show Tone Summary</button></div>";
+			echo "<div> <button id=\"btn-summary-{$userIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-summary-{$userIndex}','txt-summary-{$userIndex}','tone-summary-{$userIndex}')\" {$disabledTone}>Show Tone Summary</button></div>";
 			echo "<div id=\"tone-summary-{$userIndex}\" class=\"tone-summary\"></div>";
 			echo "</div>"; //END OF txt summary div
 			/*********** END SUMMARY TONE ********************************/
@@ -57,7 +62,7 @@ class Responses {
 				
 				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\" cols=\"80\" rows=\"5\">{$text}</textarea>";
 
-				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" class=\"iconbutton\"  onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\" value=\"Tone\">Tone Details</button>";
+				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" class=\"iconbutton\"  onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\" value=\"Tone\" {$disabledTone}>Tone Details</button>";
 
 				//TONE
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
@@ -89,24 +94,35 @@ class Responses {
 	public static function injectUserRedoSection($surveyId, $instanceId, $reviewer, $users) {
 
 		$index = 0;
-		echo "<div id=\"div-user-redo\">";
-		echo "<form action=\"dashboard.php\" method=\"POST\"><fieldset><legend>Check user who should redo surveys and press \"Redo Surveys\" button</legend><br>";
-		
-		echo "<input id=\"reviewer\" type=\"hidden\" name=\"reviewer\" value=\"{$reviewer}\">";
-		echo "<input id=\"instance-id\" type=\"hidden\" name=\"instance-id\" value=\"{$instanceId}\">";
-		
-		foreach($users as $user) {
+		$numUsers = count($users);
+		$numSubmissions = 0;
 
-			$submissionId = SurveyCompleteFactory::getSubmissionId($surveyId, $user['user_id'], $reviewer);
-			
-			if ($submissionId == 1) {
-				echo "<input id=\"redo-input{$index}\" type=\"checkbox\" name=reviewees[{$index}] value=\"{$user['user_id']}\">";
-				echo " {$user['first_name']} {$user['last_name']}<br>";
-				$index++;
+		for($i = 0; $i < $numUsers; $i++) {
+			$users[$i]['submission_id'] = SurveyCompleteFactory::getSubmissionId($surveyId, $users[$i]['user_id'], $reviewer);
+			if (1 == $users[$i]['submission_id']) {
+				$numSubmissions++;
 			}
 		}
-		echo "<br><button type=\"submit\" name=\"action\" value=\"redo-survey\">Redo Surveys</fieldset>";
-		echo "</div>";
+		
+		if ($numSubmissions > 0) {
+			echo "<div id=\"div-user-redo\">";
+			echo "<form action=\"dashboard.php\" method=\"POST\"><fieldset><legend>Check user who should redo surveys and press \"Redo Surveys\" button</legend><br>";
+			
+			echo "<input id=\"reviewer\" type=\"hidden\" name=\"reviewer\" value=\"{$reviewer}\">";
+			echo "<input id=\"instance-id\" type=\"hidden\" name=\"instance-id\" value=\"{$instanceId}\">";
+			
+			foreach($users as $user) {
+
+				if ($user['submission_id'] == 1) {
+					echo "<input id=\"redo-input{$index}\" type=\"checkbox\" name=reviewees[{$index}] value=\"{$user['user_id']}\">";
+					echo " {$user['first_name']} {$user['last_name']}<br>";
+					$index++;
+				}
+			}
+			echo "<br><button type=\"submit\" name=\"action\" value=\"redo-survey\">Redo Surveys</fieldset>";
+			echo "</div>";
+		}
+		
 	}
 	
 }
