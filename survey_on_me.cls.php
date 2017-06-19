@@ -11,12 +11,12 @@ class SurveyOnMe {
 
 		$showReviewer = ($reviewee != $_SESSION['userId']);
 		if ($showReviewer) {
-				/***********/
+				/*********** SUMMARY TONE**************************/
 					echo "<div class=\"txt-summary\">";
 						echo "<div><button id=\"btn-summary\" class=\"resp-button\" onclick=\"getAreaTxt('btn-summary','txt-summary','tone-summary')\">Click to See Tone Summary</button></div>";
 						echo"<div id=\"tone-summary\" class=\"tone-summary\"></div>";
 					echo "</div>";
-				/***********/
+				/***************************************************/
 		}
 		
 		foreach($questions as $question) {

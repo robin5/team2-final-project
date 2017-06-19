@@ -1,6 +1,6 @@
 /* style.css */
 /* for CSS Team 2 Final Project */
-/* June 15 2017 */
+/* June 19 2017 */
 * {
 	box-sizing: border-box;
 }
@@ -488,6 +488,9 @@ textarea.ta-response-none {
     margin-bottom: 10px;
 }
 
+/**********************************************/
+/****TONE Results - Table format. Curently not used*****/
+/**********************************************/
 .t-results{
 	display:table-cell;
 	align-content: top;
@@ -501,6 +504,9 @@ textarea.ta-response-none {
 .t-results td, th{border: 0 solid; 
 text-align: left;}
 
+/**********************************************/
+/****Tone Error if no text in textarea *****/
+/**********************************************/
 
 .tone-error{
 	display:inline-block;
@@ -508,19 +514,22 @@ text-align: left;}
 	margin:20px 40px;
 }
 
-/************************/
-/****BAR*****/
-.out {
+/**********************************************/
+/****TONE Results BAR Chart*****/
+/**********************************************/
+/*.out {*/
     background-color: pink;
-    /*display: inline-flex;*/
-    display:-webkit-inline-box;
- }
+    /* ///display: inline-flex;*/
+/*    display:-webkit-inline-box;
+ }*/
 
+/** container for each category */
 .summaryemotion{
     margin: 1%;
     width: 100%;
  }
 
+/*** Tone category (Emotion, Language...)*//
 .cat{
     /*background-color: #365e70;% */
     /*color: #4e87a0;*/
@@ -530,18 +539,45 @@ text-align: left;}
     color: #5a5a5a;
 }
 
+/** tone bar background */
 .meter { 
+	/*height: 2*/
+	position: relative;
+	background: #EFEFEF; /*gray background*/
+}
+
+/*tone that is present -darker orange */
+.meter-present { 
 	/*height: 2*/
 	position: relative;
 	background: #e0e0e0; /*gray background*/
 }
 
-.meter-label{
-	color: #4e87a0;
+.meter-present > span {
+	/*> .75 = likely present*/
+	padding:2px; /**/
+	display: block;
+	height: 100%;
+	background-color: #FF6C24; /*bar color bright orange(header)*/
+	position: relative;
+	/*overflow: hidden;*/
+	border-radius: 4px;
+}
+
+/*tone that is likely to be preceived - orange */
+.meter-likely { 
+	/*height: 2*/
+	position: relative;
+	background: #e0e0e0; /*gray background*/
+}
+
+.meter-label-likely{
+	color: #000;
 	padding-top:4px;
 }
 
-.meter > span {
+.meter-likely > span {
+	/*> .5 = likely present*/
 	padding:2px; /**/
 	display: block;
 	height: 100%;
@@ -551,9 +587,26 @@ text-align: left;}
 	border-radius: 4px;
 }
 
-/************************/
-/*TOne button*/
+/*tone without enough data to judge - gray */
+.meter-label{
+	color: #4e87a0; /*#EFEFEF  #4e87a0*/
+	padding-top:4px;
+}
 
+.meter > span {
+	/*< .5 = not likely present */
+	padding:2px; /**/
+	display: block;
+	height: 100%;
+	background-color: #ccc; /*bar color lgtgray*/
+	position: relative;
+	/*overflow: hidden;*/
+	border-radius: 4px;
+}
+
+
+/************************/
+/*T0ne button - currently not in*/
 .iconbutton {
   background: url('/team2-final-project/images/toneq.png') left center no-repeat;
   padding:6px;
