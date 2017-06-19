@@ -49,10 +49,10 @@ class TakeSurvey {
 			echo "</div>";
 			
 			if (count($questions) > 0) {
-				echo "<button style=\"font-size: 1.25em;\" name=\"action\" value=\"save-survey\">Save & Exit</button>&nbsp;|&nbsp;";
-				echo "<button type=\"submit\" style=\"font-size: 1.25em;\"id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
-				echo "<span style=\"font-size: 1.25em;\">&nbsp;|&nbsp;</span>";
-				echo "<button type=\"submit\" style=\"font-size: 1.25em;\" name=\"action\" value=\"submit-survey\">Submit Survey</button>";
+				echo "<button style=\"font-size: 13.33px;\" name=\"action\" value=\"save-survey\">Save & Exit</button>&nbsp;|&nbsp;";
+				echo "<button type=\"submit\" style=\"font-size: 13.33px;\"id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
+				echo "<span style=\"font-size: 13.33px;\">&nbsp;|&nbsp;</span>";
+				echo "<button type=\"submit\" style=\"font-size: 13.33px;\" name=\"action\" value=\"submit-survey\">Submit Survey</button>";
 			}
 			echo "</form>";
 		}
