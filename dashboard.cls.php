@@ -339,9 +339,8 @@ class DashBoard {
 		if (false === ($surveyId = SurveyFactory::getSurveyIdByInstance($ownerId, $instanceId))) {
 			$errMsg = SurveyFactory::getLastError();
 		} else {
-			$numReviewees = count($reviewees);
-			for ($i = 0; $i < $numReviewees; $i++) {
-				if (false === SurveyCompleteFactory::setSubmissionId($surveyId, $reviewer, $reviewees[$i], 2 /* request resubmission*/)) {
+			foreach ($reviewees as $reviewee) {
+				if (false === SurveyCompleteFactory::setSubmissionId($surveyId, $reviewer, $reviewee, 2 /* request resubmission*/)) {
 					// Collect error messages
 					if ($errMsg !== "") {
 						$errMsg += "\n"; 
