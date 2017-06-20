@@ -366,6 +366,7 @@ textarea.ta-response-none {
 	  color: white;
 	  text-align: center;
 	  vertical-align: center;
+	padding-bottom: 80px;
 }
 
 .resp-grade {
