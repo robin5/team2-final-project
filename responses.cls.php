@@ -67,7 +67,7 @@ class Responses {
 				
 				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\">{$text}</textarea>";
 
-				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" class=\"iconbutton\"  onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\" value=\"Tone\" {$disabledTone}>Tone Details</button>";
+				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\" value=\"Tone\" {$disabledTone}>Tone Details</button>";
 
 				//TONE
 				echo "<div id=\"tone-q{$buttonIndex}\" class=\"resp-tone\"></div>";
