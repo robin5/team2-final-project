@@ -57,9 +57,10 @@ try {
 	<?php injectNav("Dashboard > Survey: {$surveyName}"); ?>
 	</div>
 	<?php injectDivError($errMsg); ?>
-	<h1><strong><?php echo "{$teamName}: {$revieweeName}"; ?></strong></h1><hr>
+	<div><h3><strong><?php echo "{$teamName}: {$revieweeName}"; ?></strong></h3><hr>
 	<main>
 		<?php TakeSurvey::injectSurveyQuestions($surveyId, $revieweeId, $questions, $responses); ?>
+	</div>
 	</main>
 	<?php injectFooter(); ?>
 	<script>
