@@ -1,6 +1,6 @@
 /* style.css */
 /* for CSS Team 2 Final Project */
-/* June 19 2017 */
+/* June 20 2017 */
 * {
 	box-sizing: border-box;
 }
@@ -461,45 +461,43 @@ textarea.ta-response-none {
  * CSS for Tone Summary
  *************************************************/
 
-.bar{
-	/*width:360px;*/
-	width:50%;
-    background-color: #f4f8f9;
-    display: inline-flex;
-    padding: 6px;
-}
 
-.details { 
-	width:300px;
-	height: 20px;  /* Can be anything */
-	position: relative;
-	background: #555;
-	background-color:tan;
-	/*padding: 10px;*/
-}
 
 .txt-summary{
 	margin:0;
 	background-color:#DBE5EB;
 }
 
-.tone-summary, .resp-tone {
+.resp-tone {
+	width: 100%;
     font-size: .85rem;
    	/*font-size: .75rem;*/
     margin-left: 20px;
     margin-top: 5px;
     margin-bottom: 40px;
-    display: inline;
+    display: block;
     /*background-color:#f4f8f9;*/
     /*display: inline-block;*/
  }
+.summaryemotion {
+    width: 100%;
+    padding: 6px;
+}
+ .tone-summary {
+	/*width: 100%;
+    font-size: .85rem;
+   	/*font-size: .75rem;*/
+    /*background-color:#f4f8f9;*/
+    /*display: inline-block;*/
+ }
+
 .resp-tone {
     margin-top: 5px;
     margin-bottom: 10px;
 }
 
 /**********************************************/
-/****TONE Results - Table format. Curently not used*****/
+/****TONE Results - Table format. ---Curently not used*****/
 /**********************************************/
 .t-results{
 	display:table-cell;
@@ -514,9 +512,18 @@ textarea.ta-response-none {
 .t-results td, th{border: 0 solid; 
 text-align: left;}
 
-/**********************************************/
-/****Tone Error if no text in textarea *****/
-/**********************************************/
+.details { 
+	width:300px;
+	height: 20px;  
+	position: relative;
+	background: #555;
+	background-color:tan;
+	/*padding: 10px;*/
+}
+
+/**********************************************
+Tone Error if no text in textarea 
+**********************************************/
 
 .tone-error{
 	display:inline-block;
@@ -524,26 +531,27 @@ text-align: left;}
 	margin:20px 40px;
 }
 
-/**********************************************/
-/****TONE Results BAR Chart*****/
-/**********************************************/
-/*.out {*/
-    background-color: pink;
-    /* ///display: inline-flex;*/
-/*    display:-webkit-inline-box;
- }*/
+/**********************************************
+TONE Results BAR Chart
+**********************************************/
+.bar{
+	/*width:360px;*/
+	width:50%;
+    background-color: #f4f8f9;
+    display: inline-flex;
+    padding: 6px;
+}
 
-/** container for each category */
+
+/** container for each category  */
 .summaryemotion{
-    margin: 1%;
-    width: 100%;
+    /*margin: 1%;
+    width: 100%;*/
  }
 
 /*** Tone category (Emotion, Language...)*//
 .cat{
-    /*background-color: #365e70;% */
-    /*color: #4e87a0;*/
-    padding-bottom: 4px;
+    padding-bottom: 4px
     font-size: 1em;
     font-weight: 700;
     color: #5a5a5a;
@@ -552,6 +560,7 @@ text-align: left;}
 /** tone bar background */
 .meter { 
 	/*height: 2*/
+	color: #4e87a0;
 	position: relative;
 	background: #EFEFEF; /*gray background*/
 }
@@ -597,9 +606,9 @@ text-align: left;}
 	border-radius: 4px;
 }
 
-/*tone without enough data to judge - gray */
+/*tone without enough data be useful - gray */
 .meter-label{
-	color: #4e87a0; /*#EFEFEF  #4e87a0*/
+	color: #4e87a0; 
 	padding-top:4px;
 }
 
@@ -612,14 +621,4 @@ text-align: left;}
 	position: relative;
 	/*overflow: hidden;*/
 	border-radius: 4px;
-}
-
-
-/************************/
-/*T0ne button - currently not in*/
-.iconbutton {
-  background: url('/team2-final-project/images/toneq.png') left center no-repeat;
-  padding:6px;
-  width:20px;
-  height:20px;
 }
