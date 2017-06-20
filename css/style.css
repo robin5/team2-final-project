@@ -327,6 +327,7 @@ textarea.ta-response {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;
 	border-color: gray;
+	padding-bottom: 80px;
 }
 
 textarea.ta-response-redo {
