@@ -19,7 +19,11 @@ class TakeSurvey {
 		// Get survey questions
 		if (false !== $questions) {
 			
-			echo "<form action=\"dashboard.php\" method=\"post\" onsubmit=\"return isValidForm(evt)\"><div>";
+			echo "<form action=\"dashboard.php\" method=\"post\" onsubmit=\"return isValidForm(evt)\">";
+
+		echo "<div class=\"question\">";/*AMY ADDED */
+			echo "<div class=\"resp-grade\">";
+
 			echo "<input type=\"hidden\" name=\"survey-id\" value=\"{$surveyId}\">";
 			echo "<input type=\"hidden\" name=\"reviewee\" value=\"{$reviewee}\" >";
 			
@@ -29,45 +33,36 @@ class TakeSurvey {
 				$questionId = $question['question_id'];
 				$response = TakeSurvey::findResponse($responses, $questionId);
 				
-				//echo "<p>";
-				echo "<div class=\"resp-grade\">";//AMy added
+				echo "<p>";
 				echo "<input type=\"hidden\" name=\"question-id[{$index}]\" value=\"{$question['question_id']}\">";
 				echo "<input type=\"hidden\" name=\"response-id[{$index}]\" value=\"{$response['response_id']}\">";
-				echo "<div class=\"question\">"; //AMY added to match survey_on_me
-				echo "<div>Grade: <span>";
-				//echo "</div>";
+				
 
-				//secho "<label for=\"select-grade-{$index}\">Grade:&nbsp;</label>";
+				echo "<div class=\"resp-grade\">";/*amy added*/
+				//echo "<label for=\"select-grade-{$index}\">Grade:&nbsp;</label>";
+				echo "Grade:&nbsp;";
 				echo "<select id=\"select-grade-{$index}\" name=\"grade-id[{$index}]\">";
 				echo "<option value=\"0\">---</option>";
 				for ($i = 0; $i < $numGrades; $i++) {
 					$selected = TakeSurvey::getSelected($response['grade_id'], $grades[$i]['grade_id']);
 					echo "<option value=\"{$grades[$i]['grade_id']}\" {$selected}>{$grades[$i]['text']}</option>";
 				}
-					echo "</span></div>";
+				
 				echo "</select>&nbsp;";
-			
 
 
-				//echo "<div id=\"question\">";
-				//echo "{$question['text']}</p>";// orginal
-				echo "{$question['text']}";
-				echo "</div>"; //AMY added to match survey_on_me
-				echo "<textarea class=\"ta-response\" name=\"responses[{$index}]\" cols=\"80\" rows=\"5\"  required>{$response['text']}</textarea><br><br>";
-				//echo "</div>";
+				echo "{$question['text']}<br></div>";
+				echo "<textarea class=\"ta-response\" name=\"responses[{$index}]\" ta- required>{$response['text']}</textarea><br><br>";
 			}
-			echo "</div>";//AMY added to match survey_on_me
+			
+			echo "</div>"; /*end resp-grade*/
+		echo "</div>"; /*end question*/
 			
 			if (count($questions) > 0) {
-				echo "<button class=\"resp-button\"  name=\"action\" value=\"save-survey\">Save & Exit</button>&nbsp;&nbsp;";
-				echo "<button class=\"resp-button\" type=\"submit\" id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
-				echo "<span >&nbsp;&nbsp;</span>";
-				echo "<button class=\"resp-button\" type=\"submit\" name=\"action\" value=\"submit-survey\">Submit Survey</button>";
-/*
-				echo "<button class=\"resp-button\" style=\"font-size: 1.25em;\" name=\"action\" value=\"save-survey\">Save & Exit</button>&nbsp;|&nbsp;";
-				echo "<button class=\"resp-button\" type=\"submit\" style=\"font-size: 1.25em;\"id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
-				echo "<span style=\"font-size: 1.25em;\">&nbsp;|&nbsp;</span>";
-				echo "<button class=\"resp-button\" type=\"submit\" style=\"font-size: 1.25em;\" name=\"action\" value=\"submit-survey\">Submit Survey</button>";*/
+				echo "<button style=\"font-size: 13.33px;\" name=\"action\" value=\"save-survey\" >Save & Exit</button>&nbsp;|&nbsp;";
+				echo "<button type=\"submit\" style=\"font-size: 13.33px;\"id=\"btn-cancel\" name=\"action\" value=\"cancelled\" onclick=\"fakeFillFields();\">Cancel</button>";
+				echo "<span style=\"font-size: 13.33px;\">&nbsp;|&nbsp;</span>";
+				echo "<button type=\"submit\" style=\"font-size: 13.33px;\" name=\"action\" value=\"submit-survey\">Submit Survey</button>";
 			}
 			echo "</form>";
 		}
@@ -89,4 +84,3 @@ class TakeSurvey {
 		return false;
 	}
 }
-
