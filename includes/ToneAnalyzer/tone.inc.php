@@ -56,7 +56,89 @@
 
 
 /************************************************************
+  ////PROCESS bar the JSON RESULTS BAR CHART
+*************************************************************/
+  function processBar ($tone_data){
+
+   //number of tone categories
+    $numCategories=count($tone_data['document_tone']['tone_categories']);
+    //Number of tone scores in each Tone array in categories
+    $numTones='';
+
+
+    echo '<span class="bar" >';
+    //this loop access the tone array and the name of the catagory
+    for ($i=0; $i <$numCategories ; $i++) { 
+
+      echo '<div class="summaryemotion" >';
+ 
+      //list of categories (category_id or category_name)     
+      echo '<div class="cat" >'.$tone_data['document_tone']['tone_categories'][$i]['category_name']."</div>";
+
+      //list of scores per category
+      //Number of elements in the tones array 
+      $numTones=count($tone_data['document_tone']['tone_categories'][$i]['tones']);
+
+	/** TONES and Scores **/
+      for ($k=0; $k <$numTones ; $k++) {
+          //Tone
+          $tone=$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['tone_name'];
+          //Score
+          $score =$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['score'];
+
+          $x=round($score, 2);
+          //FORMAT score to % & round up (1.05%)
+         $score=round(($score * 100), 0)."%";
+          
+          //var_dump($score);
+
+          /***Tone Likely check ***/
+          if ($x >= .5) { //likely Present
+            if ($x>= .75) { //echo"> .75 = is present ";
+               echo'<div class="meter-label-likely">'.$tone.'</div>'; 
+               //bar
+                echo'<div class="meter-present">';
+                  echo "<span style=\"width:".$score."\">".$score."</span>";
+                echo '</div>'; //end meter
+                ////////////////
+                //var_dump($tone.":".$x);
+              ////////////////
+              } else{ //between .5 and .75
+                //echo"> .5 = likely present ";
+             	   echo'<div class="meter-label-likely">'. $tone.'</div>'; 
+    	           //bar
+                 echo'<div class="meter-likely">';
+    	           echo "<span style=\"width:".$score."\">".$score."</span></div>"; //end meter
+
+              } //end >.75
+
+  	     } else {  //echo"< .5 = not likely present";
+  		    echo'<div class="meter-label">'.$tone.'</div>';
+  	      echo"<div class=\"meter\"><span style=\"width:".$score."\">".$score."</span></div>"; //end meter
+         }//end else/if .5
+        
+/********end score *********/
+
+
+       }//end tone score loop (k)
+      echo "</div>"; /*end category*/
+
+      
+    } //end category_name (i) loop
+    echo "</div>"; /*end summaryemotion*/
+    echo"</span>";/*end Bar*/
+
+  
+
+  } //END getTone function
+/****************************************************/
+/****************************************************/
+
+
+
+/************************************************************
   ////PROCESS the JSON RESULTS from WATSON and format in HTML
+  // Detail Table -NOT USED
 *************************************************************/
   function processTone ($tone_data){
 
@@ -103,86 +185,6 @@
       
     } //end category_name (i) loop
     echo "</span>"; /*end Details*/
-
-  } //END getTone function
-/****************************************************/
-/****************************************************/
-
-
-/************************************************************
-  ////PROCESS bar the JSON RESULTS 
-*************************************************************/
-  function processBar ($tone_data){
-
-   //number of tone categories
-    $numCategories=count($tone_data['document_tone']['tone_categories']);
-    //Number of tone scores in each Tone array in categories
-    $numTones='';
-
-
-    echo '<span class="bar" >';
-    //this loop access the tone array and the name of the catagory
-    for ($i=0; $i <$numCategories ; $i++) { 
-
-      echo '<div class="summaryemotion" >';
- 
-      //list of categories (category_id or category_name)     
-      echo '<div class="cat" >'.$tone_data['document_tone']['tone_categories'][$i]['category_name']."</div>";
-
-      //list of scores per category
-      //Number of elements in the tones array 
-      $numTones=count($tone_data['document_tone']['tone_categories'][$i]['tones']);
-
-	/** TONES and Scores **/
-      for ($k=0; $k <$numTones ; $k++) {
-          //Tone
-          $tone=$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['tone_name'];
-          //Score
-          $score =$tone_data['document_tone']['tone_categories'][$i]['tones'][$k]['score'];
-
-          $x=round($score, 2);
-          //FORMAT score to % & round up (1.05%)
-         $score=round(($score * 100), 0)."%";
-          
-          //var_dump($score);
-
-          /***Tone Likely check ***/
-          if ($x >= .5) { //likely Present
-            if ($x>= .75) { //echo"> .75 = is present ";
-               echo'<div class="meter-label-likely">'.$tone.'</div>'; 
-               //bar
-                echo'<div class="meter-present">';
-                  echo "<span style=\"width:".$score."\">".$score."</span>";
-                echo '</div>'; //end meter
-                ////////////////
-                var_dump($tone.":".$x);
-              ////////////////
-              } else{ //between .5 and .75
-                //echo"> .5 = likely present ";
-             	   echo'<div class="meter-label-likely">'. $tone.'</div>'; 
-    	           //bar
-                 echo'<div class="meter-likely">';
-    	           echo "<span style=\"width:".$score."\">".$score."</span></div>"; //end meter
-
-              } //end >.75
-
-  	     } else {  //echo"< .5 = not likely present";
-  		    echo'<div class="meter-label">'.$tone.'</div>';
-  	      echo"<div class=\"meter\"><span style=\"width:".$score."\">".$score."</span></div>"; //end meter
-         }//end else/if .5
-        
-/********end score *********/
-
-
-       }//end tone score loop (k)
-      echo "</div>"; /*end category*/
-
-      
-    } //end category_name (i) loop
-    echo "</div>"; /*end summaryemotion*/
-    echo"</span>";/*end Bar*/
-
-  
 
   } //END getTone function
 /****************************************************/
