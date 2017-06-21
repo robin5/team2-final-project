@@ -69,7 +69,7 @@ try {
 	<?php injectNav("Dashboard > Survey results: {$surveyName}"); ?>
 
 		<div id="div-resp-student">
-			<div id="reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
+			<div id="hdr-reviewer"><?php echo "Responses by: {$fullName} ({$teamName})"; ?></div>
 		</div>
 	</div><!-- end Header -->
 	<main>

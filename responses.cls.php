@@ -27,9 +27,10 @@ class Responses {
 			echo "</div>"; //END OF txt summary div
 			/*********** END SUMMARY TONE ********************************/
 
-			echo "<div class=\"resp-grade\" class=\"tone-summary\">";
+			//echo "<div class=\"resp-grade,tone-summary\">";
 			//echo "<p>{$user['first_name']} {$user['last_name']} ({$user['user_name']})</p>";
-			echo "</div>";
+			//echo "</div>";
+			echo "<br>";
 			
 			foreach($questions as $question) {
 				
@@ -111,7 +112,7 @@ class Responses {
 		
 		if ($numSubmissions > 0) {
 			echo "<div id=\"div-user-redo\">";
-			echo "<form action=\"dashboard.php\" method=\"POST\"><fieldset><legend>Check user who should redo surveys and press \"Redo Surveys\" button</legend><br>";
+			echo "<form action=\"dashboard.php\" method=\"POST\"><fieldset><legend>Check user who should redo surveys and press \"Redo Surveys\"</legend><br>";
 			
 			echo "<input id=\"reviewer\" type=\"hidden\" name=\"reviewer\" value=\"{$reviewer}\">";
 			echo "<input id=\"instance-id\" type=\"hidden\" name=\"instance-id\" value=\"{$instanceId}\">";
@@ -124,8 +125,8 @@ class Responses {
 					$index++;
 				}
 			}
-			echo "<br><button type=\"submit\" name=\"action\" value=\"redo-survey\">Redo Surveys</fieldset>";
-			echo "</div>";
+			echo "<br><button type=\"submit\" name=\"action\" value=\"redo-survey\">Redo Surveys</button></fieldset>";
+			echo "</form></div>"; // end of div-user-redo
 		}
 		
 	}
