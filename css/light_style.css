@@ -153,11 +153,13 @@ span.footer-copyright {
 
 table {
 	width: 100%;
+	/*text-transform: capitalize;*/
 	border: 3px solid #666;
 	border-collapse: collapse;
-	/*text-transform: capitalize;*/
+	/*text-transform: uppercase;	*/
 }
 th {
+	/*background:#77A140;*/
 	background:#365e70;
 	color:#FFf;
 	padding:10px;
@@ -175,7 +177,7 @@ td.leftalign {
 td.surveyname {
 	text-align:left;
 	width:30%;	
-	/*text-transform: capitalize;*/
+	/*text-transform: uppercase;*/
 	/*font-weight: bold;*/
 }
 
@@ -227,6 +229,7 @@ span.fake-anchor {
 	display: block;
 	float: left;
 	width: 130px;
+	/*margin-left: 10px;*/
 	text-align: left;
 	font-size: 1.2em;
 }
@@ -259,6 +262,7 @@ button {
 	display: block;
 	float: left;
 	width: 130px;
+/*	margin-left: 10px;*/
 	text-align: center;
 	margin-right: 10px;
 }
@@ -390,7 +394,7 @@ textarea.ta-response-none {
 }
 
 
-#reviewer{
+#hdr-reviewer{
 	font-size: 1em;
 	font-style: italic;
 	text-align: right;
@@ -451,17 +455,17 @@ textarea.ta-response-none {
     padding:4px;}
  a:hover, a:active {
     background-color: #DBE5EB;
-    /*background-color: #A1B8C7;*/
-    
 }
 
 /*************************************************
  * CSS for Tone Summary
  *************************************************/
+
+
+
 .txt-summary{
 	margin:0;
-	/*background-color:#DBE5EB;*/
-	background-color:#A1B8C7;
+	background-color:#DBE5EB;
 }
 
 .resp-tone {
@@ -514,6 +518,7 @@ text-align: left;}
 	position: relative;
 	background: #555;
 	background-color:tan;
+	/*padding: 10px;*/
 }
 
 /**********************************************
@@ -530,14 +535,11 @@ Tone Error if no text in textarea
 TONE Results BAR Chart
 **********************************************/
 .bar{
-	/*width:50%;*/
-	min-width: 65%;
-    background-color:#4e87a0;/*#7fa9c1; /*#504141;/*#f4f8f9; #A1B8C7;*/
+	/*width:360px;*/
+	width:50%;
+    background-color: #f4f8f9;
     display: inline-flex;
-    padding: 12px;
-    border-radius: 4px;
-    margin:6px;
-    
+    padding: 6px;
 }
 
 
@@ -548,27 +550,26 @@ TONE Results BAR Chart
  }
 
 /*** Tone category (Emotion, Language...)*//
-.tonecat {
-    padding-bottom: 4px;
-	color: #DBE5EB; 
-	font-size: 1em; 
-	font-weight: bold; 
-	text-transform: uppercase;
+.cat{
+    padding-bottom: 4px
+    font-size: 1em;
+    font-weight: 700;
+    color: #5a5a5a;
 }
 
 /** tone bar background */
 .meter { 
-	color: #504141;
+	/*height: 2*/
+	color: #4e87a0;
 	position: relative;
 	background: #EFEFEF; /*gray background*/
-	border-radius: 4px;
 }
 
 /*tone that is present -darker orange */
 .meter-present { 
+	/*height: 2*/
 	position: relative;
 	background: #e0e0e0; /*gray background*/
-	border-radius: 4px;
 }
 
 .meter-present > span {
@@ -580,7 +581,6 @@ TONE Results BAR Chart
 	position: relative;
 	/*overflow: hidden;*/
 	border-radius: 4px;
-	font-weight: bold;
 }
 
 /*tone that is likely to be preceived - orange */
@@ -588,13 +588,11 @@ TONE Results BAR Chart
 	/*height: 2*/
 	position: relative;
 	background: #e0e0e0; /*gray background*/
-	border-radius: 4px;
 }
 
 .meter-label-likely{
-	color: #fff;
-	font-weight: bold;
-	padding-top:8px;
+	color: #000;
+	padding-top:4px;
 }
 
 .meter-likely > span {
@@ -608,11 +606,10 @@ TONE Results BAR Chart
 	border-radius: 4px;
 }
 
-/*tone without enough data be useful */
+/*tone without enough data be useful - gray */
 .meter-label{
-	color: #504141; 
-	padding-top:8px;
-
+	color: #4e87a0; 
+	padding-top:4px;
 }
 
 .meter > span {
@@ -622,5 +619,6 @@ TONE Results BAR Chart
 	height: 100%;
 	background-color: #ccc; /*bar color lgtgray*/
 	position: relative;
+	/*overflow: hidden;*/
 	border-radius: 4px;
 }

@@ -73,7 +73,10 @@
       echo '<div class="summaryemotion" >';
  
       //list of categories (category_id or category_name)     
-      echo '<div class="cat" >'.$tone_data['document_tone']['tone_categories'][$i]['category_name']."</div>";
+      //echo '<div class="cat" >'.$tone_data['document_tone']['tone_categories'][$i]['category_name']."</div>";
+    $toneCat=$tone_data['document_tone']['tone_categories'][$i]['category_name'];
+   $toneCat = str_replace("Tone", "", $toneCat);
+    echo '<div class="tonecat" style="color: #DBE5EB; text-transform: uppercase;">'.$toneCat."</div>";
 
       //list of scores per category
       //Number of elements in the tones array 
