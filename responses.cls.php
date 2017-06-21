@@ -66,7 +66,7 @@ class Responses {
 				echo "Grade: <span class=\"{$gradeClass}\">&nbsp;{$grade}&nbsp;</span>&nbsp;&nbsp;{$question['text']}<br>";
 				echo "</div>";
 				
-				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\">{$text}</textarea>";
+				echo "<textarea id=\"txt-q{$buttonIndex}\" class=\"{$textclass}\" readOnly>{$text}</textarea>";
 
 				echo "<button id=\"btn-q{$buttonIndex}\" class=\"resp-button\" onclick=\"getAreaTxt('btn-q{$buttonIndex}','txt-q{$buttonIndex}','tone-q{$buttonIndex}')\" value=\"Tone\" {$disabledTone}>Tone Details</button>";
 
